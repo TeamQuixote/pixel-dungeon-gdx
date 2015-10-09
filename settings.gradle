@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'ios', 'html', 'core', 'PD-classes'
+include 'desktop', 'core', 'PD-classes'
