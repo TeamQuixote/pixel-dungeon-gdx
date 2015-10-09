@@ -1,6 +1,10 @@
 pixel-dungeon-gdx
 =================
 
+Explorations into building an intelligent agent to play Pixel Dungeon.
+
+----------
+
 GDX port of the awesome [Pixel Dungeon](https://github.com/watabou/pixel-dungeon)
 
 Quickstart
