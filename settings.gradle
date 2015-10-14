@@ -1,1 +1,2 @@
+include ':ai'
 include 'desktop', 'core', 'PD-classes'
