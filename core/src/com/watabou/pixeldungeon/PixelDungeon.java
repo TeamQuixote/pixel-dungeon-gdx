@@ -22,6 +22,7 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.Scene;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.pixeldungeon.input.GameAction;
@@ -33,8 +34,12 @@ import com.watabou.utils.Signal;
 
 public class PixelDungeon extends Game<GameAction> {
 
-	public PixelDungeon(final PDPlatformSupport<GameAction> platformSupport) {
-		super( TitleScene.class, platformSupport );
+    public PixelDungeon(final PDPlatformSupport<GameAction> platformSupport) {
+        this(TitleScene.class, platformSupport);
+    }
+
+	public PixelDungeon(Class<? extends PixelScene> startScene, final PDPlatformSupport<GameAction> platformSupport) {
+		super(startScene, platformSupport );
 
 		Game.version = platformSupport.getVersion();
 
