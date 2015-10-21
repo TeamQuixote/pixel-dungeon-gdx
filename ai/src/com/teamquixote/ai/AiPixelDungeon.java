@@ -4,6 +4,7 @@ import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
 import com.watabou.pixeldungeon.input.GameAction;
+import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.scenes.InterlevelScene;
 import com.watabou.pixeldungeon.scenes.StartScene;
@@ -48,7 +49,22 @@ public class AiPixelDungeon extends PixelDungeon {
 
     private AiGameState buildGameState() {
         AiGameState state = new AiGameState();
+
+        buildHeroSurroundings(state);
+
         return state;
+    }
+
+    private void buildHeroSurroundings(AiGameState state) {
+        int heroPos = Dungeon.hero.pos;
+        state.setImmediateTerrain(new TerrainInfo(Dungeon.level.map[heroPos - Level.WIDTH]),
+                new TerrainInfo(Dungeon.level.map[(heroPos - Level.WIDTH) + 1]),
+                new TerrainInfo(Dungeon.level.map[heroPos + 1]),
+                new TerrainInfo(Dungeon.level.map[(heroPos + Level.WIDTH) + 1]),
+                new TerrainInfo(Dungeon.level.map[heroPos + Level.WIDTH]),
+                new TerrainInfo(Dungeon.level.map[(heroPos + Level.WIDTH)- 1]),
+                new TerrainInfo(Dungeon.level.map[heroPos - 1]),
+                new TerrainInfo(Dungeon.level.map[(heroPos - Level.WIDTH) - 1]));
     }
 
     private void clearChasm(){

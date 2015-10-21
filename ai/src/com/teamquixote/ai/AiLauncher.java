@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl.LwjglPreferences;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.teamquixote.ai.agents.StupidAgent;
+import com.teamquixote.ai.agents.WallFollowingAgent;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.Preferences;
@@ -48,7 +49,7 @@ public class AiLauncher {
 
 		new LwjglApplication(new AiPixelDungeon(
 				new DesktopSupport(version, config.preferencesDirectory, aiProcessor)
-		        , new StupidAgent(aiProcessor)
+		        , new WallFollowingAgent(aiProcessor)
         ), config);
 	}
 
