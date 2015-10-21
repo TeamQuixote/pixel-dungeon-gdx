@@ -66,4 +66,8 @@ public class WndOptions extends Window {
 	}
 	
 	protected void onSelect( int index ) {};
+
+    public void select(int index){
+        onSelect(index);
+    }
 }

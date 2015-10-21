@@ -196,13 +196,17 @@ public class Group extends Gizmo {
 		
 		for (int i=0; i < length; i++) {
 			Gizmo g = members.get( i );
-			if (g != null && !g.exists && ((c == null) || g.getClass() == c)) {
+			if (g != null && !g.exists && ((c == null) || c.getName().equals(g.getClass().getName()))) {
 				return g;
 			}
 		}
 		
 		return null;
 	}
+
+    public Object findFirstMember(Class c) {
+        return members.stream().filter(x -> c.isInstance(x)).findFirst().orElse(null);
+    }
 	
 	public int countLiving() {
 		

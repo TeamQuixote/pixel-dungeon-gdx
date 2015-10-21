@@ -13,7 +13,7 @@ public class StupidAgent extends AiAgent {
 
     @Override
     protected void makeDecision(AiGameState state) {
-        int action = Random.IntRange(1, 5);
+        int action = Random.IntRange(1, 4);
         switch(action) {
             case 1:
                 doAction(GameAction.MOVE_UP);
@@ -26,9 +26,6 @@ public class StupidAgent extends AiAgent {
                 break;
             case 4:
                 doAction(GameAction.MOVE_RIGHT);
-                break;
-            case 5:
-                doAction(GameAction.BACK);
-        }
+       }
     }
 }
