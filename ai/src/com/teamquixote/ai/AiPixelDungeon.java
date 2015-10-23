@@ -57,6 +57,7 @@ public class AiPixelDungeon extends PixelDungeon {
 
     private void buildHeroSurroundings(AiGameState state) {
         int heroPos = Dungeon.hero.pos;
+        state.setHeroPosition(heroPos);
         state.setImmediateTerrain(new TerrainInfo(Dungeon.level.map[heroPos - Level.WIDTH]),
                 new TerrainInfo(Dungeon.level.map[(heroPos - Level.WIDTH) + 1]),
                 new TerrainInfo(Dungeon.level.map[heroPos + 1]),
