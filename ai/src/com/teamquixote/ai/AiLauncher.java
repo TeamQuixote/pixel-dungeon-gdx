@@ -1,16 +1,12 @@
 package com.teamquixote.ai;
 
 import com.badlogic.gdx.Files;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl.LwjglPreferences;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
-import com.teamquixote.ai.agents.AngryAgent;
-import com.teamquixote.ai.agents.StupidAgent;
-import com.teamquixote.ai.agents.WallFollowingAgent;
+import com.teamquixote.ai.agents.Frontiersman;
 import com.watabou.input.NoosaInputProcessor;
-import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.Preferences;
 import com.watabou.utils.PDPlatformSupport;
 
@@ -43,14 +39,12 @@ public class AiLauncher {
 		config.addIcon( "ic_launcher_32.png", Files.FileType.Internal );
 		config.addIcon( "ic_launcher_16.png", Files.FileType.Internal );
 
+
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Pixel Dungeon";
-
-        NoosaInputProcessor aiProcessor = new AiInputProcessor();
-
 		new LwjglApplication(new AiPixelDungeon(
-				new DesktopSupport(version, config.preferencesDirectory, aiProcessor)
-		        , new AngryAgent(aiProcessor)
+				new DesktopSupport(version, config.preferencesDirectory, new AiInputProcessor())
+		        , new Frontiersman()
         ), config);
 	}
 

@@ -1,5 +1,6 @@
 package com.teamquixote.ai;
 
+import com.teamquixote.ai.actions.Action;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
@@ -14,7 +15,7 @@ import com.watabou.pixeldungeon.windows.WndStory;
 import com.watabou.utils.PDPlatformSupport;
 
 public class AiPixelDungeon extends PixelDungeon {
-    private AiAgent ai;
+    private final AiAgent ai;
 
     public AiPixelDungeon(PDPlatformSupport<GameAction> platformSupport, AiAgent ai) {
         super(InterlevelScene.class, platformSupport);
@@ -30,7 +31,6 @@ public class AiPixelDungeon extends PixelDungeon {
         StartScene.curClass = HeroClass.WARRIOR;
         Dungeon.init();
         Dungeon.chapters.clear();
-
     }
 
     @Override
@@ -41,49 +41,28 @@ public class AiPixelDungeon extends PixelDungeon {
         clearStory();
         clearChasm();
 
-        if(canAct()) {
-            AiGameState state = buildGameState();
-            ai.update(state);
+        if (canAct()) {
+            Action a = ai.makeDecision(new GameState());
+            a.execute();
         }
     }
 
-    private AiGameState buildGameState() {
-        AiGameState state = new AiGameState();
-
-        buildHeroSurroundings(state);
-
-        return state;
-    }
-
-    private void buildHeroSurroundings(AiGameState state) {
-        int heroPos = Dungeon.hero.pos;
-        state.setHeroPosition(heroPos);
-        state.setImmediateTerrain(new TerrainInfo(Dungeon.level.map[heroPos - Level.WIDTH]),
-                new TerrainInfo(Dungeon.level.map[(heroPos - Level.WIDTH) + 1]),
-                new TerrainInfo(Dungeon.level.map[heroPos + 1]),
-                new TerrainInfo(Dungeon.level.map[(heroPos + Level.WIDTH) + 1]),
-                new TerrainInfo(Dungeon.level.map[heroPos + Level.WIDTH]),
-                new TerrainInfo(Dungeon.level.map[(heroPos + Level.WIDTH)- 1]),
-                new TerrainInfo(Dungeon.level.map[heroPos - 1]),
-                new TerrainInfo(Dungeon.level.map[(heroPos - Level.WIDTH) - 1]));
-    }
-
-    private void clearChasm(){
-        WndOptions options = (WndOptions)scene.findFirstMember(WndOptions.class);
-        if(options != null) {
+    private void clearChasm() {
+        WndOptions options = (WndOptions) scene.findFirstMember(WndOptions.class);
+        if (options != null) {
             options.select(2);
         }
     }
 
     private void clearStory() {
-        WndStory story = (WndStory)scene.findFirstMember(WndStory.class);
-        if(story != null)
+        WndStory story = (WndStory) scene.findFirstMember(WndStory.class);
+        if (story != null)
             story.hide();
     }
 
     private void clearMessage() {
-        WndMessage msg = (WndMessage)scene.findFirstMember(WndMessage.class);
-        if(msg != null)
+        WndMessage msg = (WndMessage) scene.findFirstMember(WndMessage.class);
+        if (msg != null)
             msg.hide();
     }
 
