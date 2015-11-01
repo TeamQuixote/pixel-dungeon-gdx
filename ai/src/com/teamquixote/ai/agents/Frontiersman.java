@@ -3,6 +3,7 @@ package com.teamquixote.ai.agents;
 import com.teamquixote.ai.*;
 import com.teamquixote.ai.actions.Action;
 import com.teamquixote.ai.actions.WaitAction;
+import com.watabou.pixeldungeon.levels.Terrain;
 
 import java.util.*;
 
@@ -16,6 +17,15 @@ public class Frontiersman extends AiAgent {
 
     @Override
     protected Action makeDecision(GameState state) {
+        int remaining = state.dungeonMap
+                .find(ti -> !ti.isMapped() && ti.getAdjacent()
+                        .stream()
+                        .anyMatch(adj -> adj.isTerrain(Terrain.PASSABLE, false)))
+                .size();
+
+        if (remaining == 0)
+            return new WaitAction();
+
         if (plannedActions.size() == 0 || !plannedActions.peek().equals(state)) {
             plannedActions.clear();
             GameState bestState = ss.findBestState(state);
@@ -34,8 +44,7 @@ public class Frontiersman extends AiAgent {
 
         @Override
         public boolean isTerminalState(GameState state) {
-            List<DungeonMap.TileInfo> undiscoveredTiles = state.dungeonMap.find(ti -> ti.isAdjacentTo(state.heroPosition) && !ti.isMapped());
-            int undiscoveredTileSize = undiscoveredTiles.size();
+            long undiscoveredTileSize = state.dungeonMap.map[state.heroPosition].getAdjacent().stream().filter(ti -> !ti.isMapped()).count();
             return undiscoveredTileSize > 0;
         }
     }

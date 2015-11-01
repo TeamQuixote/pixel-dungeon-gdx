@@ -5,8 +5,10 @@ import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.Terrain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class DungeonMap {
     public static int DUNGEON_WIDTH = Level.WIDTH;
@@ -45,6 +47,13 @@ public class DungeonMap {
             return MapUtilities.areAdjacent(position, tilePosition);
         }
 
+        public List<TileInfo> getAdjacent() {
+            return Arrays.stream(MapUtilities.getAdjacent(tilePosition))
+                    .filter(i -> i >= 0 && i < map.length)
+                    .mapToObj(i -> map[i])
+                    .collect(Collectors.toList());
+        }
+
         public boolean isMapped() {
             return isMapped;
         }
@@ -53,6 +62,11 @@ public class DungeonMap {
             if (!isMapped())
                 return null;
             return (tileValue & terrainFlag) != 0;
+        }
+
+        public boolean isTerrain(int terrainFlag, boolean defaultValue){
+            Boolean val = isTerrain(terrainFlag);
+            return val == null ? defaultValue : val;
         }
     }
 
@@ -72,6 +86,19 @@ public class DungeonMap {
             int targetColumn = getColumn(position2);
 
             return Math.abs(tileRow - targetRow) <= 1 && Math.abs(tileColumn - targetColumn) <= 1;
+        }
+
+        public static int[] getAdjacent(int position) {
+            return new int[]{
+                    position - DUNGEON_WIDTH,
+                    position - DUNGEON_WIDTH + 1,
+                    position + 1,
+                    position + 1 + DUNGEON_WIDTH,
+                    position + DUNGEON_WIDTH,
+                    position - 1 + DUNGEON_WIDTH,
+                    position - 1,
+                    position - 1 - DUNGEON_WIDTH
+            };
         }
     }
 }
