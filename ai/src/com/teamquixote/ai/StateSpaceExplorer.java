@@ -22,7 +22,8 @@ public class StateSpaceExplorer {
         GameState current = null;
         while (!states.isEmpty() && !terminalStateConditions.isTerminalState((current = states.remove()))) {
             exploredStates.add(current);
-            for (GameState sPrime : current.getActions().stream().map(a -> new GameState(state, a)).collect(Collectors.toList()))
+            final GameState finalCurrent = current;
+            for (GameState sPrime : current.getActions().stream().map(a -> new GameState(finalCurrent, a)).collect(Collectors.toList()))
                 if (!exploredStates.contains(sPrime)) states.add(sPrime);
         }
 
