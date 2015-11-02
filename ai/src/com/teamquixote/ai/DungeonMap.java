@@ -54,6 +54,10 @@ public class DungeonMap {
                     .collect(Collectors.toList());
         }
 
+        public double getDistance(int target) {
+            return MapUtilities.getDistance(tilePosition, target);
+        }
+
         public boolean isMapped() {
             return isMapped;
         }
@@ -64,7 +68,7 @@ public class DungeonMap {
             return (tileValue & terrainFlag) != 0;
         }
 
-        public boolean isTerrain(int terrainFlag, boolean defaultValue){
+        public boolean isTerrain(int terrainFlag, boolean defaultValue) {
             Boolean val = isTerrain(terrainFlag);
             return val == null ? defaultValue : val;
         }
@@ -99,6 +103,13 @@ public class DungeonMap {
                     position - 1,
                     position - 1 - DUNGEON_WIDTH
             };
+        }
+
+        public static double getDistance(int position1, int position2) {
+            int dx = getColumn(position1) - getColumn(position2);
+            int dy = getRow(position1) - getRow(position2);
+
+            return Math.sqrt((dx * dx) + (dy * dy));
         }
     }
 }

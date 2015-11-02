@@ -40,12 +40,20 @@ public class Frontiersman extends AiAgent {
         return plannedActions.remove().previousAction;
     }
 
-    public class TerminateOnUndiscovered extends TerminalStateConditions {
+    public class TerminateOnUndiscovered extends GameStateUtility {
 
         @Override
         public boolean isTerminalState(GameState state) {
             long undiscoveredTileSize = state.dungeonMap.map[state.heroPosition].getAdjacent().stream().filter(ti -> !ti.isMapped()).count();
             return undiscoveredTileSize > 0;
+        }
+
+        @Override
+        public double getUtility(GameState state) {
+            List<DungeonMap.TileInfo> undiscovered = state.dungeonMap.find(ti -> !ti.isMapped() && ti.getAdjacent().stream().anyMatch(adj -> adj.isTerrain(Terrain.PASSABLE, false)));
+            OptionalDouble closestUndiscovered = undiscovered.stream().mapToDouble(ti -> ti.getDistance(state.heroPosition)).min();
+
+            return closestUndiscovered.isPresent() ? closestUndiscovered.getAsDouble() : Double.POSITIVE_INFINITY;
         }
     }
 }

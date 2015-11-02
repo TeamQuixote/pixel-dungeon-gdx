@@ -1,32 +1,49 @@
 package com.teamquixote.ai;
 
-        import java.util.HashSet;
-        import java.util.LinkedList;
-        import java.util.Queue;
-        import java.util.Set;
+        import java.util.*;
         import java.util.stream.Collectors;
 
 public class StateSpaceExplorer {
-    private final TerminalStateConditions terminalStateConditions;
+    private final GameStateUtility utilityFunction;
 
-    public StateSpaceExplorer(TerminalStateConditions terminalStateConditions) {
-        this.terminalStateConditions = terminalStateConditions;
+    public StateSpaceExplorer(GameStateUtility utilityFunction) {
+        this.utilityFunction = utilityFunction;
     }
 
-
     public GameState findBestState(GameState state) {
-        Queue<GameState> states = new LinkedList<>();
+        Queue<StateUtilityPair> states = new PriorityQueue<>();
         Set<GameState> exploredStates = new HashSet<>();
-        states.addAll(state.getActions().stream().map(a -> new GameState(state, a)).collect(Collectors.toList()));
+        states.addAll(state.getActions().stream()
+                .map(a -> new StateUtilityPair(new GameState(state, a)))
+                .collect(Collectors.toList()));
 
         GameState current = null;
-        while (!states.isEmpty() && !terminalStateConditions.isTerminalState((current = states.remove()))) {
+        while (!states.isEmpty() && !utilityFunction.isTerminalState((current = states.remove().state))) {
             exploredStates.add(current);
             final GameState finalCurrent = current;
             for (GameState sPrime : current.getActions().stream().map(a -> new GameState(finalCurrent, a)).collect(Collectors.toList()))
-                if (!exploredStates.contains(sPrime)) states.add(sPrime);
+                if (!exploredStates.contains(sPrime)) states.add(new StateUtilityPair(sPrime));
         }
 
         return current;
+    }
+
+    private class StateUtilityPair implements Comparable<StateUtilityPair> {
+        public final GameState state;
+        public final double utility;
+
+        public StateUtilityPair(GameState state) {
+            this(state, utilityFunction.getUtility(state));
+        }
+
+        public StateUtilityPair(GameState state, double utility) {
+            this.state = state;
+            this.utility = utility;
+        }
+
+        @Override
+        public int compareTo(StateUtilityPair o) {
+            return (int) (utility - o.utility);
+        }
     }
 }
