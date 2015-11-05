@@ -8,7 +8,7 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import java.util.*;
 
 public class Frontiersman extends AiAgent {
-    private StateSpaceExplorer ss;
+    protected StateSpaceExplorer ss;
     private Deque<GameState> plannedActions = new ArrayDeque<>();
 
     public Frontiersman() {
