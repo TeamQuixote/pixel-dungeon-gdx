@@ -43,7 +43,7 @@ public class StateSpaceExplorer {
 
         @Override
         public int compareTo(StateUtilityPair o) {
-            return (int) (utility - o.utility);
+            return (int) ((utility - o.utility)*100000);
         }
     }
 }
