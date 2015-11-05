@@ -55,6 +55,9 @@ public class GameState {
         if(!this.getClass().isInstance(obj))
             return false;
 
+        if(((GameState)obj).visibleEnemies.size() != visibleEnemies.size())
+            return false;
+
         for(int i = 0; i < visibleEnemies.size(); i++){
             if(!((GameState)obj).visibleEnemies.get(i).equals(visibleEnemies.get(i)))
                 return false;

@@ -26,18 +26,20 @@ public class Frontiersman extends AiAgent {
         if (remaining == 0)
             return new WaitAction();
 
-        if (plannedActions.size() == 0 || !plannedActions.peek().equals(state)) {
+        GameState expectedState = plannedActions.size() > 0 ? plannedActions.pop() : null;
+
+        if (plannedActions.size() == 0 || !expectedState.equals(state)) {
             plannedActions.clear();
             GameState bestState = ss.findBestState(state);
             if (bestState == null)
-                plannedActions.add(new GameState(state, new WaitAction()));
+                plannedActions.push(new GameState(state, new WaitAction()));
             else while (bestState.previousAction != null) {
-                plannedActions.add(bestState);
+                plannedActions.push(bestState);
                 bestState = bestState.previousGameState;
             }
 
         }
-        return plannedActions.remove().previousAction;
+        return plannedActions.peek().previousAction;
     }
 
     public class TerminateOnUndiscovered extends GameStateUtility {
