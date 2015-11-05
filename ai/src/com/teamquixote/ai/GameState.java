@@ -3,22 +3,27 @@ package com.teamquixote.ai;
 import com.teamquixote.ai.actions.Action;
 import com.teamquixote.ai.actions.MoveAction;
 import com.watabou.pixeldungeon.Dungeon;
+import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.Terrain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameState {
     public final GameState previousGameState;
     public final Action previousAction;
     public final int heroPosition;
     public final DungeonMap dungeonMap;
+    public final List<DungeonEnemy> visibleEnemies;
 
     public GameState() {
         this.previousGameState = null;
         this.previousAction = null;
         heroPosition = Dungeon.hero.pos;
         dungeonMap = new DungeonMap();
+        this.visibleEnemies = buildVisibleEnemies();
+
     }
 
     public GameState(GameState state, Action action) {
@@ -26,6 +31,14 @@ public class GameState {
         this.previousAction = action;
         this.heroPosition = action.getUpdatedHeroPosition(state);
         this.dungeonMap = state.dungeonMap;
+        this.visibleEnemies = state.visibleEnemies;
+    }
+
+    private List<DungeonEnemy> buildVisibleEnemies(){
+        return Dungeon.level.mobs.stream()
+                .filter(enemy -> enemy.isAlive() && Level.fieldOfView[enemy.pos] && enemy.invisible <= 0)
+                .map(mob -> new DungeonEnemy(mob.pos))
+                .collect(Collectors.toList());
     }
 
     public List<Action> getActions() {
@@ -42,11 +55,21 @@ public class GameState {
         if(!this.getClass().isInstance(obj))
             return false;
 
+        for(int i = 0; i < visibleEnemies.size(); i++){
+            if(!((GameState)obj).visibleEnemies.get(i).equals(visibleEnemies.get(i)))
+                return false;
+        }
+
         return ((GameState)obj).heroPosition == heroPosition;
     }
 
     @Override
     public int hashCode() {
-        return heroPosition;
+        int enemyHash = 0x0;
+        for(DungeonEnemy enemy : visibleEnemies){
+            enemyHash ^= enemy.hashCode();
+        }
+        return heroPosition ^ enemyHash;
     }
+
 }
