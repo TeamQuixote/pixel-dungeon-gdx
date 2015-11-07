@@ -20,7 +20,7 @@ public class DungeonMap {
 
     public DungeonMap(int[] map, boolean[] isMapped) {
         this.map = new TileInfo[map.length];
-        for (int i = 0; i < map.length; i++) this.map[i] = new TileInfo(i, Terrain.flags[map[i]], isMapped[i]);
+        for (int i = 0; i < map.length; i++) this.map[i] = new TileInfo(i, map[i], isMapped[i]);
     }
 
     public List<TileInfo> find(Predicate<TileInfo> selector) {
@@ -35,11 +35,13 @@ public class DungeonMap {
     public class TileInfo {
         public final int tilePosition;
         private final int tileValue;
+        private final int tileFlag;
         private final boolean isMapped;
 
         private TileInfo(int tilePosition, int tileValue, boolean isMapped) {
             this.tilePosition = tilePosition;
             this.tileValue = tileValue;
+            this.tileFlag = Terrain.flags[tileValue];
             this.isMapped = isMapped;
         }
 
@@ -65,7 +67,11 @@ public class DungeonMap {
         public Boolean isTerrain(int terrainFlag) {
             if (!isMapped())
                 return null;
-            return (tileValue & terrainFlag) != 0;
+            return (tileFlag & terrainFlag) != 0;
+        }
+
+        public boolean isExit(boolean defaultValue){
+            return isMapped() ? tileValue == Terrain.EXIT : defaultValue;
         }
 
         public boolean isTerrain(int terrainFlag, boolean defaultValue) {

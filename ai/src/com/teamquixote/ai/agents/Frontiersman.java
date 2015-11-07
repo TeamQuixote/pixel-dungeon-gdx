@@ -17,14 +17,14 @@ public class Frontiersman extends AiAgent {
 
     @Override
     protected Action makeDecision(GameState state) {
-        int remaining = state.dungeonMap
-                .find(ti -> !ti.isMapped() && ti.getAdjacent()
-                        .stream()
-                        .anyMatch(adj -> adj.isTerrain(Terrain.PASSABLE, false)))
-                .size();
-
-        if (remaining == 0)
-            return new WaitAction();
+//        int remaining = state.dungeonMap
+//                .find(ti -> !ti.isMapped() && ti.getAdjacent()
+//                        .stream()
+//                        .anyMatch(adj -> adj.isTerrain(Terrain.PASSABLE, false)))
+//                .size();
+//
+//        if (remaining == 0)
+//            return new WaitAction();
 
         GameState expectedState = plannedActions.size() > 0 ? plannedActions.pop() : null;
 
@@ -39,10 +39,11 @@ public class Frontiersman extends AiAgent {
             }
 
         }
+
         return plannedActions.peek().previousAction;
     }
 
-    public class TerminateOnUndiscovered extends GameStateUtility {
+    public static class TerminateOnUndiscovered extends GameStateUtility {
 
         @Override
         public boolean isTerminalState(GameState state) {
@@ -55,7 +56,7 @@ public class Frontiersman extends AiAgent {
             List<DungeonMap.TileInfo> undiscovered = state.dungeonMap.find(ti -> !ti.isMapped() && ti.getAdjacent().stream().anyMatch(adj -> adj.isTerrain(Terrain.PASSABLE, false)));
             OptionalDouble closestUndiscovered = undiscovered.stream().mapToDouble(ti -> ti.getDistance(state.heroPosition)).min();
 
-            return closestUndiscovered.isPresent() ? closestUndiscovered.getAsDouble() : Double.POSITIVE_INFINITY;
+            return closestUndiscovered.isPresent() ? closestUndiscovered.getAsDouble() : 100;
         }
     }
 }

@@ -11,7 +11,7 @@ public class AngryFrontiersman extends Frontiersman {
         ss = new StateSpaceExplorer(new EnemiesOverUnexplored());
     }
 
-    public class EnemiesOverUnexplored extends Frontiersman.TerminateOnUndiscovered {
+    public static class EnemiesOverUnexplored extends Frontiersman.TerminateOnUndiscovered {
 
         @Override
         public boolean isTerminalState(GameState state) {
