@@ -43,7 +43,9 @@ public class StateSpaceExplorer {
 
         @Override
         public int compareTo(StateUtilityPair o) {
-            return (int) ((utility - o.utility)*100000);
+            if(utility > o.utility) return 1;
+            if(utility < o.utility) return -1;
+            return 0;
         }
     }
 }
