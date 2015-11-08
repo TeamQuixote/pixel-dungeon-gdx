@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.teamquixote.ai.agents.AngryFrontiersman;
 import com.teamquixote.ai.agents.Frontiersman;
 import com.teamquixote.ai.agents.Spelunker;
-import com.teamquixote.ai.statistics.BasicStatistics;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.pixeldungeon.Preferences;
 import com.watabou.utils.PDPlatformSupport;
@@ -46,7 +45,7 @@ public class AiLauncher {
 		DesktopSupport platformSupport = new DesktopSupport(version, config.preferencesDirectory, new AiInputProcessor());
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Pixel Dungeon";
-		new LwjglApplication(new AiPixelDungeon(platformSupport, new Spelunker(), null), config);
+		new LwjglApplication(new AiPixelDungeon(platformSupport, new Spelunker()), config);
 	}
 
 	private static class DesktopSupport extends PDPlatformSupport {

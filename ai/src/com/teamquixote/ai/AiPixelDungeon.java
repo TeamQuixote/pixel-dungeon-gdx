@@ -1,7 +1,6 @@
 package com.teamquixote.ai;
 
 import com.teamquixote.ai.actions.Action;
-import com.teamquixote.ai.statistics.GameStatistics;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
@@ -16,13 +15,11 @@ import com.watabou.utils.PDPlatformSupport;
 
 public class AiPixelDungeon extends PixelDungeon {
     private final AiAgent ai;
-    private final GameStatistics gameStatistics;
 
-    public AiPixelDungeon(PDPlatformSupport<GameAction> platformSupport, AiAgent ai, GameStatistics gameStatistics) {
+    public AiPixelDungeon(PDPlatformSupport<GameAction> platformSupport, AiAgent ai) {
         super(InterlevelScene.class, platformSupport);
 
         this.ai = ai;
-        this.gameStatistics = gameStatistics;
     }
 
     @Override
@@ -45,8 +42,6 @@ public class AiPixelDungeon extends PixelDungeon {
 
         if (canAct()) {
             GameState state = new GameState();
-            if (gameStatistics != null)
-                gameStatistics.onUpdate(ai, state);
             Action a = ai.makeDecision(state);
             a.execute();
         }
