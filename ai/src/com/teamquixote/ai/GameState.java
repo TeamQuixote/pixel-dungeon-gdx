@@ -43,6 +43,9 @@ public class GameState {
 
     public List<Action> getActions() {
         List<Action> validActions = new ArrayList<>();
+        if(dungeonMap.map[heroPosition].isExit(false))
+            return validActions;
+
         for (DungeonMap.TileInfo ti : dungeonMap.map[heroPosition].getAdjacent())
             if (ti.isTerrain(Terrain.PASSABLE, false))
                 validActions.add(new MoveAction(ti.tilePosition));
