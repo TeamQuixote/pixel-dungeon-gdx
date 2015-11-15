@@ -96,8 +96,8 @@ public class WellWater extends Blob {
 				
 				int newPlace;
 				do {
-					newPlace = pos + Level.NEIGHBOURS8[Random.Int( 8 )];
-				} while (!Level.passable[newPlace] && !Level.avoid[newPlace]);
+					newPlace = pos + dungeon.level.NEIGHBOURS8[Random.Int( 8 )];
+				} while (!dungeon.level.passable[newPlace] && !dungeon.level.avoid[newPlace]);
 				dungeon.level.drop( heap.pickUp(), newPlace ).sprite.drop( pos );
 				
 				return false;
@@ -137,7 +137,7 @@ public class WellWater extends Blob {
 				water.pos == cell && 
 				water.affect()) {
 				
-				Level.set( cell, Terrain.EMPTY_WELL );
+				dungeon.level.set( cell, Terrain.EMPTY_WELL );
 				GameScene.updateMap( cell );
 				
 				return;

@@ -51,12 +51,12 @@ public class WaterOfAwareness extends WellWater {
 		
 		hero.belongings.observe();
 		
-		for (int i=0; i < Level.LENGTH; i++) {
+		for (int i=0; i < dungeon.level.LENGTH; i++) {
 			
 			int terr = dungeon.level.map[i];
 			if ((Terrain.flags[terr] & Terrain.SECRET) != 0) {
 				
-				Level.set( i, Terrain.discover( terr ) );						
+				dungeon.level.set( i, Terrain.discover( terr ) );
 				GameScene.updateMap( i );
 				
 				if (dungeon.visible[i]) {

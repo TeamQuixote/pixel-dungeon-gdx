@@ -19,6 +19,7 @@ package com.watabou.pixeldungeon.sprites;
 
 import com.watabou.noosa.TextureFilm;
 import com.watabou.pixeldungeon.Assets;
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.items.weapon.missiles.Shuriken;
 import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.scenes.GameScene;
@@ -54,7 +55,8 @@ public class TenguSprite extends MobSprite {
 	
 	@Override
 	public void move( int from, int to ) {
-		
+		Level level = Dungeon.getInstance().level;
+
 		place( to );
 		
 		play( run );
@@ -62,7 +64,7 @@ public class TenguSprite extends MobSprite {
 		
 		isMoving = true;
 		
-		if (Level.water[to]) {
+		if (level.water[to]) {
 			GameScene.ripple( to );
 		}
 		

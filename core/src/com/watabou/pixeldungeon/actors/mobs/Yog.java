@@ -81,9 +81,9 @@ public class Yog extends Mob {
 		BurningFist fist2 = new BurningFist();
 		
 		do {
-			fist1.pos = pos + Level.NEIGHBOURS8[Random.Int( 8 )];
-			fist2.pos = pos + Level.NEIGHBOURS8[Random.Int( 8 )];
-		} while (!Level.passable[fist1.pos] || !Level.passable[fist2.pos] || fist1.pos == fist2.pos);
+			fist1.pos = pos + dungeon.level.NEIGHBOURS8[Random.Int( 8 )];
+			fist2.pos = pos + dungeon.level.NEIGHBOURS8[Random.Int( 8 )];
+		} while (!dungeon.level.passable[fist1.pos] || !dungeon.level.passable[fist2.pos] || fist1.pos == fist2.pos);
 		
 		GameScene.add( fist1, dungeon );
 		GameScene.add( fist2, dungeon );
@@ -111,9 +111,9 @@ public class Yog extends Mob {
 
 		ArrayList<Integer> spawnPoints = new ArrayList<Integer>();
 		
-		for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
-			int p = pos + Level.NEIGHBOURS8[i];
-			if (dungeon.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
+		for (int i=0; i < dungeon.level.NEIGHBOURS8.length; i++) {
+			int p = pos + dungeon.level.NEIGHBOURS8[i];
+			if (dungeon.findChar( p ) == null && (dungeon.level.passable[p] || dungeon.level.avoid[p])) {
 				spawnPoints.add( p );
 			}
 		}
@@ -235,7 +235,7 @@ public class Yog extends Mob {
 		@Override
 		public boolean act() {
 			
-			if (Level.water[pos] && HP < HT) {
+			if (dungeon.level.water[pos] && HP < HT) {
 				sprite.emitter().burst( ShadowParticle.UP, 2 );
 				HP += REGENERATION;
 			}
@@ -323,7 +323,7 @@ public class Yog extends Mob {
 		@Override
 		public boolean attack( Char enemy ) {
 			
-			if (!Level.adjacent( pos, enemy.pos )) {
+			if (!dungeon.level.adjacent( pos, enemy.pos )) {
 				spend( attackDelay() );
 				
 				if (hit( this, enemy, true )) {
@@ -353,8 +353,8 @@ public class Yog extends Mob {
 		@Override
 		public boolean act() {
 			
-			for (int i=0; i < Level.NEIGHBOURS9.length; i++) {
-				GameScene.add( Blob.seed(dungeon, pos + Level.NEIGHBOURS9[i], 2, Fire.class ), dungeon );
+			for (int i=0; i < dungeon.level.NEIGHBOURS9.length; i++) {
+				GameScene.add( Blob.seed(dungeon, pos + dungeon.level.NEIGHBOURS9[i], 2, Fire.class ), dungeon );
 			}
 			
 			return super.act();

@@ -55,7 +55,7 @@ public class WandOfAvalanche extends Wand {
 		Ballistica.distance = Math.min( Ballistica.distance, 8 + level );
 		
 		int size = 1 + level / 3;
-		PathFinder.buildDistanceMap( cell, BArray.not( Level.solid, null ), size );
+		PathFinder.buildDistanceMap( cell, BArray.not(dungeon.level.solid, null ), size );
 		
 		for (int i=0; i < Level.LENGTH; i++) {
 			

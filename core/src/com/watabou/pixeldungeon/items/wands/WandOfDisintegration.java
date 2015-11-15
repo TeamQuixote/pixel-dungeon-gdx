@@ -64,13 +64,13 @@ public class WandOfDisintegration extends Wand {
 			int terr = dungeon.level.map[c];
 			if (terr == Terrain.DOOR || terr == Terrain.BARRICADE) {
 				
-				Level.set( c, Terrain.EMBERS );
+				dungeon.level.set( c, Terrain.EMBERS );
 				GameScene.updateMap( c );
 				terrainAffected = true;
 				
 			} else if (terr == Terrain.HIGH_GRASS) {
 				
-				Level.set( c, Terrain.GRASS );
+				dungeon.level.set( c, Terrain.GRASS );
 				GameScene.updateMap( c );
 				terrainAffected = true;
 				

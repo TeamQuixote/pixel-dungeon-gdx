@@ -66,7 +66,7 @@ public class WandOfLightning extends Wand {
 		}
 		
 		affected.add( ch );
-		ch.damage( Level.water[ch.pos] && !ch.flying ? (int)(damage * 2) : damage, LightningTrap.LIGHTNING  );
+		ch.damage( dungeon.level.water[ch.pos] && !ch.flying ? (int)(damage * 2) : damage, LightningTrap.LIGHTNING  );
 		
 		ch.sprite.centerEmitter().burst( SparkParticle.FACTORY, 3 );
 		ch.sprite.flash();

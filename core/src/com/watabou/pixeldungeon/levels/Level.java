@@ -90,10 +90,10 @@ public abstract class Level implements Bundlable {
 	
 	private static final String TXT_HIDDEN_PLATE_CLICKS = "A hidden pressure plate clicks!";
 	
-	public static boolean resizingNeeded;
+	public boolean resizingNeeded;
 	// This one can be different from resizingNeeded if the level
 	// was created in the older version of the game
-	public static int loadedMapSize;
+	public int loadedMapSize;
 	
 	public int[] map;
 	public boolean[] visited;
@@ -101,18 +101,18 @@ public abstract class Level implements Bundlable {
 	
 	public int viewDistance = Dungeon.getInstance().isChallenged(Challenges.DARKNESS) ? 3: 8;
 	
-	public static boolean[] fieldOfView = new boolean[LENGTH];
+	public boolean[] fieldOfView = new boolean[LENGTH];
 	
-	public static boolean[] passable	= new boolean[LENGTH];
-	public static boolean[] losBlocking	= new boolean[LENGTH];
-	public static boolean[] flamable	= new boolean[LENGTH];
-	public static boolean[] secret		= new boolean[LENGTH];
-	public static boolean[] solid		= new boolean[LENGTH];
-	public static boolean[] avoid		= new boolean[LENGTH];
-	public static boolean[] water		= new boolean[LENGTH];
-	public static boolean[] pit			= new boolean[LENGTH];
+	public boolean[] passable	= new boolean[LENGTH];
+	public boolean[] losBlocking	= new boolean[LENGTH];
+	public boolean[] flamable	= new boolean[LENGTH];
+	public boolean[] secret		= new boolean[LENGTH];
+	public boolean[] solid		= new boolean[LENGTH];
+	public boolean[] avoid		= new boolean[LENGTH];
+	public boolean[] water		= new boolean[LENGTH];
+	public boolean[] pit			= new boolean[LENGTH];
 	
-	public static boolean[] discoverable	= new boolean[LENGTH];
+	public boolean[] discoverable	= new boolean[LENGTH];
 	
 	public Feeling feeling = Feeling.NONE;
 	
@@ -494,19 +494,23 @@ public abstract class Level implements Bundlable {
 			discoverable[i] = d;
 		}
 	}
-	
-	public static void set( int cell, int terrain ) {
+
+	public void set(int cell, int terrain){
+		set(cell, terrain, this);
+	}
+
+	public static void set( int cell, int terrain, Level level ) {
 		Painter.set( Dungeon.getInstance().level, cell, terrain );
 
 		int flags = Terrain.flags[terrain];
-		passable[cell]		= (flags & Terrain.PASSABLE) != 0;
-		losBlocking[cell]	= (flags & Terrain.LOS_BLOCKING) != 0;
-		flamable[cell]		= (flags & Terrain.FLAMABLE) != 0;
-		secret[cell]		= (flags & Terrain.SECRET) != 0;
-		solid[cell]			= (flags & Terrain.SOLID) != 0;
-		avoid[cell]			= (flags & Terrain.AVOID) != 0;
-		pit[cell]			= (flags & Terrain.PIT) != 0;
-		water[cell]			= terrain == Terrain.WATER || terrain >= Terrain.WATER_TILES;
+		level.passable[cell]		= (flags & Terrain.PASSABLE) != 0;
+		level.losBlocking[cell]	= (flags & Terrain.LOS_BLOCKING) != 0;
+		level.flamable[cell]		= (flags & Terrain.FLAMABLE) != 0;
+		level.secret[cell]		= (flags & Terrain.SECRET) != 0;
+		level.solid[cell]			= (flags & Terrain.SOLID) != 0;
+		level.avoid[cell]			= (flags & Terrain.AVOID) != 0;
+		level.pit[cell]			= (flags & Terrain.PIT) != 0;
+		level.water[cell]			= terrain == Terrain.WATER || terrain >= Terrain.WATER_TILES;
 	}
 	
 	public Heap drop( Item item, int cell ) {
@@ -546,7 +550,7 @@ public abstract class Level implements Bundlable {
 			int n;
 			do {
 				n = cell + Level.NEIGHBOURS8[Random.Int( 8 )];
-			} while (!Level.passable[n] && !Level.avoid[n]);
+			} while (!passable[n] && !avoid[n]);
 			return drop( item, n );
 			
 		}
@@ -673,7 +677,7 @@ public abstract class Level implements Bundlable {
 			if (ch == Dungeon.getInstance().hero) {
 				Dungeon.getInstance().hero.interrupt();
 			}
-			set( cell, Terrain.INACTIVE_TRAP );
+			set( cell, Terrain.INACTIVE_TRAP, this );
 			GameScene.updateMap( cell );
 		}
 		
@@ -738,7 +742,7 @@ public abstract class Level implements Bundlable {
 			if (Dungeon.getInstance().visible[cell]) {
 				Sample.INSTANCE.play( Assets.SND_TRAP );
 			}
-			set( cell, Terrain.INACTIVE_TRAP );
+			set( cell, Terrain.INACTIVE_TRAP, this );
 			GameScene.updateMap( cell );
 		}
 		

@@ -35,8 +35,9 @@ public class GameState {
     }
 
     private List<DungeonEnemy> buildVisibleEnemies(){
-        return Dungeon.getInstance().level.mobs.stream()
-                .filter(enemy -> enemy.isAlive() && Level.fieldOfView[enemy.pos] && enemy.invisible <= 0)
+        Level level = Dungeon.getInstance().level;
+        return level.mobs.stream()
+                .filter(enemy -> enemy.isAlive() && level.fieldOfView[enemy.pos] && enemy.invisible <= 0)
                 .map(mob -> new DungeonEnemy(mob.pos))
                 .collect(Collectors.toList());
     }

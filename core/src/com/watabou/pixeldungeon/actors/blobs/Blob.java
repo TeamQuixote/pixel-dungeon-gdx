@@ -98,11 +98,11 @@ public class Blob extends Actor {
 			}
 		}
 		
-		if (Level.resizingNeeded) {
-			int[] cur = new int[Level.LENGTH];
+		if (dungeon.level.resizingNeeded) {
+			int[] cur = new int[dungeon.level.LENGTH];
 			Arrays.fill( cur, 0 );
 			
-			int loadedMapSize = Level.loadedMapSize;
+			int loadedMapSize = dungeon.level.loadedMapSize;
 			for (int i=0; i < loadedMapSize; i++) {
 				System.arraycopy( this.cur, i * loadedMapSize, cur, i * Level.WIDTH, loadedMapSize );
 			}
@@ -136,7 +136,7 @@ public class Blob extends Actor {
 	
 	protected void evolve() {
 		
-		boolean[] notBlocking = BArray.not( Level.solid, null );
+		boolean[] notBlocking = BArray.not( dungeon.level.solid, null );
 		
 		for (int i=1; i < HEIGHT-1; i++) {
 			

@@ -113,9 +113,11 @@ public class HeroSprite extends CharSprite {
 	
 	@Override
 	public void onComplete( Tweener tweener ) {
+		Level level = Dungeon.getInstance().level;
+
 		if (tweener == jumpTweener) {
 			
-			if (visible && Level.water[ch.pos] && !ch.flying) {
+			if (visible && level.water[ch.pos] && !ch.flying) {
 				GameScene.ripple( ch.pos );
 			}
 			if (jumpCallback != null) {

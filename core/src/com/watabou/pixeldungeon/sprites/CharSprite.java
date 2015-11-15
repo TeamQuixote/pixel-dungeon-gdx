@@ -24,6 +24,7 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.tweeners.PosTweener;
 import com.watabou.noosa.tweeners.Tweener;
 import com.watabou.pixeldungeon.Assets;
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.DungeonTilemap;
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.effects.EmoIcon;
@@ -133,6 +134,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 	}
 	
 	public void move( int from, int to ) {
+		Dungeon dungeon = Dungeon.getInstance();
 		play( run );
 		
 		motion = new PosTweener( this, worldToCamera( to ), MOVE_INTERVAL );
@@ -143,7 +145,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		
 		turnTo( from , to );
 		
-		if (visible && Level.water[from] && !ch.flying) {
+		if (visible && dungeon.level.water[from] && !ch.flying) {
 			GameScene.ripple( from );
 		}
 		

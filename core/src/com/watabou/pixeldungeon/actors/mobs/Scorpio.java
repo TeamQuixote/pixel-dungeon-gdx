@@ -67,7 +67,7 @@ public class Scorpio extends Mob {
 	
 	@Override
 	protected boolean canAttack( Char enemy ) {
-		return !Level.adjacent( pos, enemy.pos ) && Ballistica.cast(dungeon, pos, enemy.pos, false, true ) == enemy.pos;
+		return !dungeon.level.adjacent( pos, enemy.pos ) && Ballistica.cast(dungeon, pos, enemy.pos, false, true ) == enemy.pos;
 	}
 	
 	@Override

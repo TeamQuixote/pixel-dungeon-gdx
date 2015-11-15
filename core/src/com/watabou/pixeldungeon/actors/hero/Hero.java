@@ -253,7 +253,7 @@ public class Hero extends Char {
 			bonus += ((RingOfAccuracy.Accuracy)buff).level;
 		}
 		float accuracy = (bonus == 0) ? 1 : (float)Math.pow( 1.4, bonus );
-		if (rangedWeapon != null && Level.distance( pos, target.pos ) == 1) {
+		if (rangedWeapon != null && dungeon.level.distance( pos, target.pos ) == 1) {
 			accuracy *= 0.5f;
 		}
 		
@@ -495,7 +495,7 @@ public class Hero extends Char {
 		
 		NPC npc = action.npc;
 
-		if (Level.adjacent( pos, npc.pos )) {
+		if (dungeon.level.adjacent( pos, npc.pos )) {
 			
 			ready();
 			sprite.turnTo( pos, npc.pos );
@@ -504,7 +504,7 @@ public class Hero extends Char {
 			
 		} else {
 			
-			if (Level.fieldOfView[npc.pos] && getCloser( npc.pos )) {
+			if (dungeon.level.fieldOfView[npc.pos] && getCloser( npc.pos )) {
 				
 				return true;
 				
@@ -518,7 +518,7 @@ public class Hero extends Char {
 	
 	private boolean actBuy( HeroAction.Buy action ) {
 		int dst = action.dst;
-		if (pos == dst || Level.adjacent( pos, dst )) {
+		if (pos == dst || dungeon.level.adjacent( pos, dst )) {
 
 			ready();
 			
@@ -603,7 +603,7 @@ public class Hero extends Char {
 	
 	private boolean actOpenChest( HeroAction.OpenChest action ) {
 		int dst = action.dst;
-		if (Level.adjacent( pos, dst ) || pos == dst) {
+		if (dungeon.level.adjacent( pos, dst ) || pos == dst) {
 			
 			Heap heap = dungeon.level.heaps.get( dst );
 			if (heap != null && 
@@ -655,7 +655,7 @@ public class Hero extends Char {
 	
 	private boolean actUnlock( HeroAction.Unlock action ) {
 		int doorCell = action.dst;
-		if (Level.adjacent( pos, doorCell )) {
+		if (dungeon.level.adjacent( pos, doorCell )) {
 			
 			theKey = null;
 			int door = dungeon.level.map[doorCell];
@@ -764,7 +764,7 @@ public class Hero extends Char {
 
 		enemy = action.target;
 
-		if (Level.adjacent( pos, enemy.pos ) && enemy.isAlive() && !pacified) {
+		if (dungeon.level.adjacent( pos, enemy.pos ) && enemy.isAlive() && !pacified) {
 			
 			spend( attackDelay() );
 			sprite.attack( enemy.pos );
@@ -773,7 +773,7 @@ public class Hero extends Char {
 			
 		} else {
 			
-			if (Level.fieldOfView[enemy.pos] && getCloser( enemy.pos )) {
+			if (dungeon.level.fieldOfView[enemy.pos] && getCloser( enemy.pos )) {
 				
 				return true;
 				
@@ -871,7 +871,7 @@ public class Hero extends Char {
 		boolean newMob = false;
 		
 		for (Mob m : dungeon.level.mobs) {
-			if (Level.fieldOfView[ m.pos ] && m.hostile) {
+			if (dungeon.level.fieldOfView[ m.pos ] && m.hostile) {
 				visible.add( m );
 				if (!visibleEnemies.contains( m )) {
 					newMob = true;
@@ -903,23 +903,23 @@ public class Hero extends Char {
 		
 		int step = -1;
 		
-		if (Level.adjacent( pos, target )) {
+		if (dungeon.level.adjacent( pos, target )) {
 			
 			if (dungeon.findChar( target ) == null) {
-				if (Level.pit[target] && !flying && !Chasm.jumpConfirmed) {
+				if (dungeon.level.pit[target] && !flying && !Chasm.jumpConfirmed) {
 					Chasm.heroJump( this );
 					interrupt();
 					return false;
 				}
-				if (Level.passable[target] || Level.avoid[target]) {
+				if (dungeon.level.passable[target] || dungeon.level.avoid[target]) {
 					step = target;
 				}
 			}
 			
 		} else {
 		
-			int len = Level.LENGTH;
-			boolean[] p = Level.passable;
+			int len = dungeon.level.LENGTH;
+			boolean[] p = dungeon.level.passable;
 			boolean[] v = dungeon.level.visited;
 			boolean[] m = dungeon.level.mapped;
 			boolean[] passable = new boolean[len];
@@ -927,7 +927,7 @@ public class Hero extends Char {
 				passable[i] = p[i] && (v[i] || m[i]);
 			}
 			
-			step = dungeon.findPath(this, pos, target, passable, Level.fieldOfView );
+			step = dungeon.findPath(this, pos, target, passable, dungeon.level.fieldOfView );
 		}
 		
 		if (step != -1) {
@@ -961,7 +961,7 @@ public class Hero extends Char {
 			curAction = new HeroAction.Cook( cell );
 			
 		} else
-		if (Level.fieldOfView[cell] && (ch = dungeon.findChar( cell )) instanceof Mob) {
+		if (dungeon.level.fieldOfView[cell] && (ch = dungeon.findChar( cell )) instanceof Mob) {
 			
 			if (ch instanceof NPC) {
 				curAction = new HeroAction.Interact( (NPC)ch );
@@ -1156,10 +1156,10 @@ public class Hero extends Char {
 	
 	public static void reallyDie(Dungeon dungeon, Object cause ) {
 		
-		int length = Level.LENGTH;
+		int length = dungeon.level.LENGTH;
 		int[] map = dungeon.level.map;
 		boolean[] visited = dungeon.level.visited;
-		boolean[] discoverable = Level.discoverable;
+		boolean[] discoverable = dungeon.level.discoverable;
 		
 		for (int i=0; i < length; i++) {
 			
@@ -1169,7 +1169,7 @@ public class Hero extends Char {
 				
 				visited[i] = true;
 				if ((Terrain.flags[terr] & Terrain.SECRET) != 0) {
-					Level.set( i, Terrain.discover( terr ) );						
+					dungeon.level.set( i, Terrain.discover( terr ) );
 					GameScene.updateMap( i );
 				}
 			}
@@ -1196,7 +1196,7 @@ public class Hero extends Char {
 		
 		if (!flying) {
 			
-			if (Level.water[pos]) {
+			if (dungeon.level.water[pos]) {
 				Sample.INSTANCE.play( Assets.SND_WATER, 1, 1, Random.Float( 0.8f, 1.25f ) );
 			} else {
 				Sample.INSTANCE.play( Assets.SND_STEP );
@@ -1239,7 +1239,7 @@ public class Hero extends Char {
 			int doorCell = ((HeroAction.Unlock)curAction).dst;
 			int door = dungeon.level.map[doorCell];
 			
-			Level.set( doorCell, door == Terrain.LOCKED_DOOR ? Terrain.DOOR : Terrain.UNLOCKED_EXIT );
+			dungeon.level.set( doorCell, door == Terrain.LOCKED_DOOR ? Terrain.DOOR : Terrain.UNLOCKED_EXIT );
 			GameScene.updateMap( doorCell );
 			
 		} else if (curAction instanceof HeroAction.OpenChest) {
@@ -1282,27 +1282,27 @@ public class Hero extends Char {
 			distance = 1;
 		}
 		
-		int cx = pos % Level.WIDTH;
-		int cy = pos / Level.WIDTH;
+		int cx = pos % dungeon.level.WIDTH;
+		int cy = pos / dungeon.level.WIDTH;
 		int ax = cx - distance;
 		if (ax < 0) {
 			ax = 0;
 		}
 		int bx = cx + distance;
-		if (bx >= Level.WIDTH) {
-			bx = Level.WIDTH - 1;
+		if (bx >= dungeon.level.WIDTH) {
+			bx = dungeon.level.WIDTH - 1;
 		}
 		int ay = cy - distance;
 		if (ay < 0) {
 			ay = 0;
 		}
 		int by = cy + distance;
-		if (by >= Level.HEIGHT) {
-			by = Level.HEIGHT - 1;
+		if (by >= dungeon.level.HEIGHT) {
+			by = dungeon.level.HEIGHT - 1;
 		}
 		
 		for (int y = ay; y <= by; y++) {
-			for (int x = ax, p = ax + y * Level.WIDTH; x <= bx; x++, p++) {
+			for (int x = ax, p = ax + y * dungeon.level.WIDTH; x <= bx; x++, p++) {
 				
 				if (dungeon.visible[p]) {
 					
@@ -1310,13 +1310,13 @@ public class Hero extends Char {
 						sprite.parent.addToBack( new CheckedCell( p ) );
 					}
 					
-					if (Level.secret[p] && (intentional || Random.Float() < level)) {
+					if (dungeon.level.secret[p] && (intentional || Random.Float() < level)) {
 						
 						int oldValue = dungeon.level.map[p];
 						
 						GameScene.discoverTile( p, oldValue );
 
-						Level.set( p, Terrain.discover( oldValue ) );	
+						dungeon.level.set( p, Terrain.discover( oldValue ) );
 
 						GameScene.updateMap( p );
 

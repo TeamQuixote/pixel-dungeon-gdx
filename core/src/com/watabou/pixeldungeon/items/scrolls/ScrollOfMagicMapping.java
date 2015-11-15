@@ -43,7 +43,7 @@ public class ScrollOfMagicMapping extends Scroll {
 		int length = Level.LENGTH;
 		int[] map = Dungeon.getInstance().level.map;
 		boolean[] mapped = Dungeon.getInstance().level.mapped;
-		boolean[] discoverable = Level.discoverable;
+		boolean[] discoverable = dungeon.level.discoverable;
 		
 		boolean noticed = false;
 		
@@ -56,7 +56,7 @@ public class ScrollOfMagicMapping extends Scroll {
 				mapped[i] = true;
 				if ((Terrain.flags[terr] & Terrain.SECRET) != 0) {
 					
-					Level.set( i, Terrain.discover( terr ) );						
+					dungeon.level.set( i, Terrain.discover( terr ) );
 					GameScene.updateMap( i );
 					
 					if (Dungeon.getInstance().visible[i]) {

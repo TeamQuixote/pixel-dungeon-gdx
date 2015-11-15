@@ -560,7 +560,7 @@ public abstract class RegularLevel extends Level {
 			}
 			
 			cell = room.random();
-			if (!Dungeon.getInstance().visible[cell] && dungeon.findChar( cell ) == null && Level.passable[cell]) {
+			if (!Dungeon.getInstance().visible[cell] && dungeon.findChar( cell ) == null && passable[cell]) {
 				return cell;
 			}
 			
@@ -580,7 +580,7 @@ public abstract class RegularLevel extends Level {
 			}
 			
 			cell = room.random();
-			if (Level.passable[cell]) {
+			if (passable[cell]) {
 				return cell;
 			}
 			

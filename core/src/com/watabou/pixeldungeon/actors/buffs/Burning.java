@@ -107,7 +107,7 @@ public class Burning extends Buff implements Hero.Doom {
 			detach();
 		}
 		
-		if (Level.flamable[target.pos]) {
+		if (dungeon.level.flamable[target.pos]) {
 			GameScene.add( Blob.seed(dungeon, target.pos, 4, Fire.class ), dungeon );
 		}
 		
@@ -116,7 +116,7 @@ public class Burning extends Buff implements Hero.Doom {
 		
 		if (left <= 0 ||
 			Random.Float() > (2 + (float)target.HP / target.HT) / 3 ||
-			(Level.water[target.pos] && !target.flying)) {
+			(dungeon.level.water[target.pos] && !target.flying)) {
 			
 			detach();
 		}

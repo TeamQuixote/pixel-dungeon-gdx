@@ -96,11 +96,11 @@ public class DM300 extends Mob {
 		}
 
 		int[] cells = {
-			step-1, step+1, step-Level.WIDTH, step+Level.WIDTH, 
-			step-1-Level.WIDTH, 
-			step-1+Level.WIDTH, 
-			step+1-Level.WIDTH, 
-			step+1+Level.WIDTH
+			step-1, step+1, step-dungeon.level.WIDTH, step+dungeon.level.WIDTH,
+			step-1-dungeon.level.WIDTH,
+			step-1+dungeon.level.WIDTH,
+			step+1-dungeon.level.WIDTH,
+			step+1+dungeon.level.WIDTH
 		};
 		int cell = cells[Random.Int( cells.length )];
 		
@@ -109,10 +109,10 @@ public class DM300 extends Mob {
 			Camera.main.shake( 3, 0.7f );
 			Sample.INSTANCE.play( Assets.SND_ROCKS );
 
-			if (Level.water[cell]) {
+			if (dungeon.level.water[cell]) {
 				GameScene.ripple( cell );
 			} else if (dungeon.level.map[cell] == Terrain.EMPTY) {
-				Level.set( cell, Terrain.EMPTY_DECO );
+				dungeon.level.set( cell, Terrain.EMPTY_DECO );
 				GameScene.updateMap( cell );
 			}
 		}

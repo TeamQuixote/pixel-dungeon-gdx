@@ -34,7 +34,7 @@ public class Foliage extends Blob {
 	protected void evolve() {
 
 		int from = WIDTH + 1;
-		int to = Level.LENGTH - WIDTH - 1;
+		int to = dungeon.level.LENGTH - WIDTH - 1;
 		
 		int[] map = dungeon.level.map;
 		boolean regrowth = false;

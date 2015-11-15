@@ -150,7 +150,7 @@ public abstract class Mob extends Char {
 		
 		enemy = chooseEnemy();
 		
-		boolean enemyInFOV = enemy.isAlive() && Level.fieldOfView[enemy.pos] && enemy.invisible <= 0;
+		boolean enemyInFOV = enemy.isAlive() && dungeon.level.fieldOfView[enemy.pos] && enemy.invisible <= 0;
 		
 		return state.act( enemyInFOV, justAlerted );
 	}
@@ -162,7 +162,7 @@ public abstract class Mob extends Char {
 				
 				HashSet<Mob> enemies = new HashSet<Mob>();
 				for (Mob mob:dungeon.level.mobs) {
-					if (mob != this && Level.fieldOfView[mob.pos]) {
+					if (mob != this && dungeon.level.fieldOfView[mob.pos]) {
 						enemies.add( mob );
 					}
 				}
@@ -223,7 +223,7 @@ public abstract class Mob extends Char {
 	}
 	
 	protected boolean canAttack( Char enemy ) {
-		return Level.adjacent( pos, enemy.pos ) && !pacified;
+		return dungeon.level.adjacent( pos, enemy.pos ) && !pacified;
 	}
 	
 	protected boolean getCloser( int target ) {
@@ -233,8 +233,8 @@ public abstract class Mob extends Char {
 		}
 		
 		int step = dungeon.findPath(this, pos, target,
-                Level.passable,
-                Level.fieldOfView );
+                dungeon.level.passable,
+                dungeon.level.fieldOfView );
 		if (step != -1) {
 			move( step );
 			return true;
@@ -245,8 +245,8 @@ public abstract class Mob extends Char {
 	
 	protected boolean getFurther( int target ) {
 		int step = dungeon.flee(this, pos, target,
-                Level.passable,
-                Level.fieldOfView );
+                dungeon.level.passable,
+                dungeon.level.fieldOfView );
 		if (step != -1) {
 			move( step );
 			return true;

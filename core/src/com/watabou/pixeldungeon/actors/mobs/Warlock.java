@@ -77,13 +77,13 @@ public class Warlock extends Mob implements Callback {
 	
 	protected boolean doAttack( Char enemy ) {
 
-		if (Level.adjacent( pos, enemy.pos )) {
+		if (dungeon.level.adjacent( pos, enemy.pos )) {
 			
 			return super.doAttack( enemy );
 			
 		} else {
 			
-			boolean visible = Level.fieldOfView[pos] || Level.fieldOfView[enemy.pos]; 
+			boolean visible = dungeon.level.fieldOfView[pos] || dungeon.level.fieldOfView[enemy.pos];
 			if (visible) {
 				((WarlockSprite)sprite).zap( enemy.pos );
 			} else {

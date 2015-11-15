@@ -43,12 +43,12 @@ public class Regrowth extends Blob {
 					int c = dungeon.level.map[i];
 					if (c == Terrain.EMPTY || c == Terrain.EMBERS || c == Terrain.EMPTY_DECO) {
 						
-						Level.set( i, cur[i] > 9 ? Terrain.HIGH_GRASS : Terrain.GRASS );
+						dungeon.level.set( i, cur[i] > 9 ? Terrain.HIGH_GRASS : Terrain.GRASS );
 						mapUpdated = true;
 						
 					} else if (c == Terrain.GRASS && cur[i] > 9) {
 						
-						Level.set( i, Terrain.HIGH_GRASS );
+						dungeon.level.set( i, Terrain.HIGH_GRASS );
 						mapUpdated = true;
 						
 					}

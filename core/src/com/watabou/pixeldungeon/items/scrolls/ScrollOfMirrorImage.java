@@ -44,7 +44,7 @@ public class ScrollOfMirrorImage extends Scroll {
 		
 		for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
 			int p = curUser.pos + Level.NEIGHBOURS8[i];
-			if (dungeon.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
+			if (dungeon.findChar( p ) == null && (dungeon.level.passable[p] || dungeon.level.avoid[p])) {
 				respawnPoints.add( p );
 			}
 		}

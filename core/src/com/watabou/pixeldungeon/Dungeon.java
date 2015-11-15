@@ -808,7 +808,7 @@ public class Dungeon {
 		}
 		
 		level.updateFieldOfView( hero );
-		System.arraycopy( Level.fieldOfView, 0, visible, 0, visible.length );
+		System.arraycopy( level.fieldOfView, 0, visible, 0, visible.length );
 		
 		BArray.or( level.visited, visible, level.visited );
 		
@@ -820,11 +820,11 @@ public class Dungeon {
 	public int findPath(Char ch, int from, int to, boolean pass[], boolean[] visible ) {
 		
 		if (Level.adjacent( from, to )) {
-			return findChar( to ) == null && (pass[to] || Level.avoid[to]) ? to : -1;
+			return findChar( to ) == null && (pass[to] || level.avoid[to]) ? to : -1;
 		}
 		
 		if (ch.flying || ch.buff( Amok.class ) != null) {
-			BArray.or( pass, Level.avoid, passable );
+			BArray.or( pass, level.avoid, passable );
 		} else {
 			System.arraycopy( pass, 0, passable, 0, Level.LENGTH );
 		}
@@ -845,7 +845,7 @@ public class Dungeon {
 	public int flee(Char ch, int cur, int from, boolean pass[], boolean[] visible ) {
 		
 		if (ch.flying) {
-			BArray.or( pass, Level.avoid, passable );
+			BArray.or( pass, level.avoid, passable );
 		} else {
 			System.arraycopy( pass, 0, passable, 0, Level.LENGTH );
 		}

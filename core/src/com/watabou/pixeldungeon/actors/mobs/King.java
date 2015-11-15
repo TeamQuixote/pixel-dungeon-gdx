@@ -99,15 +99,15 @@ public class King extends Mob {
 	@Override
 	protected boolean getCloser( int target ) {
 		return canTryToSummon() ? 
-			super.getCloser( CityBossLevel.pedestal( nextPedestal ) ) : 
+			super.getCloser( CityBossLevel.pedestal( nextPedestal ) ) :
 			super.getCloser( target );
 	}
 	
 	@Override
 	protected boolean canAttack( Char enemy ) {
 		return canTryToSummon() ? 
-			pos == CityBossLevel.pedestal( nextPedestal ) : 
-			Level.adjacent( pos, enemy.pos );
+			pos == CityBossLevel.pedestal( nextPedestal ) :
+			dungeon.level.adjacent( pos, enemy.pos );
 	}
 	
 	private boolean canTryToSummon() {
@@ -156,7 +156,7 @@ public class King extends Mob {
 		sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.4f, 2 );		
 		Sample.INSTANCE.play( Assets.SND_CHALLENGE );
 		
-		boolean[] passable = Level.passable.clone();
+		boolean[] passable = dungeon.level.passable.clone();
 		for (Actor actor : dungeon.getAllActors()) {
 			if (actor instanceof Char) {
 				passable[((Char)actor).pos] = false;
@@ -172,7 +172,7 @@ public class King extends Mob {
 	undeadLabel:
 		for (int i=0; i < undeadsToSummon; i++) {
 			do {
-				for (int j=0; j < Level.LENGTH; j++) {
+				for (int j=0; j < dungeon.level.LENGTH; j++) {
 					if (PathFinder.distance[j] == dist) {
 						
 						Undead undead = new Undead();

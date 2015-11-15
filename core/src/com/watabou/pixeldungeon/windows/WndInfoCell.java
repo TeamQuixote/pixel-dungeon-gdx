@@ -36,35 +36,36 @@ public class WndInfoCell extends Window {
 	private static final String TXT_NOTHING	= "There is nothing here.";
 	
 	public WndInfoCell( int cell ) {
-		
 		super();
-		
-		int tile = Dungeon.getInstance().level.map[cell];
-		if (Level.water[cell]) {
+
+		Level level = Dungeon.getInstance().level;
+
+		int tile = level.map[cell];
+		if (level.water[cell]) {
 			tile = Terrain.WATER;
-		} else if (Level.pit[cell]) {
+		} else if (level.pit[cell]) {
 			tile = Terrain.CHASM;
 		}
 		
 		IconTitle titlebar = new IconTitle();
 		if (tile == Terrain.WATER) {
-			Image water = new Image( Dungeon.getInstance().level.waterTex() );
+			Image water = new Image( level.waterTex() );
 			water.frame( 0, 0, DungeonTilemap.SIZE, DungeonTilemap.SIZE );
 			titlebar.icon( water );
 		} else {
 			titlebar.icon( DungeonTilemap.tile( tile ) );
 		}
-		titlebar.label( Dungeon.getInstance().level.tileName( tile ) );
+		titlebar.label( level.tileName( tile ) );
 		titlebar.setRect( 0, 0, WIDTH, 0 );
 		add( titlebar );
 		
 		BitmapTextMultiline info = PixelScene.createMultiline( 6 );
 		add( info );
 		
-		StringBuilder desc = new StringBuilder( Dungeon.getInstance().level.tileDesc( tile ) );
+		StringBuilder desc = new StringBuilder( level.tileDesc( tile ) );
 		
 		final char newLine = '\n';
-		for (Blob blob:Dungeon.getInstance().level.blobs.values()) {
+		for (Blob blob:level.blobs.values()) {
 			if (blob.cur[cell] > 0 && blob.tileDesc() != null) {
 				if (desc.length() > 0) {
 					desc.append( newLine );

@@ -37,7 +37,7 @@ public class PotionOfFrost extends Potion {
 	@Override
 	protected void shatter( int cell ) {
 		
-		PathFinder.buildDistanceMap( cell, BArray.not( Level.losBlocking, null ), DISTANCE );
+		PathFinder.buildDistanceMap( cell, BArray.not( dungeon.level.losBlocking, null ), DISTANCE );
 		
 		Fire fire = (Fire)Dungeon.getInstance().level.blobs.get( Fire.class );
 		

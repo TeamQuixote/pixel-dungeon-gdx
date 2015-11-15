@@ -40,7 +40,7 @@ public class Icecap extends Plant {
 	public void activate( Char ch ) {
 		super.activate( ch );
 		
-		PathFinder.buildDistanceMap( pos, BArray.not( Level.losBlocking, null ), 1 );
+		PathFinder.buildDistanceMap( pos, BArray.not( dungeon.level.losBlocking, null ), 1 );
 		
 		Fire fire = (Fire)dungeon.level.blobs.get( Fire.class );
 		

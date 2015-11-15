@@ -83,11 +83,11 @@ public class Ballistica {
 			
 			trace[distance++] = cell;
 			
-			if (!Level.passable[cell] && !Level.avoid[cell]) {
+			if (!dungeon.level.passable[cell] && !dungeon.level.avoid[cell]) {
 				return trace[--distance - 1];
 			}
 			
-			if (Level.losBlocking[cell] || (hitChars && dungeon.findChar( cell ) != null)) {
+			if (dungeon.level.losBlocking[cell] || (hitChars && dungeon.findChar( cell ) != null)) {
 				return cell;
 			}
 		}

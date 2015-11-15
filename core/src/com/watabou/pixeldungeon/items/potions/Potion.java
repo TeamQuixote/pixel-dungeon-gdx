@@ -197,7 +197,7 @@ public class Potion extends Item {
 			
 			apply( Dungeon.getInstance().hero );
 			
-		} else if (Dungeon.getInstance().level.map[cell] == Terrain.WELL || Level.pit[cell]) {
+		} else if (Dungeon.getInstance().level.map[cell] == Terrain.WELL || dungeon.level.pit[cell]) {
 			
 			super.onThrow( cell );
 			

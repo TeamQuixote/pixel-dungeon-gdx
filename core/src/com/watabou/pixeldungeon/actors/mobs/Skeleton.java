@@ -59,8 +59,8 @@ public class Skeleton extends Mob {
 		super.die( cause );
 		
 		boolean heroKilled = false;
-		for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
-			Char ch = dungeon.findChar( pos + Level.NEIGHBOURS8[i] );
+		for (int i=0; i < dungeon.level.NEIGHBOURS8.length; i++) {
+			Char ch = dungeon.findChar( pos + dungeon.level.NEIGHBOURS8[i] );
 			if (ch != null && ch.isAlive()) {
 				int damage = Math.max( 0,  damageRoll() - Random.IntRange( 0, ch.dr() / 2 ) );
 				ch.damage( damage, this );

@@ -34,7 +34,7 @@ public class Fire extends Blob {
 	@Override
 	protected void evolve() {
 
-		boolean[] flamable = Level.flamable;
+		boolean[] flamable = dungeon.level.flamable;
 		
 		int from = WIDTH + 1;
 		int to = Level.LENGTH - WIDTH - 1;
@@ -53,7 +53,7 @@ public class Fire extends Blob {
 				if (fire <= 0 && flamable[pos]) {
 					
 					int oldTile = dungeon.level.map[pos];
-					Level.set( pos, Terrain.EMBERS );
+					Level.set( pos, Terrain.EMBERS, dungeon.level );
 					
 					observe = true;
 					GameScene.updateMap( pos );

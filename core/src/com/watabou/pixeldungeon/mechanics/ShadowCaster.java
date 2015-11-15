@@ -19,6 +19,7 @@ package com.watabou.pixeldungeon.mechanics;
 
 import java.util.Arrays;
 
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.levels.Level;
 
 public final class ShadowCaster {
@@ -49,7 +50,7 @@ public final class ShadowCaster {
 	
 	public static void castShadow( int x, int y, boolean[] fieldOfView, int distance ) {
 
-		losBlocking = Level.losBlocking;
+		losBlocking = Dungeon.getInstance().level.losBlocking;
 		
 		ShadowCaster.distance = distance;
 		limits = rounding[distance];

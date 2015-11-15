@@ -105,7 +105,7 @@ public class Tengu extends Mob {
 	
 	@Override
 	protected boolean getCloser( int target ) {
-		if (Level.fieldOfView[target]) {
+		if (dungeon.level.fieldOfView[target]) {
 			jump();
 			return true;
 		} else {
@@ -121,7 +121,7 @@ public class Tengu extends Mob {
 	@Override
 	protected boolean doAttack( Char enemy ) {
 		timeToJump--;
-		if (timeToJump <= 0 && Level.adjacent( pos, enemy.pos )) {
+		if (timeToJump <= 0 && dungeon.level.adjacent( pos, enemy.pos )) {
 			jump();
 			return true;
 		} else {
@@ -135,11 +135,11 @@ public class Tengu extends Mob {
 		for (int i=0; i < 4; i++) {
 			int trapPos;
 			do {
-				trapPos = Random.Int( Level.LENGTH );
-			} while (!Level.fieldOfView[trapPos] || !Level.passable[trapPos]);
+				trapPos = Random.Int( dungeon.level.LENGTH );
+			} while (!dungeon.level.fieldOfView[trapPos] || !dungeon.level.passable[trapPos]);
 			
 			if (dungeon.level.map[trapPos] == Terrain.INACTIVE_TRAP) {
-				Level.set( trapPos, Terrain.POISON_TRAP );
+				dungeon.level.set( trapPos, Terrain.POISON_TRAP );
 				GameScene.updateMap( trapPos );
 				ScrollOfMagicMapping.discover( trapPos );
 			}
@@ -147,11 +147,11 @@ public class Tengu extends Mob {
 		
 		int newPos;
 		do {
-			newPos = Random.Int( Level.LENGTH );
+			newPos = Random.Int( dungeon.level.LENGTH );
 		} while (
-			!Level.fieldOfView[newPos] || 
-			!Level.passable[newPos] || 
-			Level.adjacent( newPos, enemy.pos ) ||
+			!dungeon.level.fieldOfView[newPos] ||
+			!dungeon.level.passable[newPos] ||
+			dungeon.level.adjacent( newPos, enemy.pos ) ||
 			dungeon.findChar( newPos ) != null);
 		
 		sprite.move( pos, newPos );

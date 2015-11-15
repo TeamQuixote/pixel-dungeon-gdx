@@ -43,7 +43,7 @@ public class ScrollOfPsionicBlast extends Scroll {
 		Invisibility.dispel(dungeon.hero);
 		
 		for (Mob mob : Dungeon.getInstance().level.mobs.toArray( new Mob[0] )) {
-			if (Level.fieldOfView[mob.pos]) {
+			if (dungeon.level.fieldOfView[mob.pos]) {
 				Buff.prolong( mob, Blindness.class, Random.Int( 3, 6 ) );
 				mob.damage( Random.IntRange( 1, mob.HT * 2 / 3 ), this );
 			}

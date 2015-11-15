@@ -78,10 +78,11 @@ public class RogueArmor extends ClassArmor {
 		
 		@Override
 		public void onSelect( Integer target ) {
+			Dungeon dungeon = Dungeon.getInstance();
 			if (target != null) {
 
-				if (!Level.fieldOfView[target] || 
-					!(Level.passable[target] || Level.avoid[target]) || 
+				if (!dungeon.level.fieldOfView[target] ||
+					!(dungeon.level.passable[target] || dungeon.level.avoid[target]) ||
 					Dungeon.getInstance().findChar( target ) != null) {
 					
 					GLog.w( TXT_FOV );
@@ -91,7 +92,7 @@ public class RogueArmor extends ClassArmor {
 				curUser.HP -= (curUser.HP / 3);
 				
 				for (Mob mob : Dungeon.getInstance().level.mobs) {
-					if (Level.fieldOfView[mob.pos]) {
+					if (dungeon.level.fieldOfView[mob.pos]) {
 						Buff.prolong( mob, Blindness.class, 2 );
 						mob.state = mob.WANDERING;
 						mob.sprite.emitter().burst( Speck.factory( Speck.LIGHT ), 4 );

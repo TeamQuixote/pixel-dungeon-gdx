@@ -46,7 +46,7 @@ public class WandOfRegrowth extends Wand {
 				c == Terrain.EMBERS || 
 				c == Terrain.EMPTY_DECO) {
 				
-				Level.set( p, Terrain.GRASS );
+				dungeon.level.set( p, Terrain.GRASS );
 				
 			}
 		}

@@ -38,8 +38,8 @@ public abstract class NPC extends Mob {
 		if (heap != null) {
 			int n;
 			do {
-				n = pos + Level.NEIGHBOURS8[Random.Int( 8 )];
-			} while (!Level.passable[n] && !Level.avoid[n]);
+				n = pos + dungeon.level.NEIGHBOURS8[Random.Int( 8 )];
+			} while (!dungeon.level.passable[n] && !dungeon.level.avoid[n]);
 			dungeon.level.drop( heap.pickUp(), n ).sprite.drop( pos );
 		}
 	}

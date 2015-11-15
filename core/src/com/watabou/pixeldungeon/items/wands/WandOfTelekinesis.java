@@ -73,7 +73,7 @@ public class WandOfTelekinesis extends Wand {
 				} else {
 					
 					int next = Ballistica.trace[i + 1];
-					if ((Level.passable[next] || Level.avoid[next]) && dungeon.findChar( next ) == null) {
+					if ((dungeon.level.passable[next] || dungeon.level.avoid[next]) && dungeon.findChar( next ) == null) {
 						
 						dungeon.addActorDelayed( new Pushing( ch, ch.pos, next ), -1 );
 						
@@ -110,10 +110,10 @@ public class WandOfTelekinesis extends Wand {
 			dungeon.level.press( c, null );
 			if (before == Terrain.OPEN_DOOR && dungeon.findChar( c ) == null) {
 				
-				Level.set( c, Terrain.DOOR );
+				dungeon.level.set( c, Terrain.DOOR );
 				GameScene.updateMap( c );
 				
-			} else if (Level.water[c]) {
+			} else if (dungeon.level.water[c]) {
 				
 				GameScene.ripple( c );
 				

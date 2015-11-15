@@ -78,7 +78,7 @@ public class Goo extends Mob {
 	@Override
 	public boolean act() {
 		
-		if (Level.water[pos] && HP < HT) {
+		if (dungeon.level.water[pos] && HP < HT) {
 			sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
 			HP++;
 		}

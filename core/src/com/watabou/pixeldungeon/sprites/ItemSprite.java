@@ -154,6 +154,7 @@ public class ItemSprite extends MovieClip {
 	
 	@Override
 	public void update() {
+		Level level = Dungeon.getInstance().level;
 		super.update();
 
 		// Visibility
@@ -166,7 +167,7 @@ public class ItemSprite extends MovieClip {
 			acc.set( 0 );
 			place( heap.pos );
 			
-			if (Level.water[heap.pos]) {
+			if (level.water[heap.pos]) {
 				GameScene.ripple( heap.pos );
 			}
 		}

@@ -98,16 +98,16 @@ public class Wraith extends Mob {
 	}
 	
 	public static void spawnAround(Dungeon dungeon, int pos ) {
-		for (int n : Level.NEIGHBOURS4) {
+		for (int n : dungeon.level.NEIGHBOURS4) {
 			int cell = pos + n;
-			if (Level.passable[cell] && dungeon.findChar( cell ) == null) {
+			if (dungeon.level.passable[cell] && dungeon.findChar( cell ) == null) {
 				spawnAt(dungeon, cell );
 			}
 		}
 	}
 	
 	public static Wraith spawnAt(Dungeon dungeon, int pos ) {
-		if (Level.passable[pos] && dungeon.findChar( pos ) == null) {
+		if (dungeon.level.passable[pos] && dungeon.findChar( pos ) == null) {
 			
 			Wraith w = new Wraith();
 			w.adjustStats( dungeon.depth );
