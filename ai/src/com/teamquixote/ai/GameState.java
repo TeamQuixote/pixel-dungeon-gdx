@@ -17,11 +17,11 @@ public class GameState {
     public final DungeonMap dungeonMap;
     public final List<DungeonEnemy> visibleEnemies;
 
-    public GameState() {
+    public GameState(Dungeon dungeon) {
         this.previousGameState = null;
         this.previousAction = null;
-        heroPosition = Dungeon.getInstance().hero.pos;
-        dungeonMap = new DungeonMap();
+        heroPosition = dungeon.hero.pos;
+        dungeonMap = new DungeonMap(dungeon.level.map, dungeon.level.visited);
         this.visibleEnemies = buildVisibleEnemies();
 
     }

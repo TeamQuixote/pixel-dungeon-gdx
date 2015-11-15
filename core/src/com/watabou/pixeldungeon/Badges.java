@@ -213,7 +213,9 @@ public class Badges {
 	}
 	
 	public static void loadGlobal() {
-		if (global == null) {
+		if(Game.instance == null){
+            global = new HashSet<>();
+        }else if (global == null) {
 			try {
 				InputStream input = Game.instance.openFileInput( BADGES_FILE );
 				Bundle bundle = Bundle.read( input );

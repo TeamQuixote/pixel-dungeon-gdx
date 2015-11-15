@@ -421,7 +421,8 @@ public class GameScene extends PixelScene {
 		dungeon.level.mobs.add( mob );
 		dungeon.addActor( mob );
 		dungeon.occupyCell( mob );
-		scene.addMobSprite( mob );
+        if(scene != null)
+    		scene.addMobSprite( mob );
 	}
 	
 	public static void add( Mob mob, float delay, Dungeon dungeon ) {
@@ -464,7 +465,8 @@ public class GameScene extends PixelScene {
 	}
 	
 	public static void pickUp( Item item ) {
-		scene.toolbar.pickup( item );
+        if(scene != null)
+    		scene.toolbar.pickup( item );
 	}
 	
 	public static void updateMap() {

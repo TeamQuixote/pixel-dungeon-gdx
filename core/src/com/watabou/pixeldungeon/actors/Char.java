@@ -481,7 +481,8 @@ public abstract class Char extends Actor {
 		}
 
 		if (this != dungeon.hero) {
-			sprite.visible = dungeon.visible[pos];
+            if(sprite != null)
+    			sprite.visible = dungeon.visible[pos];
 		}
 	}
 

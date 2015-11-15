@@ -329,7 +329,9 @@ public class Hero extends Char {
 		} else {
 			
 			float speed = super.speed();
-			return ((HeroSprite)sprite).sprint( subClass == HeroSubClass.FREERUNNER && !isStarving() ) ? 1.6f * speed : speed;
+            if(sprite != null)
+                speed = ((HeroSprite)sprite).sprint( subClass == HeroSubClass.FREERUNNER && !isStarving() ) ? 1.6f * speed : speed;
+			return speed;
 			
 		}
 	}
@@ -456,11 +458,15 @@ public class Hero extends Char {
 	}
 	
 	private void ready() {
-		sprite.idle();
+        if(sprite != null)
+    		sprite.idle();
+
 		curAction = null;
 		ready = true;
 
-		GameScene.ready();
+        //TODO: Hacky way to tell if there is no UI
+        if(sprite != null)
+    		GameScene.ready();
 	}
 	
 	public void interrupt() {
@@ -767,7 +773,8 @@ public class Hero extends Char {
 		if (dungeon.level.adjacent( pos, enemy.pos ) && enemy.isAlive() && !pacified) {
 			
 			spend( attackDelay() );
-			sprite.attack( enemy.pos );
+            if(sprite != null)
+    			sprite.attack( enemy.pos );
 			
 			return false;
 			
@@ -934,7 +941,8 @@ public class Hero extends Char {
 			
 			int oldPos = pos;
 			move( step );
-			sprite.move( oldPos, pos );
+            if(sprite != null)
+    			sprite.move( oldPos, pos );
 			spend( 1 / speed() );
 			
 			return true;

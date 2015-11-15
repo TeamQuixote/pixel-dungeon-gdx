@@ -146,10 +146,14 @@ public class Dungeon {
         return dungeonInstance;
     }
 
-	public void init() {
+    public static void setInstance(Dungeon instance) {
+        dungeonInstance = instance;
+    }
 
-		challenges = PixelDungeon.challenges();
-		
+    public void init(int challenges, HeroClass heroClass) {
+
+        this.challenges = challenges;
+
 		clearActors();
 		
 		PathFinder.setMapSize( Level.WIDTH, Level.HEIGHT );
@@ -185,7 +189,7 @@ public class Dungeon {
 		
 		Badges.reset();
 		
-		StartScene.curClass.initHero( hero, this );
+		heroClass.initHero( hero, this );
 	}
 	
 	public boolean isChallenged( int mask ) {
@@ -405,7 +409,8 @@ public class Dungeon {
 
 			if (currentActor != null) {
 
-				if (currentActor instanceof Char && ((Char)currentActor).sprite.isMoving) {
+
+				if (currentActor instanceof Char && ((Char)currentActor).sprite != null && ((Char) currentActor).sprite.isMoving) {
 					// If it's character's turn to act, but its sprite
 					// is moving, wait till the movement is over
 					currentActor = null;
