@@ -47,7 +47,7 @@ public class Shadows extends Invisibility {
 	public boolean attachTo( Char target ) {
 		if (super.attachTo( target )) {
 			Sample.INSTANCE.play( Assets.SND_MELD );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 			return true;
 		} else {
 			return false;
@@ -57,7 +57,7 @@ public class Shadows extends Invisibility {
 	@Override
 	public void detach() {
 		super.detach();
-		Dungeon.getInstance().observe();
+		dungeon.observe();
 	}
 	
 	@Override
@@ -66,7 +66,7 @@ public class Shadows extends Invisibility {
 			
 			spend( TICK * 2 );
 			
-			if (--left <= 0 || Dungeon.getInstance().hero.visibleEnemies() > 0) {
+			if (--left <= 0 || dungeon.hero.visibleEnemies() > 0) {
 				detach();
 			}
 			

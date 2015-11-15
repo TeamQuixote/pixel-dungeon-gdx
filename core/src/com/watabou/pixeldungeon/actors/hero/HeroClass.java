@@ -78,7 +78,7 @@ public enum HeroClass {
 		"Huntresses sense neighbouring monsters even if they are hidden behind obstacles."
 	};
 	
-	public void initHero( Hero hero ) {
+	public void initHero( Hero hero, Dungeon dungeon ) {
 		
 		hero.heroClass = this;
 		
@@ -86,19 +86,19 @@ public enum HeroClass {
 		
 		switch (this) {
 		case WARRIOR:
-			initWarrior( hero );
+			initWarrior( hero, dungeon );
 			break;
 			
 		case MAGE:
-			initMage( hero );
+			initMage( hero, dungeon );
 			break;
 			
 		case ROGUE:
-			initRogue( hero );
+			initRogue( hero, dungeon );
 			break;
 			
 		case HUNTRESS:
-			initHuntress( hero );
+			initHuntress( hero, dungeon );
 			break;
 		}
 		
@@ -128,41 +128,41 @@ public enum HeroClass {
 		return null;
 	}
 	
-	private static void initWarrior( Hero hero ) {
+	private static void initWarrior( Hero hero, Dungeon dungeon ) {
 		hero.STR = hero.STR + 1;
 		
 		(hero.belongings.weapon = new ShortSword()).identify();
 		new Dart( 8 ).identify().collect();
 		
-		Dungeon.getInstance().quickslot = Dart.class;
+		dungeon.quickslot = Dart.class;
 		
 		new PotionOfStrength().setKnown();
 	}
 	
-	private static void initMage( Hero hero ) {	
+	private static void initMage( Hero hero, Dungeon dungeon ) {	
 		(hero.belongings.weapon = new Knuckles()).identify();
 		
 		WandOfMagicMissile wand = new WandOfMagicMissile();
 		wand.identify().collect();
 		
-		Dungeon.getInstance().quickslot = wand;
+		dungeon.quickslot = wand;
 		
 		new ScrollOfIdentify().setKnown();
 	}
 	
-	private static void initRogue( Hero hero ) {
+	private static void initRogue( Hero hero, Dungeon dungeon ) {
 		(hero.belongings.weapon = new Dagger()).identify();
 		(hero.belongings.ring1 = new RingOfShadows()).upgrade().identify();
 		new Dart( 8 ).identify().collect();
 		
 		hero.belongings.ring1.activate( hero );
 		
-		Dungeon.getInstance().quickslot = Dart.class;
+		dungeon.quickslot = Dart.class;
 		
 		new ScrollOfMagicMapping().setKnown();
 	}
 	
-	private static void initHuntress( Hero hero ) {
+	private static void initHuntress( Hero hero, Dungeon dungeon ) {
 		
 		hero.HP = (hero.HT -= 5);
 		
@@ -170,7 +170,7 @@ public enum HeroClass {
 		Boomerang boomerang = new Boomerang();
 		boomerang.identify().collect();
 		
-		Dungeon.getInstance().quickslot = boomerang;
+		dungeon.quickslot = boomerang;
 	}
 	
 	public String title() {

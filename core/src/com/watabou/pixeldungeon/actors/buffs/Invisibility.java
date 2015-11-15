@@ -17,8 +17,8 @@
  */
 package com.watabou.pixeldungeon.actors.buffs;
 
-import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Char;
+import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.ui.BuffIndicator;
 
 public class Invisibility extends FlavourBuff {
@@ -51,9 +51,9 @@ public class Invisibility extends FlavourBuff {
 		return "Invisible";
 	}
 	
-	public static void dispel() {
-		Invisibility buff = Dungeon.getInstance().hero.buff( Invisibility.class );
-		if (buff != null && Dungeon.getInstance().hero.visibleEnemies() > 0) {
+	public static void dispel(Hero hero) {
+		Invisibility buff = hero.buff( Invisibility.class );
+		if (buff != null && hero.visibleEnemies() > 0) {
 			buff.detach();
 		}
 	}

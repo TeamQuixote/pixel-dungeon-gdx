@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.actors.buffs;
 
-import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.ResultDescriptions;
 import com.watabou.pixeldungeon.effects.Splash;
 import com.watabou.pixeldungeon.ui.BuffIndicator;
@@ -72,8 +71,8 @@ public class Bleeding extends Buff {
 							target.sprite.blood(), Math.min( 10 * level / target.HT, 10 ) );
 				}
 				
-				if (target == Dungeon.getInstance().hero && !target.isAlive()) {
-                    Dungeon.getInstance().fail( Utils.format( ResultDescriptions.BLEEDING, Dungeon.getInstance().depth ) );
+				if (target == dungeon.hero && !target.isAlive()) {
+                    dungeon.fail( Utils.format( ResultDescriptions.BLEEDING, dungeon.depth ) );
 					GLog.n( "You bled to death..." );
 				}
 				

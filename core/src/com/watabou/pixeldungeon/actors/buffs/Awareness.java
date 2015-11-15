@@ -17,8 +17,6 @@
  */
 package com.watabou.pixeldungeon.actors.buffs;
 
-import com.watabou.pixeldungeon.Dungeon;
-
 public class Awareness extends FlavourBuff {
 
 	public static final float DURATION = 2f;
@@ -26,6 +24,6 @@ public class Awareness extends FlavourBuff {
 	@Override
 	public void detach() {
 		super.detach();
-		Dungeon.getInstance().observe();
+		dungeon.observe();
 	}
 }

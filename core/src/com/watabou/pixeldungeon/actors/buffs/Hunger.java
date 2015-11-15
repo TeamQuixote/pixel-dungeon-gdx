@@ -18,7 +18,6 @@
 package com.watabou.pixeldungeon.actors.buffs;
 
 import com.watabou.pixeldungeon.Badges;
-import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.ResultDescriptions;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
@@ -153,7 +152,7 @@ public class Hunger extends Buff implements Hero.Doom {
 		
 		Badges.validateDeathFromHunger();
 		
-		Dungeon.getInstance().fail( Utils.format( ResultDescriptions.HUNGER, Dungeon.getInstance().depth ) );
+		dungeon.fail( Utils.format( ResultDescriptions.HUNGER, dungeon.depth ) );
 		GLog.n( TXT_DEATH );
 	}
 }

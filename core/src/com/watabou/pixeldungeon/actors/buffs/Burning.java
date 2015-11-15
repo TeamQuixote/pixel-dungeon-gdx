@@ -89,7 +89,7 @@ public class Burning extends Buff implements Hero.Doom {
 					item = item.detach( ((Hero)target).belongings.backpack );
 					ChargrilledMeat steak = new ChargrilledMeat(); 
 					if (!steak.collect( ((Hero)target).belongings.backpack )) {
-						Dungeon.getInstance().level.drop( steak, target.pos ).sprite.drop();
+						dungeon.level.drop( steak, target.pos ).sprite.drop();
 					}
 					GLog.w( TXT_BURNS_UP, item.toString() );
 					
@@ -148,7 +148,7 @@ public class Burning extends Buff implements Hero.Doom {
 		
 		Badges.validateDeathFromFire();
 		
-		Dungeon.getInstance().fail( Utils.format( ResultDescriptions.BURNING, Dungeon.getInstance().depth ) );
+		dungeon.fail( Utils.format( ResultDescriptions.BURNING, dungeon.depth ) );
 		GLog.n( TXT_BURNED_TO_DEATH );
 	}
 }

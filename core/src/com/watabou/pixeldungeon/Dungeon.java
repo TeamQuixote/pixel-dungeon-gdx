@@ -185,7 +185,7 @@ public class Dungeon {
 		
 		Badges.reset();
 		
-		StartScene.curClass.initHero( hero );
+		StartScene.curClass.initHero( hero, this );
 	}
 	
 	public boolean isChallenged( int mask ) {

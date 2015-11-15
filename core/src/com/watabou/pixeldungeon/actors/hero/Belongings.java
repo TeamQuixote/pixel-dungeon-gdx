@@ -123,7 +123,7 @@ public class Belongings implements Iterable<Item> {
 		IronKey.curDepthQuantity = 0;
 		
 		for (Item item : backpack) {
-			if (item instanceof IronKey && ((IronKey)item).depth == Dungeon.getInstance().depth) {
+			if (item instanceof IronKey && ((IronKey)item).depth == owner.dungeon.depth) {
 				IronKey.curDepthQuantity++;
 			}
 		}

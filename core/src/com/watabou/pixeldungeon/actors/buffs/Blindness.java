@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.actors.buffs;
 
-import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.ui.BuffIndicator;
 
 public class Blindness extends FlavourBuff {
@@ -25,7 +24,7 @@ public class Blindness extends FlavourBuff {
 	@Override
 	public void detach() {
 		super.detach();
-		Dungeon.getInstance().observe();
+		dungeon.observe();
 	}
 	
 	@Override

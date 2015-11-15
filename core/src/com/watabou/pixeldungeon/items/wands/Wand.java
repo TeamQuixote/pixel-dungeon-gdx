@@ -390,7 +390,7 @@ public abstract class Wand extends KindOfWeapon {
 		
 		@Override
 		public void onSelect( Integer target ) {
-			
+			Dungeon dungeon = Dungeon.getInstance();
 			if (target != null) {
 				
 				if (target == curUser.pos) {
@@ -402,10 +402,10 @@ public abstract class Wand extends KindOfWeapon {
 				
 				curWand.setKnown();
 				
-				final int cell = Ballistica.cast(Dungeon.getInstance(), curUser.pos, target, true, curWand.hitChars );
+				final int cell = Ballistica.cast(dungeon, curUser.pos, target, true, curWand.hitChars );
 				curUser.sprite.zap( cell );
 				
-				QuickSlot.target( curItem, Dungeon.getInstance().findChar( cell ) );
+				QuickSlot.target( curItem, dungeon.findChar( cell ) );
 				
 				if (curWand.curCharges > 0) {
 					
@@ -419,7 +419,7 @@ public abstract class Wand extends KindOfWeapon {
 						}
 					} );
 					
-					Invisibility.dispel();
+					Invisibility.dispel(dungeon.hero);
 					
 				} else {
 					

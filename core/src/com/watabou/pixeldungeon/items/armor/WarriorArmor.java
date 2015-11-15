@@ -84,6 +84,7 @@ public class WarriorArmor extends ClassArmor {
 		
 		@Override
 		public void onSelect( Integer target ) {
+			Dungeon dungeon = Dungeon.getInstance();
 			if (target != null && target != curUser.pos) {
 				
 				int cell = Ballistica.cast(Dungeon.getInstance(), curUser.pos, target, false, true );
@@ -96,7 +97,7 @@ public class WarriorArmor extends ClassArmor {
 					Buff.affect( curUser, Fury.class );
 				}
 				
-				Invisibility.dispel();
+				Invisibility.dispel(dungeon.hero);
 				
 				final int dest = cell;
 				curUser.busy();
