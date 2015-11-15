@@ -246,7 +246,7 @@ public class Potion extends Item {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		return isKnown() ?
 			desc() :
 			"This flask contains a swirling " + color + " liquid. " +

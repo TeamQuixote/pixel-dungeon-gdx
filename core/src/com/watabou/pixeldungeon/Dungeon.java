@@ -134,7 +134,7 @@ public class Dungeon {
 	
 	public static boolean nightMode;
 	
-	public static void init(Hero hero) {
+	public static void init() {
 
 		challenges = PixelDungeon.challenges();
 		

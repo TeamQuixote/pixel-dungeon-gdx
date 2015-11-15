@@ -172,7 +172,7 @@ public class LloydsBeacon extends Item {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		return TXT_INFO + (returnDepth == -1 ? "" : Utils.format( TXT_SET, returnDepth ) );
 	}
 }

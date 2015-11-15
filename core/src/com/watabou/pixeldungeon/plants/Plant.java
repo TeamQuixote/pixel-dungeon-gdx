@@ -171,7 +171,7 @@ public class Plant implements Bundlable {
 		}
 		
 		@Override
-		public String info() {
+		public String info(Hero hero) {
 			return String.format( TXT_INFO, Utils.indefinite( plantName ), desc() );
 		}
 	}

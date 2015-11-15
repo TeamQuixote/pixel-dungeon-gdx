@@ -88,7 +88,7 @@ public class Burning extends Buff implements Hero.Doom {
 					
 					item = item.detach( ((Hero)target).belongings.backpack );
 					ChargrilledMeat steak = new ChargrilledMeat(); 
-					if (!steak.collect( ((Hero)target).belongings.backpack )) {
+					if (!steak.collect( ((Hero)target).belongings.backpack, (Hero)target )) {
 						Dungeon.level.drop( steak, target.pos ).sprite.drop();
 					}
 					GLog.w( TXT_BURNS_UP, item.toString() );

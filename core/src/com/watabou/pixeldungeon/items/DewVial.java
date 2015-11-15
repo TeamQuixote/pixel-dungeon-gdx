@@ -173,7 +173,7 @@ public class DewVial extends Item {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		return 
 			"You can store excess dew in this tiny vessel for drinking it later. " +
 			"If the vial is full, in a moment of deadly peril the dew will be " +

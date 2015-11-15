@@ -18,6 +18,7 @@
 package com.watabou.pixeldungeon.items.food;
 
 import com.watabou.pixeldungeon.actors.buffs.Hunger;
+import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class ChargrilledMeat extends Food {
@@ -29,7 +30,7 @@ public class ChargrilledMeat extends Food {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		return "It looks like a decent steak.";
 	}
 	

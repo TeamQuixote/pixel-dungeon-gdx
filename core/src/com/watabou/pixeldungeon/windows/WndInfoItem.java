@@ -62,7 +62,7 @@ public class WndInfoItem extends Window {
 			} else if (item.levelKnown && item.level < 0) {
 				color = ItemSlot.DEGRADED;				
 			}
-			fillFields( item.image(), item.glowing(), color, item.toString(), item.info() );
+			fillFields( item.image(), item.glowing(), color, item.toString(), item.info(null) );//todo: maybe need to pass in hero
 			
 		} else {
 			
@@ -102,7 +102,7 @@ public class WndInfoItem extends Window {
 			color = ItemSlot.DEGRADED;				
 		}
 		
-		fillFields( item.image(), item.glowing(), color, item.toString(), item.info() );
+		fillFields( item.image(), item.glowing(), color, item.toString(), item.info(null) );
 	}
 	
 	private void fillFields( int image, ItemSprite.Glowing glowing, int titleColor, String title, String info ) {

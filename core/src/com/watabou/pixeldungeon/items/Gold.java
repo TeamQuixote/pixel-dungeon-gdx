@@ -85,7 +85,7 @@ public class Gold extends Item {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		switch (quantity) {
 		case 0:
 			return TXT_COLLECT;

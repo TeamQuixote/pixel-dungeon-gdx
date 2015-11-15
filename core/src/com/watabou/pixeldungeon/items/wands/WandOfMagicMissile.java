@@ -145,7 +145,7 @@ public class WandOfMagicMissile extends Wand {
 					curUser.belongings.weapon = WandOfMagicMissile.this;
 					WandOfMagicMissile.this.updateQuickslot();
 				} else {
-					collect( curUser.belongings.backpack );
+					collect( curUser.belongings.backpack, curUser );
 				}
 			}
 		}

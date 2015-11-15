@@ -18,6 +18,7 @@
 package com.watabou.pixeldungeon.items.keys;
 
 import com.watabou.pixeldungeon.Dungeon;
+import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.bags.Bag;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.pixeldungeon.utils.Utils;
@@ -34,8 +35,8 @@ public class IronKey extends Key {
 	}
 	
 	@Override
-	public boolean collect( Bag bag ) {
-		boolean result = super.collect( bag );
+	public boolean collect( Bag bag, Hero hero ) {
+		boolean result = super.collect( bag, hero );
 		if (result && depth == Dungeon.depth && Dungeon.hero != null) {
 			Dungeon.hero.belongings.countIronKeys();
 		}
@@ -55,7 +56,7 @@ public class IronKey extends Key {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		return 
 			"The notches on this ancient iron key are well worn; its leather lanyard " +
 			"is battered by age. What door might it open?";

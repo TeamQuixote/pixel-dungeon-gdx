@@ -121,7 +121,7 @@ public class ShortSword extends MeleeWeapon {
 				if (equipped) {
 					curUser.belongings.weapon = ShortSword.this;
 				} else {
-					collect( curUser.belongings.backpack );
+					collect( curUser.belongings.backpack, curUser );
 				}
 			}
 		}
