@@ -55,7 +55,7 @@ public class MissileWeapon extends Weapon {
 
 	@Override
 	protected void onThrow( int cell ) {
-		Char enemy = Actor.findChar( cell );
+		Char enemy = dungeon.findChar( cell );
 		if (enemy == null || enemy == curUser) {
 			super.onThrow( cell );
 		} else {

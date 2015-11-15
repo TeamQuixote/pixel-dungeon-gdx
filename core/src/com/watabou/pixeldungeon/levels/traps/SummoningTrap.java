@@ -38,13 +38,14 @@ public class SummoningTrap {
 	// 0x770088
 	
 	public static void trigger( int pos, Char c ) {
-		
-		if (Dungeon.getInstance().bossLevel()) {
+		Dungeon dungeon = Dungeon.getInstance();
+
+		if (dungeon.bossLevel()) {
 			return;
 		}
 		
 		if (c != null) {
-			Actor.occupyCell( c );
+			dungeon.occupyCell( c );
 		}
 		
 		int nMobs = 1;
@@ -61,7 +62,7 @@ public class SummoningTrap {
 		
 		for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
 			int p = pos + Level.NEIGHBOURS8[i];
-			if (Actor.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
+			if (dungeon.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
 				candidates.add( p );
 			}
 		}
@@ -72,7 +73,7 @@ public class SummoningTrap {
 			int index = Random.index( candidates );
 			
 			DUMMY.pos = candidates.get( index );
-			Actor.occupyCell( DUMMY );
+			dungeon.occupyCell( DUMMY );
 			
 			respawnPoints.add( candidates.remove( index ) );
 			nMobs--;

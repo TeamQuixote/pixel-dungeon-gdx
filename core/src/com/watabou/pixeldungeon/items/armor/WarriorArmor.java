@@ -86,8 +86,8 @@ public class WarriorArmor extends ClassArmor {
 		public void onSelect( Integer target ) {
 			if (target != null && target != curUser.pos) {
 				
-				int cell = Ballistica.cast( curUser.pos, target, false, true );
-				if (Actor.findChar( cell ) != null && cell != curUser.pos) {
+				int cell = Ballistica.cast(Dungeon.getInstance(), curUser.pos, target, false, true );
+				if (Dungeon.getInstance().findChar( cell ) != null && cell != curUser.pos) {
 					cell = Ballistica.trace[Ballistica.distance - 2];
 				}
 				
@@ -108,7 +108,7 @@ public class WarriorArmor extends ClassArmor {
 						Dungeon.getInstance().observe();
 						
 						for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
-							Char mob = Actor.findChar( curUser.pos + Level.NEIGHBOURS8[i] );
+							Char mob = Dungeon.getInstance().findChar( curUser.pos + Level.NEIGHBOURS8[i] );
 							if (mob != null && mob != curUser) {
 								Buff.prolong( mob, Paralysis.class, SHOCK_TIME );
 							}

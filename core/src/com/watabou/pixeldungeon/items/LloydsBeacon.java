@@ -107,7 +107,7 @@ public class LloydsBeacon extends Item {
 			}
 			
 			for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
-				if (Actor.findChar( hero.pos + Level.NEIGHBOURS8[i] ) != null) {
+				if (dungeon.findChar( hero.pos + Level.NEIGHBOURS8[i] ) != null) {
 					GLog.w( TXT_CREATURES );
 					return;
 				}

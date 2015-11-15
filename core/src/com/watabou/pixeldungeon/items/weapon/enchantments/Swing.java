@@ -42,7 +42,7 @@ public class Swing extends Enchantment {
 				p+1+Level.WIDTH, p+1-Level.WIDTH, p-1+Level.WIDTH, p-1-Level.WIDTH};
 			
 			for (int n : neighbours) {
-				Char ch = Actor.findChar( n );
+				Char ch = attacker.dungeon.findChar( n );
 				if (ch != null && ch != defender && ch.isAlive()) {
 					
 					int dr = Random.IntRange( 0, ch.dr() );

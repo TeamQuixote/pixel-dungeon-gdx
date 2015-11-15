@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.levels.painters;
 
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.mobs.Piranha;
 import com.watabou.pixeldungeon.items.Generator;
@@ -75,9 +76,9 @@ public class PoolPainter extends Painter {
 			Piranha piranha = new Piranha();
 			do {
 				piranha.pos = room.random();
-			} while (level.map[piranha.pos] != Terrain.WATER|| Actor.findChar( piranha.pos ) != null);
+			} while (level.map[piranha.pos] != Terrain.WATER|| Dungeon.getInstance().findChar( piranha.pos ) != null);
 			level.mobs.add( piranha );
-			Actor.occupyCell( piranha );
+			Dungeon.getInstance().occupyCell( piranha );
 		}
 	}
 	

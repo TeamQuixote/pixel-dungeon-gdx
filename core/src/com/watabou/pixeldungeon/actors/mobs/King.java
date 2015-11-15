@@ -112,7 +112,7 @@ public class King extends Mob {
 	
 	private boolean canTryToSummon() {
 		if (Undead.count < maxArmySize()) {
-			Char ch = Actor.findChar( CityBossLevel.pedestal( nextPedestal ) );
+			Char ch = dungeon.findChar( CityBossLevel.pedestal( nextPedestal ) );
 			return ch == this || ch == null;
 		} else {
 			return false;
@@ -125,7 +125,7 @@ public class King extends Mob {
 			summon();
 			return true;
 		} else {
-			if (Actor.findChar( CityBossLevel.pedestal( nextPedestal ) ) == enemy) {
+			if (dungeon.findChar( CityBossLevel.pedestal( nextPedestal ) ) == enemy) {
 				nextPedestal = !nextPedestal;
 			}
 			return super.attack(enemy);
@@ -157,7 +157,7 @@ public class King extends Mob {
 		Sample.INSTANCE.play( Assets.SND_CHALLENGE );
 		
 		boolean[] passable = Level.passable.clone();
-		for (Actor actor : Actor.all()) {
+		for (Actor actor : dungeon.getAllActors()) {
 			if (actor instanceof Char) {
 				passable[((Char)actor).pos] = false;
 			}
@@ -249,13 +249,13 @@ public class King extends Mob {
 		}
 		
 		@Override
-		protected void onAdd() {
+		public void onAdd() {
 			count++;
 			super.onAdd();
 		}
 		
 		@Override
-		protected void onRemove() {
+		public void onRemove() {
 			count--;
 			super.onRemove();
 		}

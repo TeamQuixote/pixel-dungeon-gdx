@@ -72,7 +72,7 @@ public class Shaman extends Mob implements Callback {
 	
 	@Override
 	protected boolean canAttack( Char enemy ) {
-		return Ballistica.cast( pos, enemy.pos, false, true ) == enemy.pos;
+		return Ballistica.cast(dungeon, pos, enemy.pos, false, true ) == enemy.pos;
 	}
 	
 	@Override
@@ -121,7 +121,7 @@ public class Shaman extends Mob implements Callback {
 	
 	@Override
 	public void call() {
-		next();
+		dungeon.nextActor(this);
 	}
 	
 	@Override

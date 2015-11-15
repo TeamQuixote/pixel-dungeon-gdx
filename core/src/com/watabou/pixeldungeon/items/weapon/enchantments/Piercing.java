@@ -41,7 +41,7 @@ public class Piercing extends Enchantment {
 			
 			do {
 				
-				Char ch = Actor.findChar( pos );
+				Char ch = attacker.dungeon.findChar( pos );
 				if (ch == null) {
 					break;
 				}

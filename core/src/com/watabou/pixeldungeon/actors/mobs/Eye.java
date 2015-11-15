@@ -69,7 +69,7 @@ public class Eye extends Mob {
 	@Override
 	protected boolean canAttack( Char enemy ) {
 		
-		hitCell = Ballistica.cast( pos, enemy.pos, true, false );
+		hitCell = Ballistica.cast(dungeon, pos, enemy.pos, true, false );
 		
 		for (int i=1; i < Ballistica.distance; i++) {
 			if (Ballistica.trace[i] == enemy.pos) {
@@ -118,7 +118,7 @@ public class Eye extends Mob {
 			
 			int pos = Ballistica.trace[i];
 			
-			Char ch = Actor.findChar( pos );
+			Char ch = dungeon.findChar( pos );
 			if (ch == null) {
 				continue;
 			}

@@ -52,7 +52,7 @@ public class Piranha extends Mob {
 	}
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		if (!Level.water[pos]) {
 			die( null );
 			return true;

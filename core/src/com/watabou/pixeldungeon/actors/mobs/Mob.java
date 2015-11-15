@@ -133,7 +133,7 @@ public abstract class Mob extends Char {
 	}
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		
 		super.act();
 		
@@ -244,7 +244,7 @@ public abstract class Mob extends Char {
 	}
 	
 	protected boolean getFurther( int target ) {
-		int step = Dungeon.getInstance().flee(this, pos, target,
+		int step = dungeon.flee(this, pos, target,
                 Level.passable,
                 Level.fieldOfView );
 		if (step != -1) {

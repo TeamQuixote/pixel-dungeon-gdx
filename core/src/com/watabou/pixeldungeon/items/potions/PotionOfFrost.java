@@ -43,7 +43,7 @@ public class PotionOfFrost extends Potion {
 		
 		for (int i=0; i < Level.LENGTH; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
-				Freezing.affect( i, fire );
+				Freezing.affect(dungeon, i, fire );
 			}
 		}
 		

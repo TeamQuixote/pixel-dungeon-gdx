@@ -36,7 +36,7 @@ public class Shopkeeper extends NPC {
 	}
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		
 		throwItem();
 		

@@ -17,47 +17,41 @@
  */
 package com.watabou.pixeldungeon.actors;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import com.watabou.pixeldungeon.Dungeon;
-import com.watabou.pixeldungeon.Statistics;
-import com.watabou.pixeldungeon.actors.blobs.Blob;
-import com.watabou.pixeldungeon.actors.buffs.Buff;
-import com.watabou.pixeldungeon.actors.mobs.Mob;
-import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 
 public abstract class Actor implements Bundlable {
-	
+
+	public Dungeon dungeon = Dungeon.getInstance();
+
 	public static final float TICK	= 1f;
 
-	private float time;
+	public float time;
 	
-	protected abstract boolean act();
+	public abstract boolean act();
 	
 	protected void spend( float time ) {
 		this.time += time;
 	}
 	
 	protected void postpone( float time ) {
-		if (this.time < now + time) {
-			this.time = now + time;
+		if (this.time < Dungeon.getInstance().now + time) {
+			this.time = Dungeon.getInstance().now + time;
 		}
 	}
 	
 	protected float cooldown() {
-		return time - now;
+		return time - Dungeon.getInstance().now;
 	}
 	
 	protected void diactivate() {
 		time = Float.MAX_VALUE;
 	}
 	
-	protected void onAdd() {}
+	public void onAdd() {}
 	
-	protected void onRemove() {}
+	public void onRemove() {}
 	
 	private static final String TIME = "time";
 	
@@ -69,161 +63,5 @@ public abstract class Actor implements Bundlable {
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
 		time = bundle.getFloat( TIME );
-	}
-	
-	// **********************
-	// *** Static members ***
-	
-	private static HashSet<Actor> all = new HashSet<Actor>();
-	private static Actor current;
-	
-	private static float now = 0;
-	
-	private static Char[] chars = new Char[Level.LENGTH];
-	
-	public static void clear() {
-		
-		now = 0;
-		
-		Arrays.fill( chars, null );
-		all.clear();
-	}
-	
-	public static void fixTime() {
-		
-		if (Dungeon.getInstance().hero != null && all.contains( Dungeon.getInstance().getInstance().hero )) {
-			Statistics.duration += now;
-		}
-		
-		float min = Float.MAX_VALUE;
-		for (Actor a : all) {
-			if (a.time < min) {
-				min = a.time;
-			}
-		}
-		for (Actor a : all) {
-			a.time -= min;
-		}
-		now = 0;
-	}
-	
-	public static void init() {
-		
-		addDelayed( Dungeon.getInstance().getInstance().hero, -Float.MIN_VALUE );
-		
-		for (Mob mob : Dungeon.getInstance().getInstance().level.mobs) {
-			add( mob );
-		}
-		
-		for (Blob blob : Dungeon.getInstance().getInstance().level.blobs.values()) {
-			add( blob );
-		}
-		
-		current = null;
-	}
-	
-	public static void occupyCell( Char ch ) {
-		chars[ch.pos] = ch;
-	}
-	
-	public static void freeCell( int pos ) {
-		chars[pos] = null;
-	}
-	
-	/*protected*/public void next() {
-		if (current == this) {
-			current = null;
-		}
-	}
-	
-	public static void process() {
-		
-		if (current != null) {
-			return;
-		}
-	
-		boolean doNext;
-
-		do {
-			now = Float.MAX_VALUE;
-			current = null;
-			
-			Arrays.fill( chars, null );
-			
-			for (Actor actor : all) {
-				if (actor.time < now) {
-					now = actor.time;
-					current = actor;
-				}
-				
-				if (actor instanceof Char) {
-					Char ch = (Char)actor;
-					chars[ch.pos] = ch;
-				}
-			}
-
-			if (current != null) {
-				
-				if (current instanceof Char && ((Char)current).sprite.isMoving) {
-					// If it's character's turn to act, but its sprite 
-					// is moving, wait till the movement is over
-					current = null;
-					break;
-				}
-				
-				doNext = current.act();
-				if (doNext && !Dungeon.getInstance().hero.isAlive()) {
-					doNext = false;
-					current = null;
-				}
-			} else {
-				doNext = false;
-			}
-			
-		} while (doNext);
-	}
-	
-	public static void add( Actor actor ) {
-		add( actor, now );
-	}
-	
-	public static void addDelayed( Actor actor, float delay ) {
-		add( actor, now + delay );
-	}
-	
-	private static void add( Actor actor, float time ) {
-		
-		if (all.contains( actor )) {
-			return;
-		}
-		
-		all.add( actor );
-		actor.time += time;	// (+=) => (=) ?
-		actor.onAdd();
-		
-		if (actor instanceof Char) {
-			Char ch = (Char)actor;
-			chars[ch.pos] = ch;
-			for (Buff buff : ch.buffs()) {
-				all.add( buff );
-				buff.onAdd();
-			}
-		}
-	}
-	
-	public static void remove( Actor actor ) {
-		
-		if (actor != null) {
-			all.remove( actor );
-			actor.onRemove();
-		}
-	}
-	
-	public static Char findChar( int pos ) {
-		return chars[pos];
-	}
-	
-	public static HashSet<Actor> all() {
-		return all;
 	}
 }

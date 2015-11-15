@@ -64,7 +64,7 @@ public class WandOfTelekinesis extends Wand {
 			
 			int before = Dungeon.getInstance().level.map[c];
 			
-			if ((ch = Actor.findChar( c )) != null) {
+			if ((ch = dungeon.findChar( c )) != null) {
 
 				if (i == Ballistica.distance-1) {
 					
@@ -73,12 +73,12 @@ public class WandOfTelekinesis extends Wand {
 				} else {
 					
 					int next = Ballistica.trace[i + 1];
-					if ((Level.passable[next] || Level.avoid[next]) && Actor.findChar( next ) == null) {
+					if ((Level.passable[next] || Level.avoid[next]) && dungeon.findChar( next ) == null) {
 						
-						Actor.addDelayed( new Pushing( ch, ch.pos, next ), -1 );
+						dungeon.addActorDelayed( new Pushing( ch, ch.pos, next ), -1 );
 						
 						ch.pos = next;
-						Actor.freeCell( next );
+						dungeon.freeCell( next );
 
 						// FIXME
 						if (ch instanceof Mob) {
@@ -108,7 +108,7 @@ public class WandOfTelekinesis extends Wand {
 			}
 			
 			Dungeon.getInstance().level.press( c, null );
-			if (before == Terrain.OPEN_DOOR && Actor.findChar( c ) == null) {
+			if (before == Terrain.OPEN_DOOR && dungeon.findChar( c ) == null) {
 				
 				Level.set( c, Terrain.DOOR );
 				GameScene.updateMap( c );

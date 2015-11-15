@@ -91,13 +91,13 @@ public class Heap implements Bundlable {
 	public void open( Hero hero ) {
 		switch (type) {
 		case TOMB:
-			Wraith.spawnAround( hero.pos );
+			Wraith.spawnAround(Dungeon.getInstance(), hero.pos );
 			break;
 		case SKELETON:
 			CellEmitter.center( pos ).start( Speck.factory( Speck.RATTLE ), 0.1f, 3 );
 			for (Item item : items) {
 				if (item.cursed) {
-					if (Wraith.spawnAt( pos ) == null) {
+					if (Wraith.spawnAt(Dungeon.getInstance(), pos ) == null) {
 						hero.sprite.emitter().burst( ShadowParticle.CURSE, 6 );
 						hero.damage( hero.HP / 2, this );
 					}

@@ -75,7 +75,7 @@ public class WandOfLightning extends Wand {
 		
 		HashSet<Char> ns = new HashSet<Char>();
 		for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
-			Char n = Actor.findChar( ch.pos + Level.NEIGHBOURS8[i] );
+			Char n = dungeon.findChar( ch.pos + Level.NEIGHBOURS8[i] );
 			if (n != null && !affected.contains( n )) {
 				ns.add( n );
 			}
@@ -92,7 +92,7 @@ public class WandOfLightning extends Wand {
 		nPoints = 0;
 		points[nPoints++] = Dungeon.getInstance().hero.pos;
 		
-		Char ch = Actor.findChar( cell );
+		Char ch = dungeon.findChar( cell );
 		if (ch != null) {
 			
 			affected.clear();

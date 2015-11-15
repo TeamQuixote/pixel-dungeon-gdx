@@ -53,7 +53,7 @@ public class IncendiaryDart extends MissileWeapon {
 	
 	@Override
 	protected void onThrow( int cell ) {
-		Char enemy = Actor.findChar( cell );
+		Char enemy = dungeon.findChar( cell );
 		if (enemy == null || enemy == curUser) {
 			if (Level.flamable[cell]) {
 				GameScene.add( Blob.seed( cell, 4, Fire.class ) );

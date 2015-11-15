@@ -37,7 +37,7 @@ public class WandOfAmok extends Wand {
 
 	@Override
 	protected void onZap( int cell ) {
-		Char ch = Actor.findChar( cell );
+		Char ch = dungeon.findChar( cell );
 		if (ch != null) {
 			
 			if (ch == Dungeon.getInstance().hero) {

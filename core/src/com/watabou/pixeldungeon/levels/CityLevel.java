@@ -86,9 +86,10 @@ public class CityLevel extends RegularLevel {
 	
 	@Override
 	protected void createItems() {
+		Dungeon dungeon = Dungeon.getInstance();
 		super.createItems();
 		
-		Imp.Quest.spawn( this, roomEntrance );
+		Imp.Quest.spawn(dungeon, this, roomEntrance );
 	}
 	
 	@Override

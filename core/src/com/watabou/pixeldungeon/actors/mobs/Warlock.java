@@ -72,7 +72,7 @@ public class Warlock extends Mob implements Callback {
 	
 	@Override
 	protected boolean canAttack( Char enemy ) {
-		return Ballistica.cast( pos, enemy.pos, false, true ) == enemy.pos;
+		return Ballistica.cast(dungeon, pos, enemy.pos, false, true ) == enemy.pos;
 	}
 	
 	protected boolean doAttack( Char enemy ) {
@@ -117,12 +117,12 @@ public class Warlock extends Mob implements Callback {
 	
 	public void onZapComplete() {
 		zap();
-		next();
+		dungeon.nextActor(this);
 	}
 	
 	@Override
 	public void call() {
-		next();
+		dungeon.nextActor(this);
 	}
 	
 	@Override

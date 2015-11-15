@@ -530,6 +530,7 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	protected void createMobs() {
+		Dungeon dungeon = Dungeon.getInstance();
 		int nMobs = nMobs();
 		for (int i=0; i < nMobs; i++) {
 			Mob mob = Bestiary.mob( Dungeon.getInstance().depth );
@@ -537,12 +538,13 @@ public abstract class RegularLevel extends Level {
 				mob.pos = randomRespawnCell();
 			} while (mob.pos == -1);
 			mobs.add( mob );
-			Actor.occupyCell( mob );
+			dungeon.occupyCell( mob );
 		}
 	}
 	
 	@Override
 	public int randomRespawnCell() {
+		Dungeon dungeon = Dungeon.getInstance();
 		int count = 0;
 		int cell = -1;
 		
@@ -558,7 +560,7 @@ public abstract class RegularLevel extends Level {
 			}
 			
 			cell = room.random();
-			if (!Dungeon.getInstance().visible[cell] && Actor.findChar( cell ) == null && Level.passable[cell]) {
+			if (!Dungeon.getInstance().visible[cell] && dungeon.findChar( cell ) == null && Level.passable[cell]) {
 				return cell;
 			}
 			

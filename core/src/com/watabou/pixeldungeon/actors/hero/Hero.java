@@ -357,7 +357,7 @@ public class Hero extends Char {
 	public void spendAndNext( float time ) {
 		busy();
 		spend( time );
-		next();
+		dungeon.nextActor(this);
 	}
 	
 	@Override
@@ -382,7 +382,7 @@ public class Hero extends Char {
 				if (isStarving() || HP >= HT) {
 					restoreHealth = false;
 				} else {
-					spend( TIME_TO_REST ); next();
+					spend( TIME_TO_REST ); dungeon.nextActor(this);
 					return false;
 				}
 			}
@@ -905,7 +905,7 @@ public class Hero extends Char {
 		
 		if (Level.adjacent( pos, target )) {
 			
-			if (Actor.findChar( target ) == null) {
+			if (dungeon.findChar( target ) == null) {
 				if (Level.pit[target] && !flying && !Chasm.jumpConfirmed) {
 					Chasm.heroJump( this );
 					interrupt();
@@ -927,7 +927,7 @@ public class Hero extends Char {
 				passable[i] = p[i] && (v[i] || m[i]);
 			}
 			
-			step = Dungeon.getInstance().findPath(this, pos, target, passable, Level.fieldOfView );
+			step = dungeon.findPath(this, pos, target, passable, Level.fieldOfView );
 		}
 		
 		if (step != -1) {
@@ -961,7 +961,7 @@ public class Hero extends Char {
 			curAction = new HeroAction.Cook( cell );
 			
 		} else
-		if (Level.fieldOfView[cell] && (ch = Actor.findChar( cell )) instanceof Mob) {
+		if (Level.fieldOfView[cell] && (ch = dungeon.findChar( cell )) instanceof Mob) {
 			
 			if (ch instanceof NPC) {
 				curAction = new HeroAction.Interact( (NPC)ch );
@@ -1138,7 +1138,7 @@ public class Hero extends Char {
 			return;
 		}
 
-        Actor.fixTime();
+        dungeon.fixTime();
 		super.die( cause );
 		
 		Ankh ankh = (Ankh)belongings.getItem( Ankh.class );

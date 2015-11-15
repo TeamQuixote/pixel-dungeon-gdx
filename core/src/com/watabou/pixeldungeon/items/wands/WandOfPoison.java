@@ -35,7 +35,7 @@ public class WandOfPoison extends Wand {
 	
 	@Override
 	protected void onZap( int cell ) {
-		Char ch = Actor.findChar( cell );
+		Char ch = dungeon.findChar( cell );
 		if (ch != null) {
 
 			Buff.affect( ch, Poison.class ).set( Poison.durationFactor( ch ) * (5 + level()) );

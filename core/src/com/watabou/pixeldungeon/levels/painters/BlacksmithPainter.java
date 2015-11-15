@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.levels.painters;
 
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.watabou.pixeldungeon.items.Generator;
@@ -28,6 +29,7 @@ import com.watabou.utils.Random;
 public class BlacksmithPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
+		Dungeon dungeon = Dungeon.getInstance();
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.FIRE_TRAP );
@@ -55,6 +57,6 @@ public class BlacksmithPainter extends Painter {
 			npc.pos = room.random( 1 );
 		} while (level.heaps.get( npc.pos ) != null);
 		level.mobs.add( npc );
-		Actor.occupyCell( npc );
+		dungeon.occupyCell( npc );
 	}
 }

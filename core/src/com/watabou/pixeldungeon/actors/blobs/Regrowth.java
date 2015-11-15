@@ -53,7 +53,7 @@ public class Regrowth extends Blob {
 						
 					}
 					
-					Char ch = Actor.findChar( i );
+					Char ch = dungeon.findChar( i );
 					if (ch != null) {
 						Buff.prolong( ch, Roots.class, TICK );
 					}

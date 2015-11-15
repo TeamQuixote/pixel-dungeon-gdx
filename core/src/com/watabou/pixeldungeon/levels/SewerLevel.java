@@ -106,7 +106,7 @@ public class SewerLevel extends RegularLevel {
 	protected void createMobs() {
 		super.createMobs();
 
-		Ghost.Quest.spawn( this );
+		Ghost.Quest.spawn(Dungeon.getInstance(), this );
 	}
 	
 	@Override

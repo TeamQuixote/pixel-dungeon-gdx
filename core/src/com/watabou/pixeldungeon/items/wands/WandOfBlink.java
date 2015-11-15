@@ -41,7 +41,7 @@ public class WandOfBlink extends Wand {
 		
 		if (Ballistica.distance > level + 4) {
 			cell = Ballistica.trace[level + 3];
-		} else if (Actor.findChar( cell ) != null && Ballistica.distance > 1) {
+		} else if (dungeon.findChar( cell ) != null && Ballistica.distance > 1) {
 			cell = Ballistica.trace[Ballistica.distance - 2];
 		}
 		

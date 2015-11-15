@@ -88,7 +88,7 @@ public class Wandmaker extends NPC {
 		"Any luck with corpse dust, %s? Bone piles are the most obvious places to look.";
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		throwItem();
 		return super.act();
 	}
@@ -214,15 +214,15 @@ public class Wandmaker extends NPC {
 			}
 		}
 		
-		public static void spawn( PrisonLevel level, Room room ) {
-			if (!spawned && Dungeon.getInstance().depth > 6 && Random.Int( 10 - Dungeon.getInstance().depth ) == 0) {
+		public static void spawn(Dungeon dungeon, PrisonLevel level, Room room ) {
+			if (!spawned && dungeon.depth > 6 && Random.Int( 10 - dungeon.depth ) == 0) {
 				
 				Wandmaker npc = new Wandmaker();
 				do {
 					npc.pos = room.random();
 				} while (level.map[npc.pos] == Terrain.ENTRANCE || level.map[npc.pos] == Terrain.SIGN);
 				level.mobs.add( npc );
-				Actor.occupyCell( npc );
+				dungeon.occupyCell( npc );
 				
 				spawned = true;
 				alternative = Random.Int( 2 ) == 0;

@@ -27,10 +27,13 @@ import java.util.HashSet;
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.Char;
+import com.watabou.pixeldungeon.actors.blobs.Blob;
 import com.watabou.pixeldungeon.actors.buffs.Amok;
+import com.watabou.pixeldungeon.actors.buffs.Buff;
 import com.watabou.pixeldungeon.actors.buffs.Light;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
+import com.watabou.pixeldungeon.actors.mobs.Mob;
 import com.watabou.pixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.watabou.pixeldungeon.actors.mobs.npcs.Imp;
 import com.watabou.pixeldungeon.actors.mobs.npcs.Ghost;
@@ -118,7 +121,7 @@ public class Dungeon {
 	
 	public Hero hero;
 	public Level level;
-	
+
 	// Either Item or Class<? extends Item>
 	public Object quickslot;
 	
@@ -147,7 +150,7 @@ public class Dungeon {
 
 		challenges = PixelDungeon.challenges();
 		
-		Actor.clear();
+		clearActors();
 		
 		PathFinder.setMapSize( Level.WIDTH, Level.HEIGHT );
 		
@@ -192,7 +195,7 @@ public class Dungeon {
 	public Level newLevel() {
 		
 		level = null;
-		Actor.clear();
+		clearActors();
 		
 		depth++;
 		if (depth > Statistics.deepestFloor) {
@@ -270,10 +273,164 @@ public class Dungeon {
 		
 		return level;
 	}
-	
+
+	private Char[] chars = new Char[Level.LENGTH];
+
+	public float now = 0;
+
+	private Actor currentActor;
+
+
+	private HashSet<Actor> allActors = new HashSet<>();
+
+	public HashSet<Actor> getAllActors() {
+		return allActors;
+	}
+
+	public void addActor( Actor actor ) {
+		addActor( actor, now );
+	}
+
+	public void addActorDelayed( Actor actor, float delay ) {
+		addActor( actor, now + delay );
+	}
+
+	private void addActor( Actor actor, float time ) {
+
+		if (allActors.contains( actor )) {
+			return;
+		}
+
+		allActors.add( actor );
+		actor.time += time;	// (+=) => (=) ?
+		actor.onAdd();
+
+		if (actor instanceof Char) {
+			Char ch = (Char)actor;
+			chars[ch.pos] = ch;
+			for (Buff buff : ch.buffs()) {
+				allActors.add( buff );
+				buff.onAdd();
+			}
+		}
+	}
+
+	public void removeActor( Actor actor ) {
+
+		if (actor != null) {
+			allActors.remove( actor );
+			actor.onRemove();
+		}
+	}
+
+	public void clearActors() {
+		now = 0;
+
+		Arrays.fill(chars, null);
+		allActors.clear();
+	}
+
+	public void fixTime() {
+
+		if (Dungeon.getInstance().hero != null && allActors.contains( Dungeon.getInstance().getInstance().hero )) {
+			Statistics.duration += now;
+		}
+
+		float min = Float.MAX_VALUE;
+		for (Actor a : allActors) {
+			if (a.time < min) {
+				min = a.time;
+			}
+		}
+		for (Actor a : allActors) {
+			a.time -= min;
+		}
+		now = 0;
+	}
+
+	public void initActors() {
+
+		addActorDelayed( Dungeon.getInstance().getInstance().hero, -Float.MIN_VALUE );
+
+		for (Mob mob : Dungeon.getInstance().getInstance().level.mobs) {
+			addActor( mob );
+		}
+
+		for (Blob blob : Dungeon.getInstance().getInstance().level.blobs.values()) {
+			addActor( blob );
+		}
+
+		currentActor = null;
+	}
+
+	public void occupyCell( Char ch ) {
+		chars[ch.pos] = ch;
+	}
+
+	public void freeCell( int pos ) {
+		chars[pos] = null;
+	}
+
+	public void nextActor(Actor actor) {
+		if (currentActor == actor) {
+			currentActor = null;
+		}
+	}
+
+	public void process() {
+
+		if (currentActor != null) {
+			return;
+		}
+
+		boolean doNext;
+
+		do {
+			now = Float.MAX_VALUE;
+			currentActor = null;
+
+			Arrays.fill( chars, null );
+
+			for (Actor actor : allActors) {
+				if (actor.time < now) {
+					now = actor.time;
+					currentActor = actor;
+				}
+
+				if (actor instanceof Char) {
+					Char ch = (Char)actor;
+					chars[ch.pos] = ch;
+				}
+			}
+
+			if (currentActor != null) {
+
+				if (currentActor instanceof Char && ((Char)currentActor).sprite.isMoving) {
+					// If it's character's turn to act, but its sprite
+					// is moving, wait till the movement is over
+					currentActor = null;
+					break;
+				}
+
+				doNext = currentActor.act();
+				if (doNext && !Dungeon.getInstance().hero.isAlive()) {
+					doNext = false;
+					currentActor = null;
+				}
+			} else {
+				doNext = false;
+			}
+
+		} while (doNext);
+	}
+
+	public Char findChar( int pos ) {
+		return chars[pos];
+	}
+
 	public void resetLevel() {
 		
-		Actor.clear();
+		clearActors();
 		
 		Arrays.fill( visible, false );
 		
@@ -317,11 +474,11 @@ public class Dungeon {
 		nightMode = new Date().getHours() < 7;
 		
 		this.level = level;
-		Actor.init();
+		initActors();
 		
 		Actor respawner = level.respawner();
 		if (respawner != null) {
-			Actor.add( level.respawner() );
+			addActor( level.respawner() );
 		}
 		
 		hero.pos = pos != -1 ? pos : level.exit;
@@ -483,7 +640,7 @@ public class Dungeon {
 	public void saveAll() throws IOException {
 		if (hero.isAlive()) {
 			
-			Actor.fixTime();
+			fixTime();
 			saveGame( gameFile( hero.heroClass ) );
 			saveLevel();
 			
@@ -587,7 +744,7 @@ public class Dungeon {
 	public Level loadLevel( HeroClass cl ) throws IOException {
 		
 		level = null;
-		Actor.clear();
+		clearActors();
 		
 		InputStream input = Game.instance.openFileInput( Utils.format( depthFile( cl ), depth ) ) ;
 		Bundle bundle = Bundle.read( input );
@@ -660,10 +817,10 @@ public class Dungeon {
 	
 	private static boolean[] passable = new boolean[Level.LENGTH];
 	
-	public static int findPath( Char ch, int from, int to, boolean pass[], boolean[] visible ) {
+	public int findPath(Char ch, int from, int to, boolean pass[], boolean[] visible ) {
 		
 		if (Level.adjacent( from, to )) {
-			return Actor.findChar( to ) == null && (pass[to] || Level.avoid[to]) ? to : -1;
+			return findChar( to ) == null && (pass[to] || Level.avoid[to]) ? to : -1;
 		}
 		
 		if (ch.flying || ch.buff( Amok.class ) != null) {
@@ -672,7 +829,7 @@ public class Dungeon {
 			System.arraycopy( pass, 0, passable, 0, Level.LENGTH );
 		}
 		
-		for (Actor actor : Actor.all()) {
+		for (Actor actor : getAllActors()) {
 			if (actor instanceof Char) {
 				int pos = ((Char)actor).pos;
 				if (visible[pos]) {
@@ -685,7 +842,7 @@ public class Dungeon {
 		
 	}
 	
-	public static int flee( Char ch, int cur, int from, boolean pass[], boolean[] visible ) {
+	public int flee(Char ch, int cur, int from, boolean pass[], boolean[] visible ) {
 		
 		if (ch.flying) {
 			BArray.or( pass, Level.avoid, passable );
@@ -693,7 +850,7 @@ public class Dungeon {
 			System.arraycopy( pass, 0, passable, 0, Level.LENGTH );
 		}
 		
-		for (Actor actor : Actor.all()) {
+		for (Actor actor : getAllActors()) {
 			if (actor instanceof Char) {
 				int pos = ((Char)actor).pos;
 				if (visible[pos]) {

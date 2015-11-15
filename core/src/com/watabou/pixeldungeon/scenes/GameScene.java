@@ -337,7 +337,7 @@ public class GameScene extends PixelScene {
 		
 		water.offset( 0, -5 * Game.elapsed );
 		
-		Actor.process();
+		Dungeon.getInstance().process();
 		
 		if (Dungeon.getInstance().hero.ready && !Dungeon.getInstance().hero.paralysed) {
 			log.newLine();
@@ -440,7 +440,7 @@ public class GameScene extends PixelScene {
 	}
 	
 	public static void add( Blob gas ) {
-		Actor.add( gas );
+		Dungeon.getInstance().addActor( gas );
 		if (scene != null) {
 			scene.addBlobSprite( gas );
 		}
@@ -459,16 +459,18 @@ public class GameScene extends PixelScene {
 	}
 	
 	public static void add( Mob mob ) {
-		Dungeon.getInstance().level.mobs.add( mob );
-		Actor.add( mob );
-		Actor.occupyCell( mob );
+		Dungeon dungeon = Dungeon.getInstance();
+		dungeon.level.mobs.add( mob );
+		dungeon.addActor( mob );
+		dungeon.occupyCell( mob );
 		scene.addMobSprite( mob );
 	}
 	
 	public static void add( Mob mob, float delay ) {
-		Dungeon.getInstance().level.mobs.add( mob );
-		Actor.addDelayed( mob, delay );
-		Actor.occupyCell( mob );
+		Dungeon dungeon = Dungeon.getInstance();
+		dungeon.level.mobs.add( mob );
+		dungeon.addActorDelayed( mob, delay );
+		dungeon.occupyCell( mob );
 		scene.addMobSprite( mob );
 	}
 	
@@ -612,32 +614,33 @@ public class GameScene extends PixelScene {
 	}
 
     public static void examineCell( Integer cell ) {
+		Dungeon dungeon = Dungeon.getInstance();
         if (cell == null) {
             return;
         }
 
-        if (cell < 0 || cell > Level.LENGTH || (!Dungeon.getInstance().level.visited[cell] && !Dungeon.getInstance().level.mapped[cell])) {
+        if (cell < 0 || cell > Level.LENGTH || (!dungeon.level.visited[cell] && !dungeon.level.mapped[cell])) {
             GameScene.show( new WndMessage( "You don't know what is there." ) ) ;
             return;
         }
 
-        if (!Dungeon.getInstance().visible[cell]) {
+        if (!dungeon.visible[cell]) {
             GameScene.show( new WndInfoCell( cell ) );
             return;
         }
 
-        if (cell == Dungeon.getInstance().hero.pos) {
+        if (cell == dungeon.hero.pos) {
             GameScene.show( new WndHero() );
             return;
         }
 
-        Mob mob = (Mob)Actor.findChar( cell );
+        Mob mob = (Mob)dungeon.findChar( cell );
         if (mob != null) {
             GameScene.show( new WndInfoMob( mob ) );
             return;
         }
 
-        Heap heap = Dungeon.getInstance().level.heaps.get( cell );
+        Heap heap = dungeon.level.heaps.get( cell );
         if (heap != null) {
             if (heap.type == Heap.Type.FOR_SALE && heap.size() == 1 && heap.peek().price() > 0) {
                 GameScene.show( new WndTradeItem( heap, false ) );
@@ -647,7 +650,7 @@ public class GameScene extends PixelScene {
             return;
         }
 
-        Plant plant = Dungeon.getInstance().level.plants.get( cell );
+        Plant plant = dungeon.level.plants.get( cell );
         if (plant != null) {
             GameScene.show( new WndInfoPlant( plant ) );
             return;
@@ -663,7 +666,7 @@ public class GameScene extends PixelScene {
 				examineCell( cell );
 			} else {
 				if (Dungeon.getInstance().hero.handle(cell)) {
-					Dungeon.getInstance().hero.next();
+					Dungeon.getInstance().nextActor(Dungeon.getInstance().hero);
 				}
 			}
 		}

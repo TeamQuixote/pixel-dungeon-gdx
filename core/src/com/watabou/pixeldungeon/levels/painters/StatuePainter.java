@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.levels.painters;
 
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.mobs.Statue;
 import com.watabou.pixeldungeon.items.keys.IronKey;
@@ -28,6 +29,7 @@ import com.watabou.utils.Point;
 public class StatuePainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
+		Dungeon dungeon = Dungeon.getInstance();
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY );
@@ -66,6 +68,6 @@ public class StatuePainter extends Painter {
 		Statue statue = new Statue();
 		statue.pos = cx + cy * Level.WIDTH;
 		level.mobs.add( statue );
-		Actor.occupyCell( statue );
+		dungeon.occupyCell( statue );
 	}
 }

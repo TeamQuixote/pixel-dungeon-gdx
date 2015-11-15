@@ -57,7 +57,7 @@ public class WandOfFirebolt extends Wand {
 		
 		GameScene.add( Blob.seed( cell, 1, Fire.class ) );
 					
-		Char ch = Actor.findChar( cell );
+		Char ch = dungeon.findChar( cell );
 		if (ch != null) {	
 			
 			ch.damage( Random.Int( 1, 8 + level * level ), this );

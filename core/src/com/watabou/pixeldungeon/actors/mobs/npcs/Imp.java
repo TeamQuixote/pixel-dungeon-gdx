@@ -74,7 +74,7 @@ public class Imp extends NPC {
 	private boolean seenBefore = false;
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		
 		if (!Quest.given && Dungeon.getInstance().visible[pos]) {
 			if (!seenBefore) {
@@ -209,15 +209,15 @@ public class Imp extends NPC {
 			}
 		}
 		
-		public static void spawn( CityLevel level, Room room ) {
-			if (!spawned && Dungeon.getInstance().depth > 16 && Random.Int( 20 - Dungeon.getInstance().depth ) == 0) {
+		public static void spawn(Dungeon dungeon, CityLevel level, Room room ) {
+			if (!spawned && dungeon.depth > 16 && Random.Int( 20 - dungeon.depth ) == 0) {
 				
 				Imp npc = new Imp();
 				do {
 					npc.pos = level.randomRespawnCell();
 				} while (npc.pos == -1 || level.heaps.get( npc.pos ) != null);
 				level.mobs.add( npc );
-				Actor.occupyCell( npc );
+				dungeon.occupyCell( npc );
 				
 				spawned = true;	
 				alternative = Random.Int( 2 ) == 0;

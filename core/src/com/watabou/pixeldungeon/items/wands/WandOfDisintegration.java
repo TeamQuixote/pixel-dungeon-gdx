@@ -57,7 +57,7 @@ public class WandOfDisintegration extends Wand {
 			int c = Ballistica.trace[i];
 			
 			Char ch;
-			if ((ch = Actor.findChar( c )) != null) {
+			if ((ch = dungeon.findChar( c )) != null) {
 				chars.add( ch );
 			}
 			

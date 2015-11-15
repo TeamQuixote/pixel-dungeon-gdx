@@ -92,7 +92,7 @@ public abstract class Char extends Actor {
 	private HashSet<Buff> buffs = new HashSet<Buff>();
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		Dungeon.getInstance().level.updateFieldOfView( this );
 		return false;
 	}
@@ -282,8 +282,8 @@ public abstract class Char extends Actor {
 	
 	public void destroy() {
 		HP = 0;
-		Actor.remove( this );
-		Actor.freeCell( pos );
+		dungeon.removeActor( this );
+		dungeon.freeCell( pos );
 	}
 	
 	public void die( Object src ) {
@@ -338,7 +338,7 @@ public abstract class Char extends Actor {
 	public void add( Buff buff ) {
 		
 		buffs.add( buff );
-		Actor.add( buff );
+		dungeon.addActor( buff );
 		
 		if (sprite != null) {
 			if (buff instanceof Poison) {
@@ -406,7 +406,7 @@ public abstract class Char extends Actor {
 	public void remove( Buff buff ) {
 		
 		buffs.remove( buff );
-		Actor.remove( buff );
+		dungeon.removeActor( buff );
 		
 		if (buff instanceof Burning) {
 			sprite.remove( CharSprite.State.BURNING );
@@ -428,7 +428,7 @@ public abstract class Char extends Actor {
 	}
 	
 	@Override
-	protected void onRemove() {
+	public void onRemove() {
 		for (Buff buff : buffs.toArray( new Buff[0] )) {
 			buff.detach();
 		}
@@ -462,7 +462,7 @@ public abstract class Char extends Actor {
 			ArrayList<Integer> candidates = new ArrayList<Integer>();
 			for (int dir : Level.NEIGHBOURS8) {
 				int p = pos + dir;
-				if ((Level.passable[p] || Level.avoid[p]) && Actor.findChar( p ) == null) {
+				if ((Level.passable[p] || Level.avoid[p]) && dungeon.findChar( p ) == null) {
 					candidates.add( p );
 				}
 			}
@@ -490,15 +490,15 @@ public abstract class Char extends Actor {
 	}
 	
 	public void onMotionComplete() {
-		next();
+		dungeon.nextActor(this);
 	}
 	
 	public void onAttackComplete() {
-		next();
+		dungeon.nextActor(this);
 	}
 	
 	public void onOperateComplete() {
-		next();
+		dungeon.nextActor(this);
 	}
 	
 	private static final HashSet<Class<?>> EMPTY = new HashSet<Class<?>>();

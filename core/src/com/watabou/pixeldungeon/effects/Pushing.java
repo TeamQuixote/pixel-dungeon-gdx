@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.effects;
 
+import com.sun.org.apache.bcel.internal.generic.PUSH;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Visual;
 import com.watabou.pixeldungeon.actors.Actor;
@@ -39,7 +40,7 @@ public class Pushing extends Actor {
 	}
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		if (sprite != null) {
 			
 			if (effect == null) {
@@ -49,7 +50,7 @@ public class Pushing extends Actor {
 			
 		} else {
 			
-			Actor.remove( Pushing.this );
+			dungeon.removeActor( this );
 			return true;
 		}
 	}
@@ -90,9 +91,9 @@ public class Pushing extends Actor {
 				sprite.point( end );
 				
 				killAndErase();
-				Actor.remove( Pushing.this );
+				dungeon.removeActor( Pushing.this );
 				
-				next();
+				dungeon.nextActor(Pushing.this);
 			}
 		}
 	}

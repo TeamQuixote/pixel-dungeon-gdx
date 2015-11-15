@@ -113,7 +113,7 @@ public class Yog extends Mob {
 		
 		for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
 			int p = pos + Level.NEIGHBOURS8[i];
-			if (Actor.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
+			if (dungeon.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
 				spawnPoints.add( p );
 			}
 		}
@@ -123,7 +123,7 @@ public class Yog extends Mob {
 			larva.pos = Random.element( spawnPoints );
 			
 			GameScene.add( larva );
-			Actor.addDelayed( new Pushing( larva, pos, larva.pos ), -1 );
+			dungeon.addActorDelayed( new Pushing( larva, pos, larva.pos ), -1 );
 		}
 
 		return super.defenseProc(enemy, damage);
@@ -317,7 +317,7 @@ public class Yog extends Mob {
 		
 		@Override
 		protected boolean canAttack( Char enemy ) {
-			return Ballistica.cast( pos, enemy.pos, false, true ) == enemy.pos;
+			return Ballistica.cast(dungeon, pos, enemy.pos, false, true ) == enemy.pos;
 		}
 		
 		@Override

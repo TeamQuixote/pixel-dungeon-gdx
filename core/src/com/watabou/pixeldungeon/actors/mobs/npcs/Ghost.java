@@ -143,7 +143,7 @@ public class Ghost extends NPC {
 				}
 				if (newPos != -1) {
 					
-					Actor.freeCell( pos );
+					dungeon.freeCell( pos );
 					
 					CellEmitter.get( pos ).start( Speck.factory( Speck.LIGHT ), 0.2f, 3 );
 					pos = newPos;
@@ -259,7 +259,7 @@ public class Ghost extends NPC {
 			}
 		}
 		
-		public static void spawn( SewerLevel level ) {
+		public static void spawn(Dungeon dungeon, SewerLevel level ) {
 			if (!spawned && Dungeon.getInstance().depth > 1 && Random.Int( 5 - Dungeon.getInstance().depth ) == 0) {
 				
 				Ghost ghost = new Ghost();
@@ -267,7 +267,7 @@ public class Ghost extends NPC {
 					ghost.pos = level.randomRespawnCell();
 				} while (ghost.pos == -1);
 				level.mobs.add( ghost );
-				Actor.occupyCell( ghost );
+				dungeon.occupyCell( ghost );
 				
 				spawned = true;
 				alternative = Random.Int( 2 ) == 0;

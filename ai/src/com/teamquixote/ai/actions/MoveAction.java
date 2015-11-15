@@ -11,7 +11,7 @@ public class MoveAction extends Action {
     }
 
     @Override
-    public int getUpdatedHeroPosition(GameState state){
+    public int getUpdatedHeroPosition(GameState state) {
         return target;//should probably do some error checking or whatever
     }
 
@@ -19,7 +19,7 @@ public class MoveAction extends Action {
     public void execute() {
         //stole this from GameScene.defaultCellListener
         if (Dungeon.getInstance().hero.handle(target)) {
-            Dungeon.getInstance().getInstance().hero.next();
+            Dungeon.getInstance().nextActor(Dungeon.getInstance().hero);
         }
     }
 }

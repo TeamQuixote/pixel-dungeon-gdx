@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.mechanics;
 
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.levels.Level;
 
@@ -25,7 +26,7 @@ public class Ballistica {
 	public static int[] trace = new int[Math.max( Level.WIDTH, Level.HEIGHT )];
 	public static int distance;
 	
-	public static int cast( int from, int to, boolean magic, boolean hitChars ) {
+	public static int cast(Dungeon dungeon, int from, int to, boolean magic, boolean hitChars ) {
 		
 		int w = Level.WIDTH;
 		
@@ -86,7 +87,7 @@ public class Ballistica {
 				return trace[--distance - 1];
 			}
 			
-			if (Level.losBlocking[cell] || (hitChars && Actor.findChar( cell ) != null)) {
+			if (Level.losBlocking[cell] || (hitChars && dungeon.findChar( cell ) != null)) {
 				return cell;
 			}
 		}

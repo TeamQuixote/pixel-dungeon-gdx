@@ -360,7 +360,7 @@ public abstract class Level implements Bundlable {
 	public Actor respawner() {
 		return new Actor() {	
 			@Override
-			protected boolean act() {
+			public boolean act() {
 				if (mobs.size() < nMobs()) {
 
 					Mob mob = Bestiary.mutable( Dungeon.getInstance().depth );
@@ -380,10 +380,12 @@ public abstract class Level implements Bundlable {
 	}
 	
 	public int randomRespawnCell() {
+		Dungeon dungeon = Dungeon.getInstance();
+
 		int cell;
 		do {
 			cell = Random.Int( LENGTH );
-		} while (!passable[cell] || Dungeon.getInstance().visible[cell] || Actor.findChar( cell ) != null);
+		} while (!passable[cell] || Dungeon.getInstance().visible[cell] || dungeon.findChar( cell ) != null);
 		return cell;
 	}
 	

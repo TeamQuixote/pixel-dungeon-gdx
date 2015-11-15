@@ -81,7 +81,7 @@ public class Swarm extends Mob {
 			
 			int[] neighbours = {pos + 1, pos - 1, pos + Level.WIDTH, pos - Level.WIDTH};
 			for (int n : neighbours) {
-				if (passable[n] && Actor.findChar( n ) == null) {
+				if (passable[n] && dungeon.findChar( n ) == null) {
 					candidates.add( n );
 				}
 			}
@@ -98,7 +98,7 @@ public class Swarm extends Mob {
 				}
 				
 				GameScene.add( clone, SPLIT_DELAY );
-				Actor.addDelayed( new Pushing( clone, pos, clone.pos ), -1 );
+				dungeon.addActorDelayed( new Pushing( clone, pos, clone.pos ), -1 );
 				
 				HP -= clone.HP;
 			}

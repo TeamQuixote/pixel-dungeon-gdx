@@ -92,9 +92,9 @@ public class Succubus extends Mob {
 	
 	private void blink( int target ) {
 		
-		int cell = Ballistica.cast( pos, target, true, true );
+		int cell = Ballistica.cast(dungeon, pos, target, true, true );
 		
-		if (Actor.findChar( cell ) != null && Ballistica.distance > 1) {
+		if (dungeon.findChar( cell ) != null && Ballistica.distance > 1) {
 			cell = Ballistica.trace[Ballistica.distance - 2];
 		}
 		

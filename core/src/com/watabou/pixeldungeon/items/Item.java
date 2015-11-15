@@ -60,7 +60,9 @@ public class Item implements Bundlable {
 	
 	public static final String AC_DROP		= "DROP";
 	public static final String AC_THROW		= "THROW";
-	
+
+	public Dungeon dungeon = Dungeon.getInstance();
+
 	public String defaultAction;
 	
 	protected String name = "smth";
@@ -420,13 +422,13 @@ public class Item implements Bundlable {
 		}
 	}
 	
-	public void cast( final Hero user, int dst ) {
+	public void cast( final Hero user, int dst) {
 		
-		final int cell = Ballistica.cast( user.pos, dst, false, true );
+		final int cell = Ballistica.cast(dungeon, user.pos, dst, false, true );
 		user.sprite.zap( cell );
 		user.busy();
 		
-		Char enemy = Actor.findChar( cell );
+		Char enemy = dungeon.findChar( cell );
 		QuickSlot.target( this, enemy );
 		
 		float delay = TIME_TO_THROW;
@@ -456,7 +458,7 @@ public class Item implements Bundlable {
 		@Override
 		public void onSelect( Integer target ) {
 			if (target != null) {
-				curItem.cast( curUser, target );
+				curItem.cast( curUser, target);
 			}
 		}
 		@Override

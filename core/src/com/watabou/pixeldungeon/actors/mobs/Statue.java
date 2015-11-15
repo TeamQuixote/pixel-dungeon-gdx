@@ -76,7 +76,7 @@ public class Statue extends Mob {
 	}
 	
 	@Override
-	protected boolean act() {
+	public boolean act() {
 		if (Dungeon.getInstance().visible[pos]) {
 			Journal.add( Journal.Feature.STATUE );
 		}

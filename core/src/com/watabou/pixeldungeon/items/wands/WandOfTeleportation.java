@@ -36,7 +36,7 @@ public class WandOfTeleportation extends Wand {
 	@Override
 	protected void onZap( int cell ) {
 		
-		Char ch = Actor.findChar( cell );
+		Char ch = dungeon.findChar( cell );
 		
 		if (ch == curUser) {
 			

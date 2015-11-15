@@ -117,7 +117,7 @@ public class DM300 extends Mob {
 			}
 		}
 
-		Char ch = Actor.findChar( cell );
+		Char ch = dungeon.findChar( cell );
 		if (ch != null && ch != this) {
 			Buff.prolong( ch, Paralysis.class, 2 );
 		}

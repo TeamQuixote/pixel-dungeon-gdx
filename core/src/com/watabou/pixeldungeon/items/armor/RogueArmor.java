@@ -82,7 +82,7 @@ public class RogueArmor extends ClassArmor {
 
 				if (!Level.fieldOfView[target] || 
 					!(Level.passable[target] || Level.avoid[target]) || 
-					Actor.findChar( target ) != null) {
+					Dungeon.getInstance().findChar( target ) != null) {
 					
 					GLog.w( TXT_FOV );
 					return;

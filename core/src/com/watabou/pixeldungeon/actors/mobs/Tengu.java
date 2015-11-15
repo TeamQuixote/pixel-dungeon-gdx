@@ -115,7 +115,7 @@ public class Tengu extends Mob {
 	
 	@Override
 	protected boolean canAttack( Char enemy ) {
-		return Ballistica.cast( pos, enemy.pos, false, true ) == enemy.pos;
+		return Ballistica.cast(dungeon, pos, enemy.pos, false, true ) == enemy.pos;
 	}
 	
 	@Override
@@ -152,7 +152,7 @@ public class Tengu extends Mob {
 			!Level.fieldOfView[newPos] || 
 			!Level.passable[newPos] || 
 			Level.adjacent( newPos, enemy.pos ) ||
-			Actor.findChar( newPos ) != null);
+			dungeon.findChar( newPos ) != null);
 		
 		sprite.move( pos, newPos );
 		move( newPos );

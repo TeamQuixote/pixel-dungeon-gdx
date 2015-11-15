@@ -190,7 +190,7 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 		targeting = lastTarget != null && lastTarget.isAlive() && Dungeon.getInstance().visible[lastTarget.pos];
 		
 		if (targeting) {
-			if (Actor.all().contains( lastTarget )) {
+			if (Dungeon.getInstance().getAllActors().contains( lastTarget )) {
 				lastTarget.sprite.parent.add( crossM );
 				crossM.point( DungeonTilemap.tileToWorld( lastTarget.pos ) );
 				crossB.visible = true;

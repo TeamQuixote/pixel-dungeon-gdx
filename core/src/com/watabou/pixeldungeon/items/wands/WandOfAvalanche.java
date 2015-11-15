@@ -63,7 +63,7 @@ public class WandOfAvalanche extends Wand {
 			
 			if (d < Integer.MAX_VALUE) {
 				
-				Char ch = Actor.findChar( i ); 
+				Char ch = dungeon.findChar( i );
 				if (ch != null) {
 					
 					ch.sprite.flash();

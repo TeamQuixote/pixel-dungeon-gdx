@@ -48,12 +48,12 @@ public class WandOfFlock extends Wand {
 		
 		int n = level + 2;
 		
-		if (Actor.findChar( cell ) != null && Ballistica.distance > 2) {
+		if (dungeon.findChar( cell ) != null && Ballistica.distance > 2) {
 			cell = Ballistica.trace[Ballistica.distance - 2];
 		}
 		
 		boolean[] passable = BArray.or( Level.passable, Level.avoid, null );
-		for (Actor actor : Actor.all()) {
+		for (Actor actor : dungeon.getAllActors()) {
 			if (actor instanceof Char) {
 				passable[((Char)actor).pos] = false;
 			}
@@ -62,7 +62,7 @@ public class WandOfFlock extends Wand {
 		PathFinder.buildDistanceMap( cell, passable, n );
 		int dist = 0;
 		
-		if (Actor.findChar( cell ) != null) {
+		if (dungeon.findChar( cell ) != null) {
 			PathFinder.distance[cell] = Integer.MAX_VALUE;
 			dist = 1;
 		}
@@ -118,7 +118,7 @@ public class WandOfFlock extends Wand {
 		private boolean initialized = false;
 		
 		@Override
-		protected boolean act() {
+		public boolean act() {
 			if (initialized) {
 				HP = 0;
 

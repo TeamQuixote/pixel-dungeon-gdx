@@ -246,7 +246,7 @@ public class InterlevelScene extends PixelScene {
 	
 	private void descend() throws Exception {
 		
-		Actor.fixTime();
+		Dungeon.getInstance().fixTime();
 		if (Dungeon.getInstance().hero == null) {
 			Dungeon.getInstance().init();
 			if (noStory) {
@@ -269,7 +269,7 @@ public class InterlevelScene extends PixelScene {
 	
 	private void fall() throws Exception {
 		
-		Actor.fixTime();
+		Dungeon.getInstance().fixTime();
 		Dungeon.getInstance().saveLevel();
 		
 		Level level;
@@ -283,7 +283,7 @@ public class InterlevelScene extends PixelScene {
 	}
 	
 	private void ascend() throws Exception {
-		Actor.fixTime();
+		Dungeon.getInstance().fixTime();
 		
 		Dungeon.getInstance().saveLevel();
 		Dungeon.getInstance().depth--;
@@ -293,7 +293,7 @@ public class InterlevelScene extends PixelScene {
 	
 	private void returnTo() throws Exception {
 		
-		Actor.fixTime();
+		Dungeon.getInstance().fixTime();
 		
 		Dungeon.getInstance().saveLevel();
 		Dungeon.getInstance().depth = returnDepth;
@@ -303,7 +303,7 @@ public class InterlevelScene extends PixelScene {
 	
 	private void restore() throws Exception {
 		
-		Actor.fixTime();
+		Dungeon.getInstance().fixTime();
 		
 		Dungeon.getInstance().loadGame( StartScene.curClass );
 		if (Dungeon.getInstance().depth == -1) {
@@ -317,7 +317,7 @@ public class InterlevelScene extends PixelScene {
 	
 	private void resurrect() throws Exception {
 		
-		Actor.fixTime(); 
+		Dungeon.getInstance().fixTime();
 		
 		if (Dungeon.getInstance().bossLevel()) {
 			Dungeon.getInstance().hero.resurrect( Dungeon.getInstance().depth );
