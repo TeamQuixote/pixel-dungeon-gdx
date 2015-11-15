@@ -97,7 +97,7 @@ public class Food extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return 
 			"Nothing fancy here: dried meat, " +
 			"some biscuits - things like that.";

@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items.keys;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class GoldenKey extends Key {
@@ -28,7 +27,7 @@ public class GoldenKey extends Key {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return 
 			"The notches on this golden key are tiny and intricate. " +
 			"Maybe it can open some chest lock?";

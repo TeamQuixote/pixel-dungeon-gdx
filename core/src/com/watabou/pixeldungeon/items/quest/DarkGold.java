@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items.quest;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
@@ -42,7 +41,7 @@ public class DarkGold extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"This metal is called dark not because of its color (it doesn't differ from the normal gold), " +
 			"but because it melts under the daylight, making it useless on the surface.";

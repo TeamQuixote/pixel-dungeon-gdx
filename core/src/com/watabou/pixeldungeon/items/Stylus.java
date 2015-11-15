@@ -104,7 +104,7 @@ public class Stylus extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"This arcane stylus is made of some dark, very hard stone. Using it you can inscribe " +
 			"a magical glyph on your armor, but you have no power over choosing what glyph it will be, " +

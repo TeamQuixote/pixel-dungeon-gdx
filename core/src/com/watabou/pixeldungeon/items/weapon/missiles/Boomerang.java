@@ -99,7 +99,7 @@ public class Boomerang extends MissileWeapon {
 			owner.belongings.weapon = this;
 			owner.spend( -TIME_TO_EQUIP );
 		} else 
-		if (!collect( curUser.belongings.backpack, curUser )) {
+		if (!collect( curUser.belongings.backpack )) {
 			Dungeon.level.drop( this, owner.pos ).sprite.drop();
 		}
 	}

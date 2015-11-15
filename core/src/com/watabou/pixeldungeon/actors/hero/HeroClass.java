@@ -103,7 +103,7 @@ public enum HeroClass {
 		}
 		
 		if (Badges.isUnlocked( masteryBadge() )) {
-			new TomeOfMastery().collect(hero);
+			new TomeOfMastery().collect();
 		}
 		
 		hero.updateAwareness();
@@ -111,7 +111,7 @@ public enum HeroClass {
 	
 	private static void initCommon( Hero hero ) {
 		(hero.belongings.armor = new ClothArmor()).identify();
-		new Food().identify().collect(hero);
+		new Food().identify().collect();
 	}
 	
 	public Badges.Badge masteryBadge() {
@@ -132,7 +132,7 @@ public enum HeroClass {
 		hero.STR = hero.STR + 1;
 		
 		(hero.belongings.weapon = new ShortSword()).identify();
-		new Dart( 8 ).identify().collect(hero);
+		new Dart( 8 ).identify().collect();
 		
 		Dungeon.quickslot = Dart.class;
 		
@@ -143,7 +143,7 @@ public enum HeroClass {
 		(hero.belongings.weapon = new Knuckles()).identify();
 		
 		WandOfMagicMissile wand = new WandOfMagicMissile();
-		wand.identify().collect(hero);
+		wand.identify().collect();
 		
 		Dungeon.quickslot = wand;
 		
@@ -153,7 +153,7 @@ public enum HeroClass {
 	private static void initRogue( Hero hero ) {
 		(hero.belongings.weapon = new Dagger()).identify();
 		(hero.belongings.ring1 = new RingOfShadows()).upgrade().identify();
-		new Dart( 8 ).identify().collect(hero);
+		new Dart( 8 ).identify().collect();
 		
 		hero.belongings.ring1.activate( hero );
 		
@@ -168,7 +168,7 @@ public enum HeroClass {
 		
 		(hero.belongings.weapon = new Dagger()).identify();
 		Boomerang boomerang = new Boomerang();
-		boomerang.identify().collect(hero);
+		boomerang.identify().collect();
 		
 		Dungeon.quickslot = boomerang;
 	}

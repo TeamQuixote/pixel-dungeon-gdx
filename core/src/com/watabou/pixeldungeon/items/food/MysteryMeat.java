@@ -67,7 +67,7 @@ public class MysteryMeat extends Food {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return "Eat at your own risk!";
 	}
 	

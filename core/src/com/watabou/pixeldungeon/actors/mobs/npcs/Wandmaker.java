@@ -29,7 +29,6 @@ import com.watabou.pixeldungeon.actors.blobs.Blob;
 import com.watabou.pixeldungeon.actors.blobs.ToxicGas;
 import com.watabou.pixeldungeon.actors.buffs.Buff;
 import com.watabou.pixeldungeon.actors.buffs.Roots;
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.actors.mobs.Mob;
 import com.watabou.pixeldungeon.effects.CellEmitter;
 import com.watabou.pixeldungeon.effects.Speck;
@@ -352,8 +351,8 @@ public class Wandmaker extends NPC {
 			}
 			
 			@Override
-			public boolean collect( Bag container, Hero hero ) {
-				if (super.collect( container, hero )) {
+			public boolean collect( Bag container ) {
+				if (super.collect( container )) {
 					
 					if (Dungeon.level != null) {
 						for (Mob mob : Dungeon.level.mobs) {

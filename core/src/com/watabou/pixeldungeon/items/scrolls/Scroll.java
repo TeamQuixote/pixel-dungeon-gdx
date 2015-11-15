@@ -148,7 +148,7 @@ public abstract class Scroll extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return isKnown() ?
 			desc() :
 			"This parchment is covered with indecipherable writing, and bears a title " +

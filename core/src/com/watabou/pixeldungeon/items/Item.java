@@ -93,7 +93,7 @@ public class Item implements Bundlable {
 	}
 	
 	public boolean doPickUp( Hero hero ) {
-		if (collect( hero.belongings.backpack, hero )) {
+		if (collect( hero.belongings.backpack )) {
 			
 			GameScene.pickUp( this );
 			Sample.INSTANCE.play( Assets.SND_ITEM );
@@ -107,7 +107,7 @@ public class Item implements Bundlable {
 	
 	public void doDrop( Hero hero ) {	
 		hero.spendAndNext( TIME_TO_DROP );			
-		Dungeon.level.drop( detachAll( hero.belongings.backpack ), hero.pos ).sprite.drop( hero.pos );
+		Dungeon.level.drop( detachAll( hero.belongings.backpack ), hero.pos ).sprite.drop( hero.pos );	
 	}
 	
 	public void doThrow( Hero hero ) {
@@ -141,7 +141,7 @@ public class Item implements Bundlable {
 		}
 	}
 	
-	public boolean collect( Bag container, Hero hero ) {
+	public boolean collect( Bag container ) {
 		
 		ArrayList<Item> items = container.items;
 		
@@ -151,7 +151,7 @@ public class Item implements Bundlable {
 		
 		for (Item item:items) {
 			if (item instanceof Bag && ((Bag)item).grab( this )) {
-				return collect( (Bag)item, hero);
+				return collect( (Bag)item );
 			}
 		}
 		
@@ -169,7 +169,7 @@ public class Item implements Bundlable {
 		
 		if (items.size() < container.size) {
 			
-			if (hero != null && hero.isAlive()) {
+			if (Dungeon.hero != null && Dungeon.hero.isAlive()) {
 				Badges.validateItemLevelAquired( this );
 			}
 			
@@ -186,8 +186,8 @@ public class Item implements Bundlable {
 		}
 	}
 	
-	public boolean collect(Hero hero) {
-		return collect( hero.belongings.backpack, hero );
+	public boolean collect() {
+		return collect( Dungeon.hero.belongings.backpack );
 	}
 	
 	public final Item detach( Bag container ) {
@@ -335,7 +335,7 @@ public class Item implements Bundlable {
 		return null;
 	}
 	
-	public String info(Hero hero) {
+	public String info() {
 		return desc();
 	}
 	

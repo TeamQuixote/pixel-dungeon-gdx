@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class Ankh extends Item {
@@ -39,7 +38,7 @@ public class Ankh extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return 
 			"The ancient symbol of immortality grants an ability to return to life after death. " +
 			"Upon resurrection all non-equipped items are lost.";

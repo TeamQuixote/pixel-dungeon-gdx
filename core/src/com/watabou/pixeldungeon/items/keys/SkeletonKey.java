@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items.keys;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class SkeletonKey extends Key {
@@ -28,7 +27,7 @@ public class SkeletonKey extends Key {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return 
 			"This key looks serious: its head is shaped like a skull. " +
 			"Probably it can open some serious door.";

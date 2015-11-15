@@ -621,7 +621,7 @@ public class Dungeon {
 	public static void fail( String desc ) {
 		resultDescription = desc;
 		if (hero.belongings.getItem( Ankh.class ) == null) { 
-			Rankings.INSTANCE.submit( false, hero );
+			Rankings.INSTANCE.submit( false );
 		}
 	}
 	
@@ -632,7 +632,7 @@ public class Dungeon {
 		}
 		
 		resultDescription = desc;
-		Rankings.INSTANCE.submit( true, hero );
+		Rankings.INSTANCE.submit( true );
 	}
 	
 	public static void observe() {

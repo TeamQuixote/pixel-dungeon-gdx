@@ -235,6 +235,7 @@ public class Hero extends Char {
 	public int tier() {
 		return belongings.armor == null ? 0 : belongings.armor.tier;
 	}
+	
 	public boolean shoot( Char enemy, MissileWeapon wep ) {
 		
 		rangedWeapon = wep;
@@ -1148,7 +1149,7 @@ public class Hero extends Char {
 		} else {
 			
 			Dungeon.deleteGame( Dungeon.hero.heroClass, false );
-			GameScene.show( new WndResurrect( ankh, cause, this ) );
+			GameScene.show( new WndResurrect( ankh, cause ) );
 			
 		}
 	}

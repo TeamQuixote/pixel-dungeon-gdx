@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items.quest;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
@@ -41,7 +40,7 @@ public class RatSkull extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"It could be a nice hunting trophy, but it smells too bad to place it on a wall.";
 	}

@@ -69,7 +69,7 @@ public class Dewdrop extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return "A crystal clear dewdrop.";
 	}
 }

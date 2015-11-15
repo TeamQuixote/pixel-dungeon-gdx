@@ -18,7 +18,6 @@
 package com.watabou.pixeldungeon.items.food;
 
 import com.watabou.pixeldungeon.actors.buffs.Hunger;
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
 public class OverpricedRation extends Food {
@@ -31,7 +30,7 @@ public class OverpricedRation extends Food {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return "It looks exactly like a standard ration of food but smaller.";
 	}
 	

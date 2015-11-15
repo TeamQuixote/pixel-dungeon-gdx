@@ -85,7 +85,7 @@ public abstract class InventoryScroll extends Scroll {
 				
 			} else {
 				
-				curItem.collect( curUser.belongings.backpack, curUser );
+				curItem.collect( curUser.belongings.backpack );
 				
 			}
 		}

@@ -107,7 +107,7 @@ public class Weightstone extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"Using a weightstone, you can balance your melee weapon to increase its speed or accuracy.";
 	}

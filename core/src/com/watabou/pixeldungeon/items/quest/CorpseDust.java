@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items.quest;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
@@ -44,7 +43,7 @@ public class CorpseDust extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"The ball of corpse dust doesn't differ outwardly from a regular dust ball. However, " +
 			"you know somehow that it's better to get rid of it as soon as possible.";

@@ -116,26 +116,26 @@ public class MissileWeapon extends Weapon {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		
 		StringBuilder info = new StringBuilder( desc() );
 		
 		info.append( "\n\nAverage damage of this weapon equals to " + (MIN + (MAX - MIN) / 2) + " points per hit. " );
 		
-		if (hero.belongings.backpack.items.contains( this )) {
-			if (STR > hero.STR()) {
+		if (Dungeon.hero.belongings.backpack.items.contains( this )) {
+			if (STR > Dungeon.hero.STR()) {
 				info.append( 
 					"Because of your inadequate strength the accuracy and speed " +
 					"of your attack with this " + name + " is decreased." );
 			}
-			if (STR < hero.STR()) {
+			if (STR < Dungeon.hero.STR()) {
 				info.append( 
 					"Because of your excess strength the damage " +
 					"of your attack with this " + name + " is increased." );
 			}
 		}
 		
-		if (isEquipped( hero )) {
+		if (isEquipped( Dungeon.hero )) {
 			info.append( "\n\nYou hold the " + name + " at the ready." ); 
 		}
 		

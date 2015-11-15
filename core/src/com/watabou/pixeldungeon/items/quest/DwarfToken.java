@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items.quest;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
@@ -42,7 +41,7 @@ public class DwarfToken extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"Many dwarves and some of their larger creations carry these small pieces of metal of unknown purpose. " +
 			"Maybe they are jewelry or maybe some kind of ID. Dwarves are strange folk.";

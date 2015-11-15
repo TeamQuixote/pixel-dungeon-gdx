@@ -85,7 +85,7 @@ public abstract class EquipableItem extends Item {
 			hero.spend( time2equip( hero ) );
 		}
 		
-		if (collect && !collect( hero.belongings.backpack, hero )) {
+		if (collect && !collect( hero.belongings.backpack )) {
 			Dungeon.level.drop( this, hero.pos );
 		}
 				

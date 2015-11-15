@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import com.watabou.noosa.Game;
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
 import com.watabou.pixeldungeon.utils.Utils;
 import com.watabou.utils.Bundlable;
@@ -45,7 +44,7 @@ public enum Rankings {
 	public int lastRecord;
 	public int totalNumber;
 	
-	public void submit( boolean win, Hero hero ) {
+	public void submit( boolean win ) {
 		
 		load();
 		
@@ -53,9 +52,9 @@ public enum Rankings {
 		
 		rec.info	= Dungeon.resultDescription;
 		rec.win		= win;
-		rec.heroClass	= hero.heroClass;
-		rec.armorTier	= hero.tier();
-		rec.score	= score( win, hero );
+		rec.heroClass	= Dungeon.hero.heroClass;
+		rec.armorTier	= Dungeon.hero.tier();
+		rec.score	= score( win );
 		
 		String gameFile = Utils.format( DETAILS_FILE, SystemTime.now );
 		try {
@@ -93,8 +92,8 @@ public enum Rankings {
 		save();
 	}
 	
-	private int score( boolean win, Hero hero ) {
-		return (Statistics.goldCollected + hero.lvl * Dungeon.depth * 100) * (win ? 2 : 1);
+	private int score( boolean win ) {
+		return (Statistics.goldCollected + Dungeon.hero.lvl * Dungeon.depth * 100) * (win ? 2 : 1);
 	}
 	
 	private static final String RECORDS	= "records";

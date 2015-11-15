@@ -97,7 +97,7 @@ public class ArmorKit extends Item {
 		} else {
 			
 			armor.detach( curUser.belongings.backpack );
-			classArmor.collect( curUser.belongings.backpack, curUser );
+			classArmor.collect( curUser.belongings.backpack );
 			
 		}
 		
@@ -106,7 +106,7 @@ public class ArmorKit extends Item {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"Using this kit of small tools and materials anybody can transform any armor into an \"epic armor\", " +
 			"which will keep all properties of the original armor, but will also provide its wearer a special ability " +

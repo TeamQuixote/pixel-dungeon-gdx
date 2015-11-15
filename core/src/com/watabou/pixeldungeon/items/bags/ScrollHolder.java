@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.items.bags;
 
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.items.scrolls.Scroll;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
@@ -42,7 +41,7 @@ public class ScrollHolder extends Bag {
 	}
 	
 	@Override
-	public String info(Hero hero) {
+	public String info() {
 		return
 			"You can place any number of scrolls into this tubular container. " +
 			"It saves room in your backpack and protects scrolls from fire.";
