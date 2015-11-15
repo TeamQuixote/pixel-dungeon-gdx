@@ -86,7 +86,7 @@ public abstract class EquipableItem extends Item {
 		}
 		
 		if (collect && !collect( hero.belongings.backpack )) {
-			Dungeon.level.drop( this, hero.pos );
+			Dungeon.getInstance().level.drop( this, hero.pos );
 		}
 				
 		return true;

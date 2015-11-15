@@ -176,7 +176,7 @@ public class InterlevelScene extends PixelScene {
 						break;
 					}
 					
-					if ((Dungeon.depth % 5) == 0) {
+					if ((Dungeon.getInstance().depth % 5) == 0) {
 						Sample.INSTANCE.load( Assets.SND_BOSS );
 					}
 					
@@ -222,7 +222,7 @@ public class InterlevelScene extends PixelScene {
 		case FADE_OUT:
 			message.alpha( p );
 			
-			if (mode == Mode.CONTINUE || (mode == Mode.DESCEND && Dungeon.depth == 1)) {
+			if (mode == Mode.CONTINUE || (mode == Mode.DESCEND && Dungeon.getInstance().depth == 1)) {
 				Music.INSTANCE.volume( p );
 			}
 			if ((timeLeft -= Game.elapsed) <= 0) {
@@ -247,71 +247,71 @@ public class InterlevelScene extends PixelScene {
 	private void descend() throws Exception {
 		
 		Actor.fixTime();
-		if (Dungeon.hero == null) {
-			Dungeon.init();
+		if (Dungeon.getInstance().hero == null) {
+			Dungeon.getInstance().init();
 			if (noStory) {
-				Dungeon.chapters.add( WndStory.ID_SEWERS );
+				Dungeon.getInstance().chapters.add( WndStory.ID_SEWERS );
 				noStory = false;
 			}
 		} else {
-			Dungeon.saveLevel();
+			Dungeon.getInstance().saveLevel();
 		}
 		
 		Level level;
-		if (Dungeon.depth >= Statistics.deepestFloor) {
-			level = Dungeon.newLevel();
+		if (Dungeon.getInstance().depth >= Statistics.deepestFloor) {
+			level = Dungeon.getInstance().newLevel();
 		} else {
-			Dungeon.depth++;
-			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
+			Dungeon.getInstance().depth++;
+			level = Dungeon.getInstance().loadLevel( Dungeon.getInstance().hero.heroClass );
 		}
-		Dungeon.switchLevel( level, level.entrance );
+		Dungeon.getInstance().switchLevel( level, level.entrance );
 	}
 	
 	private void fall() throws Exception {
 		
 		Actor.fixTime();
-		Dungeon.saveLevel();
+		Dungeon.getInstance().saveLevel();
 		
 		Level level;
-		if (Dungeon.depth >= Statistics.deepestFloor) {
-			level = Dungeon.newLevel();
+		if (Dungeon.getInstance().depth >= Statistics.deepestFloor) {
+			level = Dungeon.getInstance().newLevel();
 		} else {
-			Dungeon.depth++;
-			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
+			Dungeon.getInstance().depth++;
+			level = Dungeon.getInstance().loadLevel( Dungeon.getInstance().hero.heroClass );
 		}
-		Dungeon.switchLevel( level, fallIntoPit ? level.pitCell() : level.randomRespawnCell() );
+		Dungeon.getInstance().switchLevel( level, fallIntoPit ? level.pitCell() : level.randomRespawnCell() );
 	}
 	
 	private void ascend() throws Exception {
 		Actor.fixTime();
 		
-		Dungeon.saveLevel();
-		Dungeon.depth--;
-		Level level = Dungeon.loadLevel( Dungeon.hero.heroClass );
-		Dungeon.switchLevel( level, level.exit );
+		Dungeon.getInstance().saveLevel();
+		Dungeon.getInstance().depth--;
+		Level level = Dungeon.getInstance().loadLevel( Dungeon.getInstance().hero.heroClass );
+		Dungeon.getInstance().switchLevel( level, level.exit );
 	}
 	
 	private void returnTo() throws Exception {
 		
 		Actor.fixTime();
 		
-		Dungeon.saveLevel();
-		Dungeon.depth = returnDepth;
-		Level level = Dungeon.loadLevel( Dungeon.hero.heroClass );
-		Dungeon.switchLevel( level, Level.resizingNeeded ? level.adjustPos( returnPos ) : returnPos );
+		Dungeon.getInstance().saveLevel();
+		Dungeon.getInstance().depth = returnDepth;
+		Level level = Dungeon.getInstance().loadLevel( Dungeon.getInstance().hero.heroClass );
+		Dungeon.getInstance().switchLevel( level, Level.resizingNeeded ? level.adjustPos( returnPos ) : returnPos );
 	}
 	
 	private void restore() throws Exception {
 		
 		Actor.fixTime();
 		
-		Dungeon.loadGame( StartScene.curClass );
-		if (Dungeon.depth == -1) {
-			Dungeon.depth = Statistics.deepestFloor;
-			Dungeon.switchLevel( Dungeon.loadLevel( StartScene.curClass ), -1 );
+		Dungeon.getInstance().loadGame( StartScene.curClass );
+		if (Dungeon.getInstance().depth == -1) {
+			Dungeon.getInstance().depth = Statistics.deepestFloor;
+			Dungeon.getInstance().switchLevel( Dungeon.getInstance().loadLevel( StartScene.curClass ), -1 );
 		} else {
-			Level level = Dungeon.loadLevel( StartScene.curClass );
-			Dungeon.switchLevel( level, Level.resizingNeeded ? level.adjustPos( Dungeon.hero.pos ) : Dungeon.hero.pos );
+			Level level = Dungeon.getInstance().loadLevel( StartScene.curClass );
+			Dungeon.getInstance().switchLevel( level, Level.resizingNeeded ? level.adjustPos( Dungeon.getInstance().hero.pos ) : Dungeon.getInstance().hero.pos );
 		}
 	}
 	
@@ -319,14 +319,14 @@ public class InterlevelScene extends PixelScene {
 		
 		Actor.fixTime(); 
 		
-		if (Dungeon.bossLevel()) {
-			Dungeon.hero.resurrect( Dungeon.depth );
-			Dungeon.depth--;
-			Level level = Dungeon.newLevel(/* true */);
-			Dungeon.switchLevel( level, level.entrance );
+		if (Dungeon.getInstance().bossLevel()) {
+			Dungeon.getInstance().hero.resurrect( Dungeon.getInstance().depth );
+			Dungeon.getInstance().depth--;
+			Level level = Dungeon.getInstance().newLevel(/* true */);
+			Dungeon.getInstance().switchLevel( level, level.entrance );
 		} else {
-			Dungeon.hero.resurrect( -1 );
-			Dungeon.resetLevel();
+			Dungeon.getInstance().hero.resurrect( -1 );
+			Dungeon.getInstance().resetLevel();
 		}
 	}
 	

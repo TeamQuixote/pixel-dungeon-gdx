@@ -89,7 +89,7 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 					} else {
 						lastItem = item;
 					}
-					item.execute( Dungeon.hero );
+					item.execute( Dungeon.getInstance().hero );
 				}
 			}
 			@Override
@@ -139,14 +139,14 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 	
 	@SuppressWarnings("unchecked")
 	private static Item select() {
-		if (Dungeon.quickslot instanceof Item) {
+		if (Dungeon.getInstance().quickslot instanceof Item) {
 			
-			return (Item)Dungeon.quickslot;
+			return (Item)Dungeon.getInstance().quickslot;
 			
-		} else if (Dungeon.quickslot != null) {
+		} else if (Dungeon.getInstance().quickslot != null) {
 			
-			Item item = Dungeon.hero.belongings.getItem( (Class<? extends Item>)Dungeon.quickslot );			
-			return item != null ? item : Item.virtual( (Class<? extends Item>)Dungeon.quickslot );
+			Item item = Dungeon.getInstance().hero.belongings.getItem( (Class<? extends Item>)Dungeon.getInstance().quickslot );
+			return item != null ? item : Item.virtual( (Class<? extends Item>)Dungeon.getInstance().quickslot );
 			
 		} else {
 			
@@ -158,7 +158,7 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 	@Override
 	public void onSelect( Item item ) {
 		if (item != null) {
-			Dungeon.quickslot = item.stackable ? item.getClass() : item;
+			Dungeon.getInstance().quickslot = item.stackable ? item.getClass() : item;
 			refresh();
 		}
 	}
@@ -182,12 +182,12 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 		slot.enable( 
 			itemInSlot != null && 
 			itemInSlot.quantity() > 0 && 
-			(Dungeon.hero.belongings.backpack.contains( itemInSlot ) || itemInSlot.isEquipped( Dungeon.hero )));
+			(Dungeon.getInstance().hero.belongings.backpack.contains( itemInSlot ) || itemInSlot.isEquipped( Dungeon.getInstance().hero )));
 	}
 	
 	private void useTargeting() {
 		
-		targeting = lastTarget != null && lastTarget.isAlive() && Dungeon.visible[lastTarget.pos];
+		targeting = lastTarget != null && lastTarget.isAlive() && Dungeon.getInstance().visible[lastTarget.pos];
 		
 		if (targeting) {
 			if (Actor.all().contains( lastTarget )) {
@@ -207,7 +207,7 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 	}
 	
 	public static void target( Item item, Char target ) {
-		if (item == instance.lastItem && target != Dungeon.hero) {
+		if (item == instance.lastItem && target != Dungeon.getInstance().hero) {
 			instance.lastTarget = target;
 			
 			HealthIndicator.instance.target( target );

@@ -93,7 +93,7 @@ public abstract class Char extends Actor {
 	
 	@Override
 	protected boolean act() {
-		Dungeon.level.updateFieldOfView( this );
+		Dungeon.getInstance().level.updateFieldOfView( this );
 		return false;
 	}
 	
@@ -131,7 +131,7 @@ public abstract class Char extends Actor {
 	
 	public boolean attack( Char enemy ) {
 		
-		boolean visibleFight = Dungeon.visible[pos] || Dungeon.visible[enemy.pos];
+		boolean visibleFight = Dungeon.getInstance().getInstance().visible[pos] || Dungeon.getInstance().getInstance().visible[enemy.pos];
 		
 		if (hit( this, enemy, false )) {
 			
@@ -154,27 +154,27 @@ public abstract class Char extends Actor {
 				Sample.INSTANCE.play( Assets.SND_HIT, 1, 1, Random.Float( 0.8f, 1.25f ) );
 			}
 
-			if (enemy == Dungeon.hero) {
-				Dungeon.hero.interrupt();
+			if (enemy == Dungeon.getInstance().getInstance().hero) {
+				Dungeon.getInstance().hero.interrupt();
 			}
 			
 			enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
 			enemy.sprite.flash();
 			
 			if (!enemy.isAlive() && visibleFight) {
-				if (enemy == Dungeon.hero) {
+				if (enemy == Dungeon.getInstance().getInstance().hero) {
 					
-					if (Dungeon.hero.killerGlyph != null) {
+					if (Dungeon.getInstance().hero.killerGlyph != null) {
 						
-						Dungeon.fail( Utils.format( ResultDescriptions.GLYPH, Dungeon.hero.killerGlyph.name(), Dungeon.depth ) );
-						GLog.n( TXT_KILL, Dungeon.hero.killerGlyph.name() );
+						Dungeon.getInstance().fail(Utils.format(ResultDescriptions.GLYPH, Dungeon.getInstance().getInstance().hero.killerGlyph.name(), Dungeon.getInstance().getInstance().depth));
+						GLog.n( TXT_KILL, Dungeon.getInstance().getInstance().hero.killerGlyph.name() );
 						
 					} else {
 						if (Bestiary.isUnique( this )) {
-							Dungeon.fail( Utils.format( ResultDescriptions.BOSS, name, Dungeon.depth ) );
+							Dungeon.getInstance().fail(Utils.format(ResultDescriptions.BOSS, name, Dungeon.getInstance().getInstance().depth ) );
 						} else {
-							Dungeon.fail( Utils.format( ResultDescriptions.MOB, 
-								Utils.indefinite( name ), Dungeon.depth ) );
+							Dungeon.getInstance().fail(Utils.format(ResultDescriptions.MOB,
+                                    Utils.indefinite(name), Dungeon.getInstance().getInstance().depth));
 						}
 						
 						GLog.n( TXT_KILL, name );
@@ -192,7 +192,7 @@ public abstract class Char extends Actor {
 			if (visibleFight) {
 				String defense = enemy.defenseVerb();
 				enemy.sprite.showStatus( CharSprite.NEUTRAL, defense );
-				if (this == Dungeon.hero) {
+				if (this == Dungeon.getInstance().getInstance().hero) {
 					GLog.i( TXT_YOU_MISSED, enemy.name, defense );
 				} else {
 					GLog.i( TXT_SMB_MISSED, enemy.name, defense, name );
@@ -262,7 +262,7 @@ public abstract class Char extends Actor {
 		if (buff( Paralysis.class ) != null) {
 			if (Random.Int( dmg ) >= Random.Int( HP )) {
 				Buff.detach( this, Paralysis.class );
-				if (Dungeon.visible[pos]) {
+				if (Dungeon.getInstance().visible[pos]) {
 					GLog.i( TXT_OUT_OF_PARALYSIS, name );
 				}
 			}
@@ -470,18 +470,18 @@ public abstract class Char extends Actor {
 			step = Random.element( candidates );
 		}
 		
-		if (Dungeon.level.map[pos] == Terrain.OPEN_DOOR) {
+		if (Dungeon.getInstance().level.map[pos] == Terrain.OPEN_DOOR) {
 			Door.leave( pos );
 		}
 		
 		pos = step;
 		
-		if (flying && Dungeon.level.map[pos] == Terrain.DOOR) {
+		if (flying && Dungeon.getInstance().getInstance().level.map[pos] == Terrain.DOOR) {
 			Door.enter( pos );
 		}
 		
-		if (this != Dungeon.hero) {
-			sprite.visible = Dungeon.visible[pos];
+		if (this != Dungeon.getInstance().getInstance().hero) {
+			sprite.visible = Dungeon.getInstance().getInstance().visible[pos];
 		}
 	}
 	

@@ -164,7 +164,7 @@ public class HallsBossLevel extends Level {
 		
 		super.press( cell, hero );
 		
-		if (!enteredArena && hero == Dungeon.hero && cell != entrance) {
+		if (!enteredArena && hero == Dungeon.getInstance().hero && cell != entrance) {
 			
 			enteredArena = true;
 			
@@ -179,14 +179,14 @@ public class HallsBossLevel extends Level {
 			doMagic( entrance );
 			GameScene.updateMap();
 
-			Dungeon.observe();
+			Dungeon.getInstance().observe();
 			
 			Yog boss = new Yog();
 			do {
 				boss.pos = Random.Int( LENGTH );
 			} while (
 				!passable[boss.pos] ||
-				Dungeon.visible[boss.pos]);
+				Dungeon.getInstance().visible[boss.pos]);
 			GameScene.add( boss );
 			boss.spawnFists();
 			

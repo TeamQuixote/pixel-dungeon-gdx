@@ -81,7 +81,7 @@ public class PlantSprite extends Image {
 	public void update() {
 		super.update();
 		
-		visible = pos == -1 || Dungeon.visible[pos];
+		visible = pos == -1 || Dungeon.getInstance().visible[pos];
 		
 		switch (state) {
 		case GROWING:

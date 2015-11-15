@@ -39,7 +39,7 @@ public class ImpShopkeeper extends Shopkeeper {
 	@Override
 	protected boolean act() {
 
-		if (!seenBefore && Dungeon.visible[pos]) {
+		if (!seenBefore && Dungeon.getInstance().visible[pos]) {
 			yell( Utils.format( TXT_GREETINGS ) );
 			seenBefore = true;
 		}
@@ -49,7 +49,7 @@ public class ImpShopkeeper extends Shopkeeper {
 	
 	@Override
 	protected void flee() {
-		for (Heap heap: Dungeon.level.heaps.values()) {
+		for (Heap heap: Dungeon.getInstance().level.heaps.values()) {
 			if (heap.type == Heap.Type.FOR_SALE) {
 				CellEmitter.get( heap.pos ).burst( ElmoParticle.FACTORY, 4 );
 				heap.destroy();

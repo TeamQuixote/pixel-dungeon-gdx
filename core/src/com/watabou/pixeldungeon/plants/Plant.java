@@ -60,19 +60,19 @@ public class Plant implements Bundlable {
 	}
 	
 	public void wither() {
-		Dungeon.level.uproot( pos );
+		Dungeon.getInstance().level.uproot( pos );
 		
 		sprite.kill();
-		if (Dungeon.visible[pos]) {
+		if (Dungeon.getInstance().visible[pos]) {
 			CellEmitter.get( pos ).burst( LeafParticle.GENERAL, 6 );
 		}
 		
-		if (Dungeon.hero.subClass == HeroSubClass.WARDEN) {
+		if (Dungeon.getInstance().hero.subClass == HeroSubClass.WARDEN) {
 			if (Random.Int( 5 ) == 0) {
-				Dungeon.level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite.drop();
+				Dungeon.getInstance().level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite.drop();
 			}
 			if (Random.Int( 5 ) == 0) {
-				Dungeon.level.drop( new Dewdrop(), pos ).sprite.drop();
+				Dungeon.getInstance().level.drop( new Dewdrop(), pos ).sprite.drop();
 			}
 		}
 	}
@@ -120,10 +120,10 @@ public class Plant implements Bundlable {
 		
 		@Override
 		protected void onThrow( int cell ) {
-			if (Dungeon.level.map[cell] == Terrain.ALCHEMY || Level.pit[cell]) {
+			if (Dungeon.getInstance().level.map[cell] == Terrain.ALCHEMY || Level.pit[cell]) {
 				super.onThrow( cell );
 			} else {
-				Dungeon.level.plant( this, cell );
+				Dungeon.getInstance().level.plant( this, cell );
 			}
 		}
 		

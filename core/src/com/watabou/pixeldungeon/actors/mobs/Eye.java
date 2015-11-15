@@ -97,7 +97,7 @@ public class Eye extends Mob {
 		boolean rayVisible = false;
 		
 		for (int i=0; i < Ballistica.distance; i++) {
-			if (Dungeon.visible[Ballistica.trace[i]]) {
+			if (Dungeon.getInstance().visible[Ballistica.trace[i]]) {
 				rayVisible = true;
 			}
 		}
@@ -126,13 +126,13 @@ public class Eye extends Mob {
 			if (hit( this, ch, true )) {
 				ch.damage( Random.NormalIntRange( 14, 20 ), this );
 				
-				if (Dungeon.visible[pos]) {
+				if (Dungeon.getInstance().visible[pos]) {
 					ch.sprite.flash();
 					CellEmitter.center( pos ).burst( PurpleParticle.BURST, Random.IntRange( 1, 2 ) );
 				}
 				
-				if (!ch.isAlive() && ch == Dungeon.hero) {
-					Dungeon.fail( Utils.format( ResultDescriptions.MOB, Utils.indefinite( name ), Dungeon.depth ) );
+				if (!ch.isAlive() && ch == Dungeon.getInstance().hero) {
+					Dungeon.getInstance().fail( Utils.format( ResultDescriptions.MOB, Utils.indefinite( name ), Dungeon.getInstance().depth ) );
 					GLog.n( TXT_DEATHGAZE_KILLED, name );
 				}
 			} else {

@@ -36,7 +36,7 @@ public class Terror extends FlavourBuff {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		// It's not really correct...
-		source = Dungeon.hero;
+		source = Dungeon.getInstance().hero;
 	}
 	
 	@Override

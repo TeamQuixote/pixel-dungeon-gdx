@@ -210,9 +210,9 @@ public class Armor extends EquipableItem {
 				"\n\nThis " + name + " provides damage absorption up to " +
 				"" + Math.max( DR, 0 ) + " points per attack. " );
 			
-			if (STR > Dungeon.hero.STR()) {
+			if (STR > Dungeon.getInstance().hero.STR()) {
 				
-				if (isEquipped( Dungeon.hero )) {
+				if (isEquipped( Dungeon.getInstance().hero )) {
 					info.append( 
 						"\n\nBecause of your inadequate strength your " +
 						"movement speed and defense skill is decreased. " );
@@ -227,7 +227,7 @@ public class Armor extends EquipableItem {
 			info.append( 
 				"\n\nTypical " + name + " provides damage absorption up to " + typicalDR() + " points per attack " +
 				" and requires " + typicalSTR() + " points of strength. " );
-			if (typicalSTR() > Dungeon.hero.STR()) {
+			if (typicalSTR() > Dungeon.getInstance().hero.STR()) {
 				info.append( "Probably this armor is too heavy for you. " );
 			}
 		}
@@ -236,7 +236,7 @@ public class Armor extends EquipableItem {
 			info.append( "It is inscribed." );
 		}
 		
-		if (isEquipped( Dungeon.hero )) {
+		if (isEquipped( Dungeon.getInstance().hero )) {
 			info.append( "\n\nYou are wearing the " + name + 
 				(cursed ? ", and because it is cursed, you are powerless to remove it." : ".") ); 
 		} else {

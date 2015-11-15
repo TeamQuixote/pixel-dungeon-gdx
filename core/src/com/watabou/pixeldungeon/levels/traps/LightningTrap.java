@@ -40,12 +40,12 @@ public class LightningTrap {
 		
 		if (ch != null) {
 			ch.damage( Math.max( 1, Random.Int( ch.HP / 3, 2 * ch.HP / 3 ) ), LIGHTNING );
-			if (ch == Dungeon.hero) {
+			if (ch == Dungeon.getInstance().hero) {
 				
 				Camera.main.shake( 2, 0.3f );
 				
 				if (!ch.isAlive()) {
-					Dungeon.fail( Utils.format( ResultDescriptions.TRAP, name, Dungeon.depth ) );
+					Dungeon.getInstance().fail( Utils.format( ResultDescriptions.TRAP, name, Dungeon.getInstance().depth ) );
 					GLog.n( "You were killed by a discharge of a lightning trap..." );
 				} else {
 					((Hero)ch).belongings.charge( false );

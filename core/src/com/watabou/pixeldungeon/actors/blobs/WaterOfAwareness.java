@@ -53,22 +53,22 @@ public class WaterOfAwareness extends WellWater {
 		
 		for (int i=0; i < Level.LENGTH; i++) {
 			
-			int terr = Dungeon.level.map[i];
+			int terr = Dungeon.getInstance().getInstance().level.map[i];
 			if ((Terrain.flags[terr] & Terrain.SECRET) != 0) {
 				
 				Level.set( i, Terrain.discover( terr ) );						
 				GameScene.updateMap( i );
 				
-				if (Dungeon.visible[i]) {
+				if (Dungeon.getInstance().visible[i]) {
 					GameScene.discoverTile( i, terr );
 				}
 			}
 		}
 		
 		Buff.affect( hero, Awareness.class, Awareness.DURATION );
-		Dungeon.observe();
+		Dungeon.getInstance().observe();
 
-		Dungeon.hero.interrupt();
+		Dungeon.getInstance().hero.interrupt();
 	
 		GLog.p( TXT_PROCCED );
 		

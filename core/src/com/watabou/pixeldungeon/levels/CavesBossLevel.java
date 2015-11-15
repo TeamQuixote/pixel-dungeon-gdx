@@ -215,23 +215,23 @@ public class CavesBossLevel extends Level {
 		
 		super.press( cell, hero );
 		
-		if (!enteredArena && outsideEntraceRoom( cell ) && hero == Dungeon.hero) {
+		if (!enteredArena && outsideEntraceRoom( cell ) && hero == Dungeon.getInstance().hero) {
 			
 			enteredArena = true;
 			
-			Mob boss = Bestiary.mob( Dungeon.depth );
+			Mob boss = Bestiary.mob( Dungeon.getInstance().depth );
 			boss.state = boss.HUNTING;
 			do {
 				boss.pos = Random.Int( LENGTH );
 			} while (
 				!passable[boss.pos] ||
 				!outsideEntraceRoom( boss.pos ) ||
-				Dungeon.visible[boss.pos]);
+				Dungeon.getInstance().visible[boss.pos]);
 			GameScene.add( boss );
 			
 			set( arenaDoor, Terrain.WALL );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.observe();
+			Dungeon.getInstance().observe();
 			
 			CellEmitter.get( arenaDoor ).start( Speck.factory( Speck.ROCK ), 0.07f, 10 );
 			Camera.main.shake( 3, 0.7f );
@@ -250,7 +250,7 @@ public class CavesBossLevel extends Level {
 			
 			set( arenaDoor, Terrain.EMPTY_DECO );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.observe();
+			Dungeon.getInstance().observe();
 		}
 		
 		return super.drop( item, cell );

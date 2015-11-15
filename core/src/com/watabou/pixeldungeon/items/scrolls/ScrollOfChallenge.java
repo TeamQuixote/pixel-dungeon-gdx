@@ -34,7 +34,7 @@ public class ScrollOfChallenge extends Scroll {
 	@Override
 	protected void doRead() {
 		
-		for (Mob mob : Dungeon.level.mobs) {
+		for (Mob mob : Dungeon.getInstance().level.mobs) {
 			mob.beckon( curUser.pos );
 		}
 		

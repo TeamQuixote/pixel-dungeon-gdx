@@ -76,7 +76,7 @@ public class Tengu extends Mob {
 	public void die( Object cause ) {
 		
 		Badges.Badge badgeToCheck = null;
-		switch (Dungeon.hero.heroClass) {
+		switch (Dungeon.getInstance().hero.heroClass) {
 		case WARRIOR:
 			badgeToCheck = Badge.MASTERY_WARRIOR;
 			break;
@@ -91,11 +91,11 @@ public class Tengu extends Mob {
 			break;
 		}
 		if (!Badges.isUnlocked( badgeToCheck )) {
-			Dungeon.level.drop( new TomeOfMastery(), pos ).sprite.drop();
+			Dungeon.getInstance().level.drop( new TomeOfMastery(), pos ).sprite.drop();
 		}
 		
 		GameScene.bossSlain();
-		Dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
+		Dungeon.getInstance().level.drop( new SkeletonKey(), pos ).sprite.drop();
 		super.die( cause );
 		
 		Badges.validateBossSlain();
@@ -138,7 +138,7 @@ public class Tengu extends Mob {
 				trapPos = Random.Int( Level.LENGTH );
 			} while (!Level.fieldOfView[trapPos] || !Level.passable[trapPos]);
 			
-			if (Dungeon.level.map[trapPos] == Terrain.INACTIVE_TRAP) {
+			if (Dungeon.getInstance().level.map[trapPos] == Terrain.INACTIVE_TRAP) {
 				Level.set( trapPos, Terrain.POISON_TRAP );
 				GameScene.updateMap( trapPos );
 				ScrollOfMagicMapping.discover( trapPos );
@@ -157,7 +157,7 @@ public class Tengu extends Mob {
 		sprite.move( pos, newPos );
 		move( newPos );
 		
-		if (Dungeon.visible[newPos]) {
+		if (Dungeon.getInstance().visible[newPos]) {
 			CellEmitter.get( newPos ).burst( Speck.factory( Speck.WOOL ), 6 );
 			Sample.INSTANCE.play( Assets.SND_PUFF );
 		}
@@ -168,7 +168,7 @@ public class Tengu extends Mob {
 	@Override
 	public void notice() {
 		super.notice();
-		yell( "Gotcha, " + Dungeon.hero.heroClass.title() + "!" );
+		yell( "Gotcha, " + Dungeon.getInstance().hero.heroClass.title() + "!" );
 	}
 	
 	@Override

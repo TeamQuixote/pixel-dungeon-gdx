@@ -114,7 +114,7 @@ public class WndHero extends WndTabbed {
 		
 		public StatsTab() {
 			
-			Hero hero = Dungeon.hero; 
+			Hero hero = Dungeon.getInstance().hero;
 
 			BitmapText title = PixelScene.createText( 
 				Utils.format( TXT_TITLE, hero.lvl, hero.className() ).toUpperCase( Locale.ENGLISH ), 9 );
@@ -191,7 +191,7 @@ public class WndHero extends WndTabbed {
 		private float pos;
 		
 		public BuffsTab() {
-			for (Buff buff : Dungeon.hero.buffs()) {
+			for (Buff buff : Dungeon.getInstance().hero.buffs()) {
 				buffSlot( buff );
 			}
 		}

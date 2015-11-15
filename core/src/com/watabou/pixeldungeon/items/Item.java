@@ -107,7 +107,7 @@ public class Item implements Bundlable {
 	
 	public void doDrop( Hero hero ) {	
 		hero.spendAndNext( TIME_TO_DROP );			
-		Dungeon.level.drop( detachAll( hero.belongings.backpack ), hero.pos ).sprite.drop( hero.pos );	
+		Dungeon.getInstance().level.drop( detachAll( hero.belongings.backpack ), hero.pos ).sprite.drop( hero.pos );
 	}
 	
 	public void doThrow( Hero hero ) {
@@ -135,7 +135,7 @@ public class Item implements Bundlable {
 	}
 
 	protected void onThrow( int cell ) {
-		Heap heap = Dungeon.level.drop( this, cell );
+		Heap heap = Dungeon.getInstance().level.drop( this, cell );
 		if (!heap.isEmpty()) {
 			heap.sprite.drop( cell );
 		}
@@ -169,7 +169,7 @@ public class Item implements Bundlable {
 		
 		if (items.size() < container.size) {
 			
-			if (Dungeon.hero != null && Dungeon.hero.isAlive()) {
+			if (Dungeon.getInstance().hero != null && Dungeon.getInstance().hero.isAlive()) {
 				Badges.validateItemLevelAquired( this );
 			}
 			
@@ -187,7 +187,7 @@ public class Item implements Bundlable {
 	}
 	
 	public boolean collect() {
-		return collect( Dungeon.hero.belongings.backpack );
+		return collect( Dungeon.getInstance().hero.belongings.backpack );
 	}
 	
 	public final Item detach( Bag container ) {
@@ -376,7 +376,7 @@ public class Item implements Bundlable {
 	}
 	
 	public void updateQuickslot() {
-		if ((stackable && Dungeon.quickslot == getClass()) || Dungeon.quickslot == this) {
+		if ((stackable && Dungeon.getInstance().quickslot == getClass()) || Dungeon.getInstance().quickslot == this) {
 			QuickSlot.refresh();
 		}
 	}
@@ -395,7 +395,7 @@ public class Item implements Bundlable {
 		bundle.put( LEVEL_KNOWN, levelKnown );
 		bundle.put( CURSED, cursed );
 		bundle.put( CURSED_KNOWN, cursedKnown );
-		if (this == Dungeon.quickslot) {
+		if (this == Dungeon.getInstance().quickslot) {
 			bundle.put( QUICKSLOT, true );
 		}
 	}
@@ -416,7 +416,7 @@ public class Item implements Bundlable {
 		cursed	= bundle.getBoolean( CURSED );
 		
 		if (bundle.getBoolean( QUICKSLOT )) {
-			Dungeon.quickslot = this;
+			Dungeon.getInstance().quickslot = this;
 		}
 	}
 	

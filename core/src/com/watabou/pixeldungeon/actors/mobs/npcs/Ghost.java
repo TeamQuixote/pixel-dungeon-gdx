@@ -120,15 +120,15 @@ public class Ghost extends NPC {
 	
 	@Override
 	public void interact() {
-		sprite.turnTo( pos, Dungeon.hero.pos );
+		sprite.turnTo( pos, Dungeon.getInstance().hero.pos );
 		
 		Sample.INSTANCE.play( Assets.SND_GHOST );
 		
 		if (Quest.given) {
 			
 			Item item = Quest.alternative ?
-				Dungeon.hero.belongings.getItem( RatSkull.class ) :
-				Dungeon.hero.belongings.getItem( DriedRose.class );	
+				Dungeon.getInstance().hero.belongings.getItem( RatSkull.class ) :
+				Dungeon.getInstance().hero.belongings.getItem( DriedRose.class );
 			if (item != null) {
 				GameScene.show( new WndSadGhost( this, item ) );
 			} else {
@@ -136,7 +136,7 @@ public class Ghost extends NPC {
 				
 				int newPos = -1;
 				for (int i=0; i < 10; i++) {
-					newPos = Dungeon.level.randomRespawnCell();
+					newPos = Dungeon.getInstance().level.randomRespawnCell();
 					if (newPos != -1) {
 						break;
 					}
@@ -148,7 +148,7 @@ public class Ghost extends NPC {
 					CellEmitter.get( pos ).start( Speck.factory( Speck.LIGHT ), 0.2f, 3 );
 					pos = newPos;
 					sprite.place( pos );
-					sprite.visible = Dungeon.visible[pos];
+					sprite.visible = Dungeon.getInstance().visible[pos];
 				}
 			}
 			
@@ -260,7 +260,7 @@ public class Ghost extends NPC {
 		}
 		
 		public static void spawn( SewerLevel level ) {
-			if (!spawned && Dungeon.depth > 1 && Random.Int( 5 - Dungeon.depth ) == 0) {
+			if (!spawned && Dungeon.getInstance().depth > 1 && Random.Int( 5 - Dungeon.getInstance().depth ) == 0) {
 				
 				Ghost ghost = new Ghost();
 				do {
@@ -277,13 +277,13 @@ public class Ghost extends NPC {
 				
 				given = false;
 				processed = false;
-				depth = Dungeon.depth;
+				depth = Dungeon.getInstance().depth;
 				
 				do {
 					weapon = (Weapon)Generator.random( Generator.Category.WEAPON );
 				} while (weapon instanceof MissileWeapon);
 				
-				if (Dungeon.isChallenged( Challenges.NO_ARMOR )) {
+				if (Dungeon.getInstance().isChallenged(Challenges.NO_ARMOR)) {
 					armor = (Armor)new ClothArmor().degrade();
 				} else {
 					armor = (Armor)Generator.random( Generator.Category.ARMOR );
@@ -308,11 +308,11 @@ public class Ghost extends NPC {
 		}
 
 		public static void process( int pos ) {
-			if (spawned && given && !processed && (depth == Dungeon.depth)) {
+			if (spawned && given && !processed && (depth == Dungeon.getInstance().depth)) {
 				if (alternative) {
 					
 					FetidRat rat = new FetidRat();
-					rat.pos = Dungeon.level.randomRespawnCell();
+					rat.pos = Dungeon.getInstance().level.randomRespawnCell();
 					if (rat.pos != -1) {
 						GameScene.add( rat );
 						processed = true;
@@ -321,7 +321,7 @@ public class Ghost extends NPC {
 				} else {
 					
 					if (Random.Int( left2kill ) == 0) {
-						Dungeon.level.drop( new DriedRose(), pos ).sprite.drop();
+						Dungeon.getInstance().level.drop( new DriedRose(), pos ).sprite.drop();
 						processed = true;
 					} else {
 						left2kill--;
@@ -381,7 +381,7 @@ public class Ghost extends NPC {
 		public void die( Object cause ) {
 			super.die( cause );
 			
-			Dungeon.level.drop( new RatSkull(), pos ).sprite.drop();
+			Dungeon.getInstance().level.drop( new RatSkull(), pos ).sprite.drop();
 		}
 		
 		@Override

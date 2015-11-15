@@ -85,16 +85,16 @@ public class WndWandmaker extends Window {
 		
 		hide();
 		
-		item.detach( Dungeon.hero.belongings.backpack );
+		item.detach( Dungeon.getInstance().hero.belongings.backpack );
 
 		reward.identify();
-		if (reward.doPickUp( Dungeon.hero )) {
+		if (reward.doPickUp( Dungeon.getInstance().hero )) {
 			GLog.i( Hero.TXT_YOU_NOW_HAVE, reward.name() );
 		} else {
-			Dungeon.level.drop( reward, wandmaker.pos ).sprite.drop();
+			Dungeon.getInstance().level.drop( reward, wandmaker.pos ).sprite.drop();
 		}
 		
-		wandmaker.yell( Utils.format( TXT_FARAWELL, Dungeon.hero.className() ) );
+		wandmaker.yell( Utils.format( TXT_FARAWELL, Dungeon.getInstance().hero.className() ) );
 		wandmaker.destroy();
 		
 		wandmaker.sprite.die();

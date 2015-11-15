@@ -94,7 +94,7 @@ public class Yog extends Mob {
 		
 		if (fistsCount > 0) {
 			
-			for (Mob mob : Dungeon.level.mobs) {
+			for (Mob mob : Dungeon.getInstance().level.mobs) {
 				if (mob instanceof BurningFist || mob instanceof RottingFist) {
 					mob.beckon( pos );
 				}
@@ -137,14 +137,14 @@ public class Yog extends Mob {
 	@Override
 	public void die( Object cause ) {
 
-		for (Mob mob : (Iterable<Mob>)Dungeon.level.mobs.clone()) {
+		for (Mob mob : (Iterable<Mob>)Dungeon.getInstance().level.mobs.clone()) {
 			if (mob instanceof BurningFist || mob instanceof RottingFist) {
 				mob.die( cause );
 			}
 		}
 		
 		GameScene.bossSlain();
-		Dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
+		Dungeon.getInstance().level.drop( new SkeletonKey(), pos ).sprite.drop();
 		super.die( cause );
 		
 		yell( "..." );
@@ -334,8 +334,8 @@ public class Yog extends Mob {
 					enemy.sprite.bloodBurstA( sprite.center(), dmg );
 					enemy.sprite.flash();
 					
-					if (!enemy.isAlive() && enemy == Dungeon.hero) {
-						Dungeon.fail( Utils.format( ResultDescriptions.BOSS, name, Dungeon.depth ) );
+					if (!enemy.isAlive() && enemy == Dungeon.getInstance().hero) {
+						Dungeon.getInstance().fail( Utils.format( ResultDescriptions.BOSS, name, Dungeon.getInstance().depth ) );
 						GLog.n( TXT_KILL, name );
 					}
 					return true;

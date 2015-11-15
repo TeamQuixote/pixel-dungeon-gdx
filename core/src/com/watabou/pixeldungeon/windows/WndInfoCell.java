@@ -39,7 +39,7 @@ public class WndInfoCell extends Window {
 		
 		super();
 		
-		int tile = Dungeon.level.map[cell];
+		int tile = Dungeon.getInstance().level.map[cell];
 		if (Level.water[cell]) {
 			tile = Terrain.WATER;
 		} else if (Level.pit[cell]) {
@@ -48,23 +48,23 @@ public class WndInfoCell extends Window {
 		
 		IconTitle titlebar = new IconTitle();
 		if (tile == Terrain.WATER) {
-			Image water = new Image( Dungeon.level.waterTex() );
+			Image water = new Image( Dungeon.getInstance().level.waterTex() );
 			water.frame( 0, 0, DungeonTilemap.SIZE, DungeonTilemap.SIZE );
 			titlebar.icon( water );
 		} else {
 			titlebar.icon( DungeonTilemap.tile( tile ) );
 		}
-		titlebar.label( Dungeon.level.tileName( tile ) );
+		titlebar.label( Dungeon.getInstance().level.tileName( tile ) );
 		titlebar.setRect( 0, 0, WIDTH, 0 );
 		add( titlebar );
 		
 		BitmapTextMultiline info = PixelScene.createMultiline( 6 );
 		add( info );
 		
-		StringBuilder desc = new StringBuilder( Dungeon.level.tileDesc( tile ) );
+		StringBuilder desc = new StringBuilder( Dungeon.getInstance().level.tileDesc( tile ) );
 		
 		final char newLine = '\n';
-		for (Blob blob:Dungeon.level.blobs.values()) {
+		for (Blob blob:Dungeon.getInstance().level.blobs.values()) {
 			if (blob.cur[cell] > 0 && blob.tileDesc() != null) {
 				if (desc.length() > 0) {
 					desc.append( newLine );

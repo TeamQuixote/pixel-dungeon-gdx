@@ -96,7 +96,7 @@ public class WindParticle extends PixelParticle {
 		@Override
 		public void update() {
 			
-			if (visible = Dungeon.visible[pos]) {
+			if (visible = Dungeon.getInstance().visible[pos]) {
 				
 				super.update();
 				

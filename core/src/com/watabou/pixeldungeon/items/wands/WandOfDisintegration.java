@@ -61,7 +61,7 @@ public class WandOfDisintegration extends Wand {
 				chars.add( ch );
 			}
 			
-			int terr = Dungeon.level.map[c];
+			int terr = Dungeon.getInstance().level.map[c];
 			if (terr == Terrain.DOOR || terr == Terrain.BARRICADE) {
 				
 				Level.set( c, Terrain.EMBERS );
@@ -80,7 +80,7 @@ public class WandOfDisintegration extends Wand {
 		}
 		
 		if (terrainAffected) {
-			Dungeon.observe();
+			Dungeon.getInstance().observe();
 		}
 		
 		int lvl = level + chars.size();

@@ -306,7 +306,7 @@ public class PrisonBossLevel extends RegularLevel {
 		
 		super.press( cell, ch );
 		
-		if (ch == Dungeon.hero && !enteredArena && roomExit.inside( cell )) {
+		if (ch == Dungeon.getInstance().hero && !enteredArena && roomExit.inside( cell )) {
 			
 			enteredArena = true;
 		
@@ -315,7 +315,7 @@ public class PrisonBossLevel extends RegularLevel {
 				pos = roomExit.random();
 			} while (pos == cell || Actor.findChar( pos ) != null);
 			
-			Mob boss = Bestiary.mob( Dungeon.depth );
+			Mob boss = Bestiary.mob( Dungeon.getInstance().depth );
 			boss.state = boss.HUNTING;
 			boss.pos = pos;
 			GameScene.add( boss );
@@ -325,7 +325,7 @@ public class PrisonBossLevel extends RegularLevel {
 			
 			set( arenaDoor, Terrain.LOCKED_DOOR );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.observe();
+			Dungeon.getInstance().observe();
 		}
 	}
 	
@@ -338,7 +338,7 @@ public class PrisonBossLevel extends RegularLevel {
 			
 			set( arenaDoor, Terrain.DOOR );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.observe();
+			Dungeon.getInstance().observe();
 		}
 		
 		return super.drop( item, cell );

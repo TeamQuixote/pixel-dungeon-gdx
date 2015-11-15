@@ -101,13 +101,13 @@ public class Shaman extends Mob implements Callback {
 				enemy.sprite.centerEmitter().burst( SparkParticle.FACTORY, 3 );
 				enemy.sprite.flash();
 				
-				if (enemy == Dungeon.hero) {
+				if (enemy == Dungeon.getInstance().hero) {
 					
 					Camera.main.shake( 2, 0.3f );
 					
 					if (!enemy.isAlive()) {
-						Dungeon.fail( Utils.format( ResultDescriptions.MOB, 
-							Utils.indefinite( name ), Dungeon.depth ) );
+						Dungeon.getInstance().fail( Utils.format( ResultDescriptions.MOB,
+							Utils.indefinite( name ), Dungeon.getInstance().depth ) );
 						GLog.n( TXT_LIGHTNING_KILLED, name );
 					}
 				}

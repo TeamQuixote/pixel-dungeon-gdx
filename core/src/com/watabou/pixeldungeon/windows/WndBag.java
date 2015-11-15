@@ -110,7 +110,7 @@ public class WndBag extends WndTabbed {
 			SLOT_SIZE * COLS + SLOT_MARGIN * (COLS - 1), 
 			SLOT_SIZE * ROWS + SLOT_MARGIN * (ROWS - 1) + TITLE_HEIGHT );
 		
-		Belongings stuff = Dungeon.hero.belongings;
+		Belongings stuff = Dungeon.getInstance().hero.belongings;
 		Bag[] bags = {
 			stuff.backpack, 
 			stuff.getItem( SeedPouch.class ), 
@@ -140,28 +140,28 @@ public class WndBag extends WndTabbed {
 	public static WndBag lastBag( Listener listener, Mode mode, String title ) {
 		
 		if (mode == lastMode && lastBag != null && 
-			Dungeon.hero.belongings.backpack.contains( lastBag )) {
+			Dungeon.getInstance().hero.belongings.backpack.contains( lastBag )) {
 			
 			return new WndBag( lastBag, listener, mode, title );
 			
 		} else {
 			
-			return new WndBag( Dungeon.hero.belongings.backpack, listener, mode, title );
+			return new WndBag( Dungeon.getInstance().hero.belongings.backpack, listener, mode, title );
 			
 		}
 	}
 	
 	public static WndBag seedPouch( Listener listener, Mode mode, String title ) {
-		SeedPouch pouch = Dungeon.hero.belongings.getItem( SeedPouch.class );
+		SeedPouch pouch = Dungeon.getInstance().hero.belongings.getItem( SeedPouch.class );
 		return pouch != null ?
 			new WndBag( pouch, listener, mode, title ) :
-			new WndBag( Dungeon.hero.belongings.backpack, listener, mode, title );
+			new WndBag( Dungeon.getInstance().hero.belongings.backpack, listener, mode, title );
 	}
 	
 	protected void placeItems( Bag container ) {
 		
 		// Equipped items
-		Belongings stuff = Dungeon.hero.belongings;
+		Belongings stuff = Dungeon.getInstance().hero.belongings;
 		placeItem( stuff.weapon != null ? stuff.weapon : new Placeholder( ItemSpriteSheet.WEAPON ) );
 		placeItem( stuff.armor != null ? stuff.armor : new Placeholder( ItemSpriteSheet.ARMOR ) );
 		placeItem( stuff.ring1 != null ? stuff.ring1 : new Placeholder( ItemSpriteSheet.RING ) );
@@ -178,10 +178,10 @@ public class WndBag extends WndTabbed {
 		}
 		
 		// Gold
-		if (container == Dungeon.hero.belongings.backpack) {
+		if (container == Dungeon.getInstance().hero.belongings.backpack) {
 			row = ROWS - 1;
 			col = COLS - 1;
-			placeItem( new Gold( Dungeon.gold ) );
+			placeItem( new Gold( Dungeon.getInstance().gold ) );
 		}
 	}
 	
@@ -337,7 +337,7 @@ public class WndBag extends WndTabbed {
 			super.item( item );
 			if (item != null) {
 
-				bg.texture( TextureCache.createSolid( item.isEquipped( Dungeon.hero ) ? EQUIPPED : NORMAL ) );
+				bg.texture( TextureCache.createSolid( item.isEquipped( Dungeon.getInstance().hero ) ? EQUIPPED : NORMAL ) );
 				if (item.cursed && item.cursedKnown) {
 					bg.ra = +0.2f;
 					bg.ga = -0.1f;
@@ -350,7 +350,7 @@ public class WndBag extends WndTabbed {
 					enable( false );
 				} else {
 					enable( 
-						mode == Mode.FOR_SALE && (item.price() > 0) && (!item.isEquipped( Dungeon.hero ) || !item.cursed) ||
+						mode == Mode.FOR_SALE && (item.price() > 0) && (!item.isEquipped( Dungeon.getInstance().hero ) || !item.cursed) ||
 						mode == Mode.UPGRADEABLE && item.isUpgradable() || 
 						mode == Mode.UNIDENTIFED && !item.isIdentified() ||
 						mode == Mode.QUICKSLOT && (item.defaultAction != null) ||
@@ -398,7 +398,7 @@ public class WndBag extends WndTabbed {
 		protected boolean onLongClick() {
 			if (listener == null && item.defaultAction != null) {
 				hide();
-				Dungeon.quickslot = item.stackable ? item.getClass() : item;
+				Dungeon.getInstance().quickslot = item.stackable ? item.getClass() : item;
 				QuickSlot.refresh();
 				return true;
 			} else {

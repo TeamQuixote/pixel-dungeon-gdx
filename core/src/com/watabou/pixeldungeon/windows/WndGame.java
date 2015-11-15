@@ -60,30 +60,30 @@ public class WndGame extends Window {
 			}
 		} );
 		
-		if (Dungeon.challenges > 0) {
+		if (Dungeon.getInstance().challenges > 0) {
 			addButton( new RedButton( TXT_CHALLEGES ) {
 				@Override
 				protected void onClick() {
 					hide();
-					GameScene.show( new WndChallenges( Dungeon.challenges, false ) );
+					GameScene.show( new WndChallenges( Dungeon.getInstance().challenges, false ) );
 				}
 			} );
 		}
 		
-		if (!Dungeon.hero.isAlive()) {
+		if (!Dungeon.getInstance().hero.isAlive()) {
 			
 			RedButton btnStart;
 			addButton( btnStart = new RedButton( TXT_START ) {
 				@Override
 				protected void onClick() {
-					Dungeon.hero = null;
-					PixelDungeon.challenges( Dungeon.challenges );
+					Dungeon.getInstance().hero = null;
+					PixelDungeon.challenges(Dungeon.getInstance().challenges);
 					InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
 					InterlevelScene.noStory = true;
 					Game.switchScene( InterlevelScene.class );
 				}
 			} );
-			btnStart.icon( Icons.get( Dungeon.hero.heroClass ) );
+			btnStart.icon( Icons.get( Dungeon.getInstance().hero.heroClass ) );
 			
 			addButton( new RedButton( TXT_RANKINGS ) {
 				@Override
@@ -98,7 +98,7 @@ public class WndGame extends Window {
 			@Override
 			protected void onClick() {
 				try {
-					Dungeon.saveAll();
+					Dungeon.getInstance().saveAll();
 				} catch (IOException e) {
 					//
 				}

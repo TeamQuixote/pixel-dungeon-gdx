@@ -67,11 +67,11 @@ public class Toolbar extends Component {
 			}
 
 			private void restOneTurn() {
-				Dungeon.hero.rest( false );
+				Dungeon.getInstance().hero.rest( false );
 			}
 
 			private void restFull() {
-				Dungeon.hero.rest( true );
+				Dungeon.getInstance().hero.rest( true );
 			}
 		} );
 		
@@ -82,7 +82,7 @@ public class Toolbar extends Component {
 			}
 
 			private void doSearch() {
-				Dungeon.hero.search( true );
+				Dungeon.getInstance().hero.search( true );
 			}
 		} );
 		
@@ -104,7 +104,7 @@ public class Toolbar extends Component {
 			}
 
 			private void resume() {
-				Dungeon.hero.resume();
+				Dungeon.getInstance().hero.resume();
 			}
 		} );
 		
@@ -122,7 +122,7 @@ public class Toolbar extends Component {
 			}
 
 			private void showBackpack() {
-				GameScene.show(new WndBag(Dungeon.hero.belongings.backpack, null, WndBag.Mode.ALL, null));
+				GameScene.show(new WndBag(Dungeon.getInstance().hero.belongings.backpack, null, WndBag.Mode.ALL, null));
 			}
 			private void showCatalogus() {
 				GameScene.show(new WndCatalogus());
@@ -160,8 +160,8 @@ public class Toolbar extends Component {
 	public void update() {
 		super.update();
 		
-		if (lastEnabled != Dungeon.hero.ready) {
-			lastEnabled = Dungeon.hero.ready;
+		if (lastEnabled != Dungeon.getInstance().hero.ready) {
+			lastEnabled = Dungeon.getInstance().hero.ready;
 			
 			for (Gizmo tool : members) {
 				if (tool instanceof Tool) {
@@ -170,9 +170,9 @@ public class Toolbar extends Component {
 			}
 		}
 		
-		btnResume.visible = Dungeon.hero.lastAction != null;
+		btnResume.visible = Dungeon.getInstance().hero.lastAction != null;
 		
-		if (!Dungeon.hero.isAlive()) {
+		if (!Dungeon.getInstance().hero.isAlive()) {
 			btnInventory.enable( true );
 		}
 	}

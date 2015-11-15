@@ -104,8 +104,8 @@ public class WarriorArmor extends ClassArmor {
 					@Override
 					public void call() {
 						curUser.move( dest );
-						Dungeon.level.press( dest, curUser );
-						Dungeon.observe();
+						Dungeon.getInstance().level.press( dest, curUser );
+						Dungeon.getInstance().observe();
 						
 						for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
 							Char mob = Actor.findChar( curUser.pos + Level.NEIGHBOURS8[i] );

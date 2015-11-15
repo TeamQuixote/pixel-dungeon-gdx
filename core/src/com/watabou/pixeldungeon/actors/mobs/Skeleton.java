@@ -64,18 +64,18 @@ public class Skeleton extends Mob {
 			if (ch != null && ch.isAlive()) {
 				int damage = Math.max( 0,  damageRoll() - Random.IntRange( 0, ch.dr() / 2 ) );
 				ch.damage( damage, this );
-				if (ch == Dungeon.hero && !ch.isAlive()) {
+				if (ch == Dungeon.getInstance().hero && !ch.isAlive()) {
 					heroKilled = true;
 				}
 			}
 		}
 		
-		if (Dungeon.visible[pos]) {
+		if (Dungeon.getInstance().visible[pos]) {
 			Sample.INSTANCE.play( Assets.SND_BONES );
 		}
 		
 		if (heroKilled) {
-			Dungeon.fail( Utils.format( ResultDescriptions.MOB, Utils.indefinite( name ), Dungeon.depth ) );
+			Dungeon.getInstance().fail( Utils.format( ResultDescriptions.MOB, Utils.indefinite( name ), Dungeon.getInstance().depth ) );
 			GLog.n( TXT_HERO_KILLED );
 		}
 	}
@@ -90,7 +90,7 @@ public class Skeleton extends Mob {
 					loot = l;
 				}
 			}
-			Dungeon.level.drop( loot, pos ).sprite.drop();
+			Dungeon.getInstance().level.drop( loot, pos ).sprite.drop();
 		}
 	}
 	

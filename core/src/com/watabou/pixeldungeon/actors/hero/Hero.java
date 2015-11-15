@@ -106,7 +106,7 @@ import com.watabou.utils.Random;
 
 public class Hero extends Char {
 	
-	private static final String TXT_LEAVE = "One does not simply leave Pixel Dungeon.";
+	private static final String TXT_LEAVE = "One does not simply leave Pixel Dungeon.getInstance().";
 	
 	private static final String TXT_LEVEL_UP = "level up!";
 	private static final String TXT_NEW_LEVEL = 
@@ -483,8 +483,8 @@ public class Hero extends Char {
 			return true;
 			
 		} else {
-			if (Dungeon.level.map[pos] == Terrain.SIGN) {
-				GameScene.show( new WndMessage( Dungeon.tip() ) );
+			if (Dungeon.getInstance().level.map[pos] == Terrain.SIGN) {
+				GameScene.show( new WndMessage( Dungeon.getInstance().tip() ) );
 			}
 			ready();
 			return false;
@@ -522,7 +522,7 @@ public class Hero extends Char {
 
 			ready();
 			
-			Heap heap = Dungeon.level.heaps.get( dst );
+			Heap heap = Dungeon.getInstance().level.heaps.get( dst );
 			if (heap != null && heap.type == Type.FOR_SALE && heap.size() == 1) {
 				GameScene.show( new WndTradeItem( heap, true ) );
 			}
@@ -541,7 +541,7 @@ public class Hero extends Char {
 	
 	private boolean actCook( HeroAction.Cook action ) {
 		int dst = action.dst;
-		if (Dungeon.visible[dst]) {
+		if (Dungeon.getInstance().visible[dst]) {
 
 			ready();
 			AlchemyPot.operate( this, dst );
@@ -561,7 +561,7 @@ public class Hero extends Char {
 		int dst = action.dst;
 		if (pos == dst) {
 			
-			Heap heap = Dungeon.level.heaps.get( pos );
+			Heap heap = Dungeon.getInstance().level.heaps.get( pos );
 			if (heap != null) {				
 				Item item = heap.pickUp();
 				if (item.doPickUp( this )) {
@@ -582,7 +582,7 @@ public class Hero extends Char {
 					}
 					curAction = null;
 				} else {
-					Dungeon.level.drop( item, pos ).sprite.drop();
+					Dungeon.getInstance().level.drop( item, pos ).sprite.drop();
 					ready();
 				}
 			} else {
@@ -605,7 +605,7 @@ public class Hero extends Char {
 		int dst = action.dst;
 		if (Level.adjacent( pos, dst ) || pos == dst) {
 			
-			Heap heap = Dungeon.level.heaps.get( dst );
+			Heap heap = Dungeon.getInstance().level.heaps.get( dst );
 			if (heap != null && 
 				(heap.type == Type.CHEST || heap.type == Type.TOMB || heap.type == Type.SKELETON ||
 				heap.type == Type.LOCKED_CHEST || heap.type == Type.CRYSTAL_CHEST)) {
@@ -614,7 +614,7 @@ public class Hero extends Char {
 				
 				if (heap.type == Type.LOCKED_CHEST || heap.type == Type.CRYSTAL_CHEST) {
 
-					theKey = belongings.getKey( GoldenKey.class, Dungeon.depth );
+					theKey = belongings.getKey( GoldenKey.class, Dungeon.getInstance().depth );
 					
 					if (theKey == null) {
 						GLog.w( TXT_LOCKED_CHEST );
@@ -658,15 +658,15 @@ public class Hero extends Char {
 		if (Level.adjacent( pos, doorCell )) {
 			
 			theKey = null;
-			int door = Dungeon.level.map[doorCell];
+			int door = Dungeon.getInstance().level.map[doorCell];
 			
 			if (door == Terrain.LOCKED_DOOR) {
 				
-				theKey = belongings.getKey( IronKey.class, Dungeon.depth );
+				theKey = belongings.getKey( IronKey.class, Dungeon.getInstance().depth );
 				
 			} else if (door == Terrain.LOCKED_EXIT) {
 				
-				theKey = belongings.getKey( SkeletonKey.class, Dungeon.depth );
+				theKey = belongings.getKey( SkeletonKey.class, Dungeon.getInstance().depth );
 				
 			}
 			
@@ -696,7 +696,7 @@ public class Hero extends Char {
 	
 	private boolean actDescend( HeroAction.Descend action ) {
 		int stairs = action.dst;
-		if (pos == stairs && pos == Dungeon.level.exit) {
+		if (pos == stairs && pos == Dungeon.getInstance().level.exit) {
 			
 			curAction = null;
 			
@@ -722,16 +722,16 @@ public class Hero extends Char {
 	
 	private boolean actAscend( HeroAction.Ascend action ) {
 		int stairs = action.dst;
-		if (pos == stairs && pos == Dungeon.level.entrance) {
+		if (pos == stairs && pos == Dungeon.getInstance().level.entrance) {
 			
-			if (Dungeon.depth == 1) {
+			if (Dungeon.getInstance().depth == 1) {
 				
 				if (belongings.getItem( Amulet.class ) == null) {
 					GameScene.show( new WndMessage( TXT_LEAVE ) );
 					ready();
 				} else {
-					Dungeon.win( ResultDescriptions.WIN );
-					Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+					Dungeon.getInstance().win(ResultDescriptions.WIN);
+					Dungeon.deleteGame( Dungeon.getInstance().hero.heroClass, true );
 					Game.switchScene( SurfaceScene.class );
 				}
 				
@@ -812,7 +812,7 @@ public class Hero extends Char {
 					if (wand.curCharges < wand.maxCharges && damage > 0) {
 						
 						wand.curCharges++;
-						if (Dungeon.quickslot == wand) {
+						if (Dungeon.getInstance().quickslot == wand) {
 							QuickSlot.refresh();
 						}
 						
@@ -870,7 +870,7 @@ public class Hero extends Char {
 		
 		boolean newMob = false;
 		
-		for (Mob m : Dungeon.level.mobs) {
+		for (Mob m : Dungeon.getInstance().level.mobs) {
 			if (Level.fieldOfView[ m.pos ] && m.hostile) {
 				visible.add( m );
 				if (!visibleEnemies.contains( m )) {
@@ -920,14 +920,14 @@ public class Hero extends Char {
 		
 			int len = Level.LENGTH;
 			boolean[] p = Level.passable;
-			boolean[] v = Dungeon.level.visited;
-			boolean[] m = Dungeon.level.mapped;
+			boolean[] v = Dungeon.getInstance().level.visited;
+			boolean[] m = Dungeon.getInstance().level.mapped;
 			boolean[] passable = new boolean[len];
 			for (int i=0; i < len; i++) {
 				passable[i] = p[i] && (v[i] || m[i]);
 			}
 			
-			step = Dungeon.findPath( this, pos, target, passable, Level.fieldOfView );
+			step = Dungeon.getInstance().findPath(this, pos, target, passable, Level.fieldOfView );
 		}
 		
 		if (step != -1) {
@@ -956,7 +956,7 @@ public class Hero extends Char {
 		Char ch;
 		Heap heap;
 		
-		if (Dungeon.level.map[cell] == Terrain.ALCHEMY && cell != pos) {
+		if (Dungeon.getInstance().level.map[cell] == Terrain.ALCHEMY && cell != pos) {
 			
 			curAction = new HeroAction.Cook( cell );
 			
@@ -969,7 +969,7 @@ public class Hero extends Char {
 				curAction = new HeroAction.Attack( ch );
 			}
 			
-		} else if ((heap = Dungeon.level.heaps.get( cell )) != null) {
+		} else if ((heap = Dungeon.getInstance().level.heaps.get( cell )) != null) {
 
 			switch (heap.type) {
 			case HEAP:
@@ -984,15 +984,15 @@ public class Hero extends Char {
 				curAction = new HeroAction.OpenChest( cell );
 			}
 			
-		} else if (Dungeon.level.map[cell] == Terrain.LOCKED_DOOR || Dungeon.level.map[cell] == Terrain.LOCKED_EXIT) {
+		} else if (Dungeon.getInstance().level.map[cell] == Terrain.LOCKED_DOOR || Dungeon.getInstance().level.map[cell] == Terrain.LOCKED_EXIT) {
 			
 			curAction = new HeroAction.Unlock( cell );
 			
-		} else if (cell == Dungeon.level.exit) {
+		} else if (cell == Dungeon.getInstance().level.exit) {
 			
 			curAction = new HeroAction.Descend( cell );
 			
-		} else if (cell == Dungeon.level.entrance) {
+		} else if (cell == Dungeon.getInstance().level.entrance) {
 			
 			curAction = new HeroAction.Ascend( cell );
 			
@@ -1038,7 +1038,7 @@ public class Hero extends Char {
 		
 		if (subClass == HeroSubClass.WARLOCK) {
 			
-			int value = Math.min( HT - HP, 1 + (Dungeon.depth - 1) / 5 );
+			int value = Math.min( HT - HP, 1 + (Dungeon.getInstance().depth - 1) / 5 );
 			if (value > 0) {
 				HP += value;
 				sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
@@ -1137,8 +1137,8 @@ public class Hero extends Char {
 			new Flare( 8, 32 ).color( 0xFFFF66, true ).show( sprite, 2f ) ;
 			return;
 		}
-		
-		Actor.fixTime();
+
+        Actor.fixTime();
 		super.die( cause );
 		
 		Ankh ankh = (Ankh)belongings.getItem( Ankh.class );
@@ -1148,7 +1148,7 @@ public class Hero extends Char {
 			
 		} else {
 			
-			Dungeon.deleteGame( Dungeon.hero.heroClass, false );
+			Dungeon.deleteGame( Dungeon.getInstance().hero.heroClass, false );
 			GameScene.show( new WndResurrect( ankh, cause ) );
 			
 		}
@@ -1157,8 +1157,8 @@ public class Hero extends Char {
 	public static void reallyDie( Object cause ) {
 		
 		int length = Level.LENGTH;
-		int[] map = Dungeon.level.map;
-		boolean[] visited = Dungeon.level.visited;
+		int[] map = Dungeon.getInstance().level.map;
+		boolean[] visited = Dungeon.getInstance().level.visited;
 		boolean[] discoverable = Level.discoverable;
 		
 		for (int i=0; i < length; i++) {
@@ -1177,9 +1177,9 @@ public class Hero extends Char {
 		
 		Bones.leave();
 		
-		Dungeon.observe();
+		Dungeon.getInstance().observe();
 				
-		Dungeon.hero.belongings.identify();
+		Dungeon.getInstance().hero.belongings.identify();
 		
 		GameScene.gameOver();
 		
@@ -1187,7 +1187,7 @@ public class Hero extends Char {
 			((Hero.Doom)cause).onDeath();
 		}
 		
-		Dungeon.deleteGame( Dungeon.hero.heroClass, true );
+		Dungeon.deleteGame( Dungeon.getInstance().hero.heroClass, true );
 	}
 	
 	@Override
@@ -1201,13 +1201,13 @@ public class Hero extends Char {
 			} else {
 				Sample.INSTANCE.play( Assets.SND_STEP );
 			}
-			Dungeon.level.press( pos, this );
+			Dungeon.getInstance().level.press( pos, this );
 		}
 	}
 	
 	@Override
 	public void onMotionComplete() {
-		Dungeon.observe();
+		Dungeon.getInstance().observe();
 		search( false );
 			
 		super.onMotionComplete();
@@ -1237,7 +1237,7 @@ public class Hero extends Char {
 			}
 			
 			int doorCell = ((HeroAction.Unlock)curAction).dst;
-			int door = Dungeon.level.map[doorCell];
+			int door = Dungeon.getInstance().level.map[doorCell];
 			
 			Level.set( doorCell, door == Terrain.LOCKED_DOOR ? Terrain.DOOR : Terrain.UNLOCKED_EXIT );
 			GameScene.updateMap( doorCell );
@@ -1249,7 +1249,7 @@ public class Hero extends Char {
 				theKey = null;
 			}
 			
-			Heap heap = Dungeon.level.heaps.get( ((HeroAction.OpenChest)curAction).dst ); 
+			Heap heap = Dungeon.getInstance().level.heaps.get( ((HeroAction.OpenChest)curAction).dst );
 			if (heap.type == Type.SKELETON) {
 				Sample.INSTANCE.play( Assets.SND_BONES );
 			}
@@ -1304,7 +1304,7 @@ public class Hero extends Char {
 		for (int y = ay; y <= by; y++) {
 			for (int x = ax, p = ax + y * Level.WIDTH; x <= bx; x++, p++) {
 				
-				if (Dungeon.visible[p]) {
+				if (Dungeon.getInstance().visible[p]) {
 					
 					if (intentional) {
 						sprite.parent.addToBack( new CheckedCell( p ) );
@@ -1312,7 +1312,7 @@ public class Hero extends Char {
 					
 					if (Level.secret[p] && (intentional || Random.Float() < level)) {
 						
-						int oldValue = Dungeon.level.map[p];
+						int oldValue = Dungeon.getInstance().level.map[p];
 						
 						GameScene.discoverTile( p, oldValue );
 
@@ -1352,7 +1352,7 @@ public class Hero extends Char {
 	public void resurrect( int resetLevel ) {
 		
 		HP = HT;
-		Dungeon.gold = 0;
+		Dungeon.getInstance().gold = 0;
 		exp = 0;
 		
 		belongings.resurrect( resetLevel );

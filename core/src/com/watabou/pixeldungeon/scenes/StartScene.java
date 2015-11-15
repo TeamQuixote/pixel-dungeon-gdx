@@ -244,7 +244,7 @@ public class StartScene extends PixelScene {
 	
 	private void startNewGame() {
 
-		Dungeon.hero = null;
+		Dungeon.getInstance().hero = null;
 		InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
 		
 		if (PixelDungeon.intro()) {
@@ -435,7 +435,7 @@ public class StartScene extends PixelScene {
 				add( new WndChallenges( PixelDungeon.challenges(), true ) {
 					public void onBackPressed() {
 						super.onBackPressed();
-						image.copy( Icons.get( PixelDungeon.challenges() > 0 ? 
+						image.copy( Icons.get( PixelDungeon.challenges() > 0 ?
 							Icons.CHALLENGE_ON :Icons.CHALLENGE_OFF ) );
 					};
 				} );

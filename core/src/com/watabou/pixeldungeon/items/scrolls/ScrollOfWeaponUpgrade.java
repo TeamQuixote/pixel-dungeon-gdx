@@ -40,7 +40,7 @@ public class ScrollOfWeaponUpgrade extends InventoryScroll {
 		
 		Weapon weapon = (Weapon)item;
 		
-		ScrollOfRemoveCurse.uncurse( Dungeon.hero, weapon );
+		ScrollOfRemoveCurse.uncurse( Dungeon.getInstance().hero, weapon );
 		weapon.upgrade( true );
 		
 		GLog.p( TXT_LOOKS_BETTER, weapon.name() );

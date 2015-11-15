@@ -1,7 +1,7 @@
 pixel-dungeon-gdx
 =================
 
-Explorations into building an intelligent agent to play Pixel Dungeon.
+Explorations into building an intelligent agent to play Pixel Dungeon.getInstance().
 
 ----------
 

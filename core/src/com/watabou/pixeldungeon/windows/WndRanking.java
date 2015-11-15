@@ -70,7 +70,7 @@ public class WndRanking extends WndTabbed {
 			public void run() {
 				try {
 					Badges.loadGlobal();
-					Dungeon.loadGame( gameFile );
+					Dungeon.getInstance().loadGame( gameFile );
 				} catch (Exception e ) {
 					error = TXT_ERROR;
 				}
@@ -163,21 +163,21 @@ public class WndRanking extends WndTabbed {
 		public StatsTab() {
 			super();
 			
-			String heroClass = Dungeon.hero.className();
+			String heroClass = Dungeon.getInstance().hero.className();
 			
 			IconTitle title = new IconTitle();
-			title.icon( HeroSprite.avatar( Dungeon.hero.heroClass, Dungeon.hero.tier() ) );
-			title.label( Utils.format( TXT_TITLE, Dungeon.hero.lvl, heroClass ).toUpperCase( Locale.ENGLISH ) );
+			title.icon( HeroSprite.avatar( Dungeon.getInstance().hero.heroClass, Dungeon.getInstance().hero.tier() ) );
+			title.label( Utils.format( TXT_TITLE, Dungeon.getInstance().hero.lvl, heroClass ).toUpperCase( Locale.ENGLISH ) );
 			title.setRect( 0, 0, WIDTH, 0 );
 			add( title );
 			
 			float pos = title.bottom();
 			
-			if (Dungeon.challenges > 0) {
+			if (Dungeon.getInstance().challenges > 0) {
 				RedButton btnCatalogus = new RedButton( TXT_CHALLENGES ) {
 					@Override
 					protected void onClick() {
-						Game.scene().add( new WndChallenges( Dungeon.challenges, false ) );
+						Game.scene().add( new WndChallenges( Dungeon.getInstance().challenges, false ) );
 					}
 				};
 				btnCatalogus.setRect( 0, pos + GAP, btnCatalogus.reqWidth() + 2, btnCatalogus.reqHeight() + 2 );
@@ -188,8 +188,8 @@ public class WndRanking extends WndTabbed {
 			
 			pos += GAP + GAP;
 			
-			pos = statSlot( this, TXT_STR, Integer.toString( Dungeon.hero.STR ), pos );
-			pos = statSlot( this, TXT_HEALTH, Integer.toString( Dungeon.hero.HT ), pos );
+			pos = statSlot( this, TXT_STR, Integer.toString( Dungeon.getInstance().hero.STR ), pos );
+			pos = statSlot( this, TXT_HEALTH, Integer.toString( Dungeon.getInstance().hero.HT ), pos );
 			
 			pos += GAP;
 			
@@ -231,7 +231,7 @@ public class WndRanking extends WndTabbed {
 		public ItemsTab() {
 			super();
 			
-			Belongings stuff = Dungeon.hero.belongings;
+			Belongings stuff = Dungeon.getInstance().hero.belongings;
 			if (stuff.weapon != null) {
 				addItem( stuff.weapon );
 			}
@@ -245,13 +245,13 @@ public class WndRanking extends WndTabbed {
 				addItem( stuff.ring2 );
 			}
 			
-			if (Dungeon.quickslot instanceof Item && 
-				Dungeon.hero.belongings.backpack.contains( (Item)Dungeon.quickslot )) {
+			if (Dungeon.getInstance().quickslot instanceof Item &&
+				Dungeon.getInstance().hero.belongings.backpack.contains( (Item)Dungeon.getInstance().quickslot )) {
 				
-				addItem( (Item)Dungeon.quickslot );
-			} else if (Dungeon.quickslot instanceof Class){
+				addItem( (Item)Dungeon.getInstance().quickslot );
+			} else if (Dungeon.getInstance().quickslot instanceof Class){
 				@SuppressWarnings("unchecked")
-				Item item = Dungeon.hero.belongings.getItem( (Class<? extends Item>)Dungeon.quickslot );
+				Item item = Dungeon.getInstance().hero.belongings.getItem( (Class<? extends Item>)Dungeon.getInstance().quickslot );
 				if (item != null) {
 					addItem( item );
 				}

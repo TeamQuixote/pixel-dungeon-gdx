@@ -36,7 +36,7 @@ public class CellSelector extends TouchArea<GameAction> {
     private float mouseZoom;
 	
 	private float dragThreshold;
-	
+
 	public CellSelector( DungeonTilemap map ) {
 		super( map );
 		camera = map.camera();
@@ -114,7 +114,7 @@ public class CellSelector extends TouchArea<GameAction> {
 		}
 
 		if (handled) {
-			Point point = DungeonTilemap.tileToPoint(Dungeon.hero.pos);
+			Point point = DungeonTilemap.tileToPoint(Dungeon.getInstance().hero.pos);
 			point.x += x;
 			point.y += y;
 			select(DungeonTilemap.pointToTile(point));

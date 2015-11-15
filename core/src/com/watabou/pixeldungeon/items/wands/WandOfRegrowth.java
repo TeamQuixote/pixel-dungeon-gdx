@@ -41,7 +41,7 @@ public class WandOfRegrowth extends Wand {
 		
 		for (int i=1; i < Ballistica.distance-1; i++) {
 			int p = Ballistica.trace[i];
-			int c = Dungeon.level.map[p];
+			int c = Dungeon.getInstance().level.map[p];
 			if (c == Terrain.EMPTY || 
 				c == Terrain.EMBERS || 
 				c == Terrain.EMPTY_DECO) {
@@ -51,7 +51,7 @@ public class WandOfRegrowth extends Wand {
 			}
 		}
 		
-		int c = Dungeon.level.map[cell];
+		int c = Dungeon.getInstance().level.map[cell];
 		if (c == Terrain.EMPTY || 
 			c == Terrain.EMBERS || 
 			c == Terrain.EMPTY_DECO || 

@@ -47,8 +47,8 @@ public class Piranha extends Mob {
 	public Piranha() {
 		super();
 		
-		HP = HT = 10 + Dungeon.depth * 5;
-		defenseSkill = 10 + Dungeon.depth * 2;
+		HP = HT = 10 + Dungeon.getInstance().depth * 5;
+		defenseSkill = 10 + Dungeon.getInstance().depth * 2;
 	}
 	
 	@Override
@@ -63,22 +63,22 @@ public class Piranha extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( Dungeon.depth, 4 + Dungeon.depth * 2 );
+		return Random.NormalIntRange( Dungeon.getInstance().depth, 4 + Dungeon.getInstance().depth * 2 );
 	}
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return 20 + Dungeon.depth * 2;
+		return 20 + Dungeon.getInstance().depth * 2;
 	}
 	
 	@Override
 	public int dr() {
-		return Dungeon.depth;
+		return Dungeon.getInstance().depth;
 	}
 	
 	@Override
 	public void die( Object cause ) {
-		Dungeon.level.drop( new MysteryMeat(), pos ).sprite.drop();
+		Dungeon.getInstance().level.drop( new MysteryMeat(), pos ).sprite.drop();
 		super.die( cause );
 		
 		Statistics.piranhasKilled++;
@@ -97,7 +97,7 @@ public class Piranha extends Mob {
 			return false;
 		}
 		
-		int step = Dungeon.findPath( this, pos, target, 
+		int step = Dungeon.getInstance().findPath( this, pos, target,
 			Level.water, 
 			Level.fieldOfView );
 		if (step != -1) {
@@ -110,7 +110,7 @@ public class Piranha extends Mob {
 	
 	@Override
 	protected boolean getFurther( int target ) {
-		int step = Dungeon.flee( this, pos, target, 
+		int step = Dungeon.getInstance().flee( this, pos, target,
 			Level.water, 
 			Level.fieldOfView );
 		if (step != -1) {

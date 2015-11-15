@@ -68,24 +68,24 @@ public class Chasm {
 				
 		Sample.INSTANCE.play( Assets.SND_FALLING );
 		
-		if (Dungeon.hero.isAlive()) {
-			Dungeon.hero.interrupt();
+		if (Dungeon.getInstance().hero.isAlive()) {
+			Dungeon.getInstance().hero.interrupt();
 			InterlevelScene.mode = InterlevelScene.Mode.FALL;
-			if (Dungeon.level instanceof RegularLevel) {
-				Room room = ((RegularLevel)Dungeon.level).room( pos );
+			if (Dungeon.getInstance().level instanceof RegularLevel) {
+				Room room = ((RegularLevel)Dungeon.getInstance().level).room( pos );
 				InterlevelScene.fallIntoPit = room != null && room.type == Room.Type.WEAK_FLOOR;
 			} else {
 				InterlevelScene.fallIntoPit = false;
 			}
 			Game.switchScene( InterlevelScene.class );
 		} else {
-			Dungeon.hero.sprite.visible = false;
+			Dungeon.getInstance().hero.sprite.visible = false;
 		}
 	}
 	
 	public static void heroLand() {
 		
-		Hero hero = Dungeon.hero;
+		Hero hero = Dungeon.getInstance().hero;
 		
 		hero.sprite.burst( hero.sprite.blood(), 10 );
 		Camera.main.shake( 4, 0.2f );
@@ -96,7 +96,7 @@ public class Chasm {
 			public void onDeath() {
 				Badges.validateDeathFromFalling();
 				
-				Dungeon.fail( Utils.format( ResultDescriptions.FALL, Dungeon.depth ) );
+				Dungeon.getInstance().fail( Utils.format( ResultDescriptions.FALL, Dungeon.getInstance().depth ) );
 				GLog.n( "You fell to death..." );
 			}
 		} );

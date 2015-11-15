@@ -82,7 +82,7 @@ public class SurfaceScene extends PixelScene {
 		window.camera = viewport;
 		add( window );
 		
-		boolean dayTime = !Dungeon.nightMode;
+		boolean dayTime = !Dungeon.getInstance().nightMode;
 		
 		Sky sky = new Sky( dayTime );
 		sky.scale.set( WIDTH, HEIGHT );
@@ -113,7 +113,7 @@ public class SurfaceScene extends PixelScene {
 			window.add( patch );
 		}
 		
-		Avatar a = new Avatar( Dungeon.hero.heroClass );
+		Avatar a = new Avatar( Dungeon.getInstance().hero.heroClass );
 		a.x = PixelScene.align( (WIDTH - a.width) / 2 );
 		a.y = HEIGHT - a.height + 1;
 		window.add( a );

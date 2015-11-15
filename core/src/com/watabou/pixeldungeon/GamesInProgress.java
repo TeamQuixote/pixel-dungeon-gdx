@@ -37,7 +37,7 @@ public class GamesInProgress {
 			Info info;
 			try {
 				
-				Bundle bundle = Dungeon.gameBundle( Dungeon.gameFile( cl ) );
+				Bundle bundle = Dungeon.getInstance().getInstance().gameBundle( Dungeon.getInstance().getInstance().gameFile( cl ) );
 				info = new Info();
 				Dungeon.preview( info, bundle );
 

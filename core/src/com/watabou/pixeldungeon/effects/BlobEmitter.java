@@ -49,7 +49,7 @@ public class BlobEmitter extends Emitter {
 		float size = DungeonTilemap.SIZE;
 		
 		for (int i=0; i < LENGTH; i++) {
-			if (map[i] > 0 && Dungeon.visible[i]) {
+			if (map[i] > 0 && Dungeon.getInstance().visible[i]) {
 				float x = ((i % WIDTH) + Random.Float()) * size;
 				float y = ((i / WIDTH) + Random.Float()) * size;
 				factory.emit( this, index, x, y );

@@ -62,13 +62,13 @@ public class WndItem extends Window {
 		float y = info.y + info.height() + GAP;
 		float x = 0;
 		
-		if (Dungeon.hero.isAlive() && owner != null) {
-			for (final String action:item.actions( Dungeon.hero )) {
+		if (Dungeon.getInstance().hero.isAlive() && owner != null) {
+			for (final String action:item.actions( Dungeon.getInstance().hero )) {
 				
 				RedButton btn = new RedButton( action ) {
 					@Override
 					protected void onClick() {
-						item.execute( Dungeon.hero, action );
+						item.execute( Dungeon.getInstance().hero, action );
 						hide();
 						owner.hide();
 					};

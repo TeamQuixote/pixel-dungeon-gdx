@@ -18,8 +18,8 @@ public class MoveAction extends Action {
     @Override
     public void execute() {
         //stole this from GameScene.defaultCellListener
-        if (Dungeon.hero.handle(target)) {
-            Dungeon.hero.next();
+        if (Dungeon.getInstance().hero.handle(target)) {
+            Dungeon.getInstance().getInstance().hero.next();
         }
     }
 }

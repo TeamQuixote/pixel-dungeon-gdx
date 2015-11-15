@@ -132,7 +132,7 @@ public class WndTradeItem extends Window {
 				}
 			};
 			btnBuy.setRect( 0, pos + GAP, WIDTH, BTN_HEIGHT );
-			btnBuy.enable( price <= Dungeon.gold );
+			btnBuy.enable( price <= Dungeon.getInstance().gold );
 			add( btnBuy );
 			
 			RedButton btnCancel = new RedButton( TXT_CANCEL ) {
@@ -195,7 +195,7 @@ public class WndTradeItem extends Window {
 	
 	private void sell( Item item ) {
 		
-		Hero hero = Dungeon.hero;
+		Hero hero = Dungeon.getInstance().hero;
 		
 		if (item.isEquipped( hero ) && !((EquipableItem)item).doUnequip( hero, false )) {
 			return;
@@ -214,7 +214,7 @@ public class WndTradeItem extends Window {
 			sell( item );
 		} else {
 			
-			Hero hero = Dungeon.hero;
+			Hero hero = Dungeon.getInstance().hero;
 			
 			item = item.detach( hero.belongings.backpack );
 			int price = item.price();
@@ -226,8 +226,8 @@ public class WndTradeItem extends Window {
 	
 	private int price( Item item ) {
 		// This formula is not completely correct...
-		int price = item.price() * 5 * (Dungeon.depth / 5 + 1);
-		if (Dungeon.hero.buff( RingOfHaggler.Haggling.class ) != null && price >= 2) {
+		int price = item.price() * 5 * (Dungeon.getInstance().depth / 5 + 1);
+		if (Dungeon.getInstance().hero.buff( RingOfHaggler.Haggling.class ) != null && price >= 2) {
 			price /= 2;
 		}
 		return price;
@@ -235,16 +235,16 @@ public class WndTradeItem extends Window {
 	
 	private void buy( Heap heap ) {
 		
-		Hero hero = Dungeon.hero;
+		Hero hero = Dungeon.getInstance().hero;
 		Item item = heap.pickUp();
 		
 		int price = price( item );
-		Dungeon.gold -= price;
+		Dungeon.getInstance().gold -= price;
 		
 		GLog.i( TXT_BOUGHT, item.name(), price );
 		
 		if (!item.doPickUp( hero )) {
-			Dungeon.level.drop( item, heap.pos ).sprite.drop();
+			Dungeon.getInstance().level.drop( item, heap.pos ).sprite.drop();
 		}
 	}
 }

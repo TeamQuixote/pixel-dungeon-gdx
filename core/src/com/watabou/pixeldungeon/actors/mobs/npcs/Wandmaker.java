@@ -119,16 +119,16 @@ public class Wandmaker extends NPC {
 	@Override
 	public void interact() {
 		
-		sprite.turnTo( pos, Dungeon.hero.pos );
+		sprite.turnTo( pos, Dungeon.getInstance().hero.pos );
 		if (Quest.given) {
 			
 			Item item = Quest.alternative ?
-				Dungeon.hero.belongings.getItem( CorpseDust.class ) :
-				Dungeon.hero.belongings.getItem( Rotberry.Seed.class );
+				Dungeon.getInstance().hero.belongings.getItem( CorpseDust.class ) :
+				Dungeon.getInstance().hero.belongings.getItem( Rotberry.Seed.class );
 			if (item != null) {
 				GameScene.show( new WndWandmaker( this, item ) );
 			} else {
-				tell( Quest.alternative ? TXT_DUST2 : TXT_BERRY2, Dungeon.hero.className() );
+				tell( Quest.alternative ? TXT_DUST2 : TXT_BERRY2, Dungeon.getInstance().hero.className() );
 			}
 			
 		} else {
@@ -215,7 +215,7 @@ public class Wandmaker extends NPC {
 		}
 		
 		public static void spawn( PrisonLevel level, Room room ) {
-			if (!spawned && Dungeon.depth > 6 && Random.Int( 10 - Dungeon.depth ) == 0) {
+			if (!spawned && Dungeon.getInstance().depth > 6 && Random.Int( 10 - Dungeon.getInstance().depth ) == 0) {
 				
 				Wandmaker npc = new Wandmaker();
 				do {
@@ -273,8 +273,8 @@ public class Wandmaker extends NPC {
 			if (alternative) {
 				
 				ArrayList<Heap> candidates = new ArrayList<Heap>();
-				for (Heap heap : Dungeon.level.heaps.values()) {
-					if (heap.type == Heap.Type.SKELETON && !Dungeon.visible[heap.pos]) {
+				for (Heap heap : Dungeon.getInstance().level.heaps.values()) {
+					if (heap.type == Heap.Type.SKELETON && !Dungeon.getInstance().visible[heap.pos]) {
 						candidates.add( heap );
 					}
 				}
@@ -282,23 +282,23 @@ public class Wandmaker extends NPC {
 				if (candidates.size() > 0) {
 					Random.element( candidates ).drop( new CorpseDust() );
 				} else {
-					int pos = Dungeon.level.randomRespawnCell();
-					while (Dungeon.level.heaps.get( pos ) != null) {
-						pos = Dungeon.level.randomRespawnCell();
+					int pos = Dungeon.getInstance().level.randomRespawnCell();
+					while (Dungeon.getInstance().level.heaps.get( pos ) != null) {
+						pos = Dungeon.getInstance().level.randomRespawnCell();
 					}
 					
-					Heap heap = Dungeon.level.drop( new CorpseDust(), pos );
+					Heap heap = Dungeon.getInstance().level.drop( new CorpseDust(), pos );
 					heap.type = Heap.Type.SKELETON;
 					heap.sprite.link();
 				}
 				
 			} else {
 				
-				int shrubPos = Dungeon.level.randomRespawnCell();
-				while (Dungeon.level.heaps.get( shrubPos ) != null) {
-					shrubPos = Dungeon.level.randomRespawnCell();
+				int shrubPos = Dungeon.getInstance().level.randomRespawnCell();
+				while (Dungeon.getInstance().level.heaps.get( shrubPos ) != null) {
+					shrubPos = Dungeon.getInstance().level.randomRespawnCell();
 				}
-				Dungeon.level.plant( new Rotberry.Seed(), shrubPos );
+				Dungeon.getInstance().level.plant( new Rotberry.Seed(), shrubPos );
 				
 			}
 		}
@@ -327,7 +327,7 @@ public class Wandmaker extends NPC {
 			
 			GameScene.add( Blob.seed( pos, 100, ToxicGas.class ) );
 			
-			Dungeon.level.drop( new Seed(), pos ).sprite.drop();
+			Dungeon.getInstance().level.drop( new Seed(), pos ).sprite.drop();
 			
 			if (ch != null) {
 				Buff.prolong( ch, Roots.class, TICK * 3 );
@@ -354,13 +354,13 @@ public class Wandmaker extends NPC {
 			public boolean collect( Bag container ) {
 				if (super.collect( container )) {
 					
-					if (Dungeon.level != null) {
-						for (Mob mob : Dungeon.level.mobs) {
-							mob.beckon( Dungeon.hero.pos );
+					if (Dungeon.getInstance().level != null) {
+						for (Mob mob : Dungeon.getInstance().level.mobs) {
+							mob.beckon( Dungeon.getInstance().hero.pos );
 						}
 						
 						GLog.w( "The seed emits a roar that echoes throughout the dungeon!" );
-						CellEmitter.center( Dungeon.hero.pos ).start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
+						CellEmitter.center( Dungeon.getInstance().hero.pos ).start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
 						Sample.INSTANCE.play( Assets.SND_CHALLENGE );
 					}
 					

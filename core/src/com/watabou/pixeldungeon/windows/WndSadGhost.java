@@ -88,12 +88,12 @@ public class WndSadGhost extends Window {
 		
 		hide();
 		
-		item.detach( Dungeon.hero.belongings.backpack );
+		item.detach( Dungeon.getInstance().hero.belongings.backpack );
 		
-		if (reward.doPickUp( Dungeon.hero )) {
+		if (reward.doPickUp( Dungeon.getInstance().hero )) {
 			GLog.i( Hero.TXT_YOU_NOW_HAVE, reward.name() );
 		} else {
-			Dungeon.level.drop( reward, ghost.pos ).sprite.drop();
+			Dungeon.getInstance().level.drop( reward, ghost.pos ).sprite.drop();
 		}
 		
 		ghost.yell( "Farewell, adventurer!" );

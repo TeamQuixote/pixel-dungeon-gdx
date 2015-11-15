@@ -72,8 +72,8 @@ public class Bleeding extends Buff {
 							target.sprite.blood(), Math.min( 10 * level / target.HT, 10 ) );
 				}
 				
-				if (target == Dungeon.hero && !target.isAlive()) {
-					Dungeon.fail( Utils.format( ResultDescriptions.BLEEDING, Dungeon.depth ) );
+				if (target == Dungeon.getInstance().hero && !target.isAlive()) {
+                    Dungeon.getInstance().fail( Utils.format( ResultDescriptions.BLEEDING, Dungeon.getInstance().depth ) );
 					GLog.n( "You bled to death..." );
 				}
 				

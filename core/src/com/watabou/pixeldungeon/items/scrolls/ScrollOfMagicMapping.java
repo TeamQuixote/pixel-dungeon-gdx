@@ -41,8 +41,8 @@ public class ScrollOfMagicMapping extends Scroll {
 	protected void doRead() {
 		
 		int length = Level.LENGTH;
-		int[] map = Dungeon.level.map;
-		boolean[] mapped = Dungeon.level.mapped;
+		int[] map = Dungeon.getInstance().level.map;
+		boolean[] mapped = Dungeon.getInstance().level.mapped;
 		boolean[] discoverable = Level.discoverable;
 		
 		boolean noticed = false;
@@ -59,7 +59,7 @@ public class ScrollOfMagicMapping extends Scroll {
 					Level.set( i, Terrain.discover( terr ) );						
 					GameScene.updateMap( i );
 					
-					if (Dungeon.visible[i]) {
+					if (Dungeon.getInstance().visible[i]) {
 						GameScene.discoverTile( i, terr );
 						discover( i );
 						
@@ -68,7 +68,7 @@ public class ScrollOfMagicMapping extends Scroll {
 				}
 			}
 		}
-		Dungeon.observe();
+		Dungeon.getInstance().observe();
 		
 		GLog.i( TXT_LAYOUT );
 		if (noticed) {

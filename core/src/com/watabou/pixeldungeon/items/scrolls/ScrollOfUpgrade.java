@@ -38,7 +38,7 @@ public class ScrollOfUpgrade extends InventoryScroll {
 	@Override
 	protected void onItemSelected( Item item ) {
 
-		ScrollOfRemoveCurse.uncurse( Dungeon.hero, item );
+		ScrollOfRemoveCurse.uncurse( Dungeon.getInstance().hero, item );
 		item.upgrade();
 		
 		GLog.p( TXT_LOOKS_BETTER, item.name() );

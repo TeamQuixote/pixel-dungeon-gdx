@@ -43,27 +43,27 @@ public class Bones {
 		item = null;
 		switch (Random.Int( 4 )) {
 		case 0:
-			item = Dungeon.hero.belongings.weapon;
+			item = Dungeon.getInstance().getInstance().hero.belongings.weapon;
 			break;
 		case 1:
-			item = Dungeon.hero.belongings.armor;
+			item = Dungeon.getInstance().getInstance().hero.belongings.armor;
 			break;
 		case 2:
-			item = Dungeon.hero.belongings.ring1;
+			item = Dungeon.getInstance().getInstance().hero.belongings.ring1;
 			break;
 		case 3:
-			item = Dungeon.hero.belongings.ring2;
+			item = Dungeon.getInstance().getInstance().hero.belongings.ring2;
 			break;
 		}
 		if (item == null) {
-			if (Dungeon.gold > 0) {
-				item = new Gold( Random.IntRange( 1, Dungeon.gold ) );
+			if (Dungeon.getInstance().gold > 0) {
+				item = new Gold( Random.IntRange( 1, Dungeon.getInstance().getInstance().gold ) );
 			} else {
 				item = new Gold( 1 );
 			}
 		}
 		
-		depth = Dungeon.depth;
+		depth = Dungeon.getInstance().getInstance().depth;
 		
 		Bundle bundle = new Bundle();
 		bundle.put( LEVEL, depth );
@@ -96,7 +96,7 @@ public class Bones {
 			}
 			
 		} else {
-			if (depth == Dungeon.depth) {
+			if (depth == Dungeon.getInstance().getInstance().depth) {
 				Game.instance.deleteFile( BONES_FILE );
 				depth = 0;
 				
@@ -104,7 +104,7 @@ public class Bones {
 					item.cursed = true;
 					item.cursedKnown = true;
 					if (item.isUpgradable()) {
-						int lvl = (Dungeon.depth - 1) * 3 / 5 + 1;
+						int lvl = (Dungeon.getInstance().depth - 1) * 3 / 5 + 1;
 						if (lvl < item.level) {
 							item.degrade( item.level - lvl );
 						}

@@ -97,7 +97,7 @@ public class MirrorImage extends NPC {
 		
 		if (enemy == DUMMY || !enemy.isAlive()) {
 			HashSet<Mob> enemies = new HashSet<Mob>();
-			for (Mob mob:Dungeon.level.mobs) {
+			for (Mob mob:Dungeon.getInstance().level.mobs) {
 				if (mob.hostile && Level.fieldOfView[mob.pos]) {
 					enemies.add( mob );
 				}
@@ -128,14 +128,14 @@ public class MirrorImage extends NPC {
 		
 		int curPos = pos;
 		
-		moveSprite( pos, Dungeon.hero.pos );
-		move( Dungeon.hero.pos );
+		moveSprite( pos, Dungeon.getInstance().hero.pos );
+		move( Dungeon.getInstance().hero.pos );
 		
-		Dungeon.hero.sprite.move( Dungeon.hero.pos, curPos );
-		Dungeon.hero.move( curPos );
+		Dungeon.getInstance().hero.sprite.move( Dungeon.getInstance().hero.pos, curPos );
+		Dungeon.getInstance().hero.move( curPos );
 		
-		Dungeon.hero.spend( 1 / Dungeon.hero.speed() );
-		Dungeon.hero.busy();
+		Dungeon.getInstance().hero.spend( 1 / Dungeon.getInstance().hero.speed() );
+		Dungeon.getInstance().hero.busy();
 	}
 	
 	private static final HashSet<Class<?>> IMMUNITIES = new HashSet<Class<?>>();

@@ -41,7 +41,7 @@ public class HighGrass {
 		Level.set( pos, Terrain.GRASS );
 		GameScene.updateMap( pos );
 		
-		if (!Dungeon.isChallenged( Challenges.NO_HERBALISM )) {
+		if (!Dungeon.getInstance().isChallenged( Challenges.NO_HERBALISM )) {
 			int herbalismLevel = 0;
 			if (ch != null) {
 				Herbalism herbalism = ch.buff( Herbalism.class );
@@ -70,6 +70,6 @@ public class HighGrass {
 		}
 		
 		CellEmitter.get( pos ).burst( LeafParticle.LEVEL_SPECIFIC, leaves );
-		Dungeon.observe();
+		Dungeon.getInstance().observe();
 	}
 }

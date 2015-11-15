@@ -136,7 +136,7 @@ public class ItemSlot extends Button<GameAction> {
 					
 					int str = isArmor ? ((Armor)item).STR : ((Weapon)item).STR;
 					topRight.text( Utils.format( TXT_STRENGTH, str ) );
-					if (str > Dungeon.hero.STR()) {
+					if (str > Dungeon.getInstance().hero.STR()) {
 						topRight.hardlight( DEGRADED );
 					} else {
 						topRight.resetColor();

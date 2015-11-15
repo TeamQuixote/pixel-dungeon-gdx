@@ -76,7 +76,7 @@ public class StatusPane extends Component {
 		add( new TouchArea<GameAction>( 0, 1, 30, 30 ) {
 			@Override
 			protected void onClick( NoosaInputProcessor.Touch touch ) {
-				Image sprite = Dungeon.hero.sprite;
+				Image sprite = Dungeon.getInstance().hero.sprite;
 				if (!sprite.isVisible()) {
 					Camera.main.focusOn( sprite );
 				}
@@ -107,7 +107,7 @@ public class StatusPane extends Component {
 		btnMenu = new MenuButton();
 		add( btnMenu );
 		
-		avatar = HeroSprite.avatar( Dungeon.hero.heroClass, lastTier );
+		avatar = HeroSprite.avatar( Dungeon.getInstance().hero.heroClass, lastTier );
 		add( avatar );
 		
 		blood = new Emitter();
@@ -117,7 +117,7 @@ public class StatusPane extends Component {
 		blood.on = false;
 		add( blood );
 		
-		compass = new Compass( Dungeon.level.exit );
+		compass = new Compass( Dungeon.getInstance().level.exit );
 		add( compass );
 		
 		hp = new Image( Assets.HP_BAR );	
@@ -130,12 +130,12 @@ public class StatusPane extends Component {
 		level.hardlight( 0xFFEBA4 );
 		add( level );
 		
-		depth = new BitmapText( Integer.toString( Dungeon.depth ), PixelScene.font1x );
+		depth = new BitmapText( Integer.toString( Dungeon.getInstance().depth ), PixelScene.font1x );
 		depth.hardlight( 0xCACFC2 );
 		depth.measure();
 		add( depth );
 		
-		Dungeon.hero.belongings.countIronKeys();
+		Dungeon.getInstance().hero.belongings.countIronKeys();
 		keys = new BitmapText( PixelScene.font1x );
 		keys.hardlight( 0xCACFC2 );
 		add( keys );
@@ -146,7 +146,7 @@ public class StatusPane extends Component {
 		loot = new LootIndicator();
 		add( loot );
 		
-		buffs = new BuffIndicator( Dungeon.hero );
+		buffs = new BuffIndicator( Dungeon.getInstance().hero );
 		add( buffs );
 	}
 	
@@ -184,7 +184,7 @@ public class StatusPane extends Component {
 	public void update() {
 		super.update();
 		
-		float health = (float)Dungeon.hero.HP / Dungeon.hero.HT;
+		float health = (float)Dungeon.getInstance().hero.HP / Dungeon.getInstance().hero.HT;
 		
 		if (health == 0) {
 			avatar.tint( 0x000000, 0.6f );
@@ -198,9 +198,9 @@ public class StatusPane extends Component {
 		}
 		
 		hp.scale.x = health;
-		exp.scale.x = (width / exp.width) * Dungeon.hero.exp / Dungeon.hero.maxExp();
+		exp.scale.x = (width / exp.width) * Dungeon.getInstance().hero.exp / Dungeon.getInstance().hero.maxExp();
 		
-		if (Dungeon.hero.lvl != lastLvl) {
+		if (Dungeon.getInstance().hero.lvl != lastLvl) {
 			
 			if (lastLvl != -1) {
 				Emitter emitter = (Emitter)recycle( Emitter.class );
@@ -209,7 +209,7 @@ public class StatusPane extends Component {
 				emitter.burst( Speck.factory( Speck.STAR ), 12 );
 			}
 			
-			lastLvl = Dungeon.hero.lvl;
+			lastLvl = Dungeon.getInstance().hero.lvl;
 			level.text( Integer.toString( lastLvl ) );
 			level.measure();
 			level.x = PixelScene.align( 27.0f - level.width() / 2 );
@@ -224,10 +224,10 @@ public class StatusPane extends Component {
 			keys.x = width - 8 - keys.width()    - 18;
 		}
 		
-		int tier = Dungeon.hero.tier();
+		int tier = Dungeon.getInstance().hero.tier();
 		if (tier != lastTier) {
 			lastTier = tier;
-			avatar.copy( HeroSprite.avatar( Dungeon.hero.heroClass, tier ) );
+			avatar.copy( HeroSprite.avatar( Dungeon.getInstance().hero.heroClass, tier ) );
 		}
 	}
 	

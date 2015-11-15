@@ -33,7 +33,7 @@ public class Key extends Item {
 	
 	public Key() {
 		super();
-		depth = Dungeon.depth;
+		depth = Dungeon.getInstance().depth;
 	}
 	
 	private static final String DEPTH = "depth";

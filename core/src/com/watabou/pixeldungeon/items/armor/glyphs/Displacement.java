@@ -37,18 +37,18 @@ public class Displacement extends Glyph {
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage ) {
 
-		if (Dungeon.bossLevel()) {
+		if (Dungeon.getInstance().bossLevel()) {
 			return damage;
 		}
 		
 		int nTries = (armor.level < 0 ? 1 : armor.level + 1) * 5;
 		for (int i=0; i < nTries; i++) {
 			int pos = Random.Int( Level.LENGTH );
-			if (Dungeon.visible[pos] && Level.passable[pos] && Actor.findChar( pos ) == null) {
+			if (Dungeon.getInstance().visible[pos] && Level.passable[pos] && Actor.findChar( pos ) == null) {
 				
 				WandOfBlink.appear( defender, pos );
-				Dungeon.level.press( pos, defender );
-				Dungeon.observe();
+				Dungeon.getInstance().level.press( pos, defender );
+				Dungeon.getInstance().observe();
 
 				break;
 			}

@@ -76,8 +76,8 @@ public class DangerIndicator extends Tag {
 	@Override
 	public void update() {
 		
-		if (Dungeon.hero.isAlive()) {
-			int v =  Dungeon.hero.visibleEnemies();
+		if (Dungeon.getInstance().hero.isAlive()) {
+			int v =  Dungeon.getInstance().hero.visibleEnemies();
 			if (v != lastNumber) {
 				lastNumber = v;
 				if (visible = lastNumber > 0) {
@@ -98,7 +98,7 @@ public class DangerIndicator extends Tag {
 	@Override
 	protected void onClick() {
 		if (visible) {
-            Mob target = Dungeon.hero.visibleEnemy(enemyIndex++);
+            Mob target = Dungeon.getInstance().hero.visibleEnemy(enemyIndex++);
 
             HealthIndicator.instance.target(target == HealthIndicator.instance.target() ? null : target);
 

@@ -39,7 +39,7 @@ public class PotionOfFrost extends Potion {
 		
 		PathFinder.buildDistanceMap( cell, BArray.not( Level.losBlocking, null ), DISTANCE );
 		
-		Fire fire = (Fire)Dungeon.level.blobs.get( Fire.class );
+		Fire fire = (Fire)Dungeon.getInstance().level.blobs.get( Fire.class );
 		
 		for (int i=0; i < Level.LENGTH; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {

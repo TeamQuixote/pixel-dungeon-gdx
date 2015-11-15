@@ -234,7 +234,7 @@ public class Generator {
 	
 	public static Armor randomArmor() throws Exception {
 		
-		int curStr = Hero.STARTING_STR + Dungeon.potionOfStrength;
+		int curStr = Hero.STARTING_STR + Dungeon.getInstance().potionOfStrength;
 		
 		Category cat = Category.ARMOR;
 		
@@ -249,7 +249,7 @@ public class Generator {
 	
 	public static Weapon randomWeapon() throws Exception {
 		
-		int curStr = Hero.STARTING_STR + Dungeon.potionOfStrength;
+		int curStr = Hero.STARTING_STR + Dungeon.getInstance().potionOfStrength;
 		
 		Category cat = Category.WEAPON;
 		

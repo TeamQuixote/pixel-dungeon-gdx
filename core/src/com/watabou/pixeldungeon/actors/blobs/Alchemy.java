@@ -45,7 +45,7 @@ public class Alchemy extends Blob {
 	protected void evolve() {
 		volume = off[pos] = cur[pos];
 		
-		if (Dungeon.visible[pos]) {
+		if (Dungeon.getInstance().visible[pos]) {
 			Journal.add( Journal.Feature.ALCHEMY );
 		}
 	}
@@ -58,12 +58,12 @@ public class Alchemy extends Blob {
 	}
 	
 	public static void transmute( int cell ) {
-		Heap heap = Dungeon.level.heaps.get( cell );
+		Heap heap = Dungeon.getInstance().getInstance().level.heaps.get( cell );
 		if (heap != null) {
 			
 			Item result = heap.transmute();
 			if (result != null) {
-				Dungeon.level.drop( result, cell ).sprite.drop( cell );
+				Dungeon.getInstance().level.drop( result, cell ).sprite.drop( cell );
 			}
 		}
 	}

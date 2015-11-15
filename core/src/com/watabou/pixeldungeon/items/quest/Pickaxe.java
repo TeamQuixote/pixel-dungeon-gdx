@@ -76,7 +76,7 @@ public class Pickaxe extends Weapon {
 		
 		if (action == AC_MINE) {
 			
-			if (Dungeon.depth < 11 || Dungeon.depth > 15) {
+			if (Dungeon.getInstance().depth < 11 || Dungeon.getInstance().depth > 15) {
 				GLog.w( TXT_NO_VEIN );
 				return;
 			}
@@ -84,7 +84,7 @@ public class Pickaxe extends Weapon {
 			for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
 				
 				final int pos = hero.pos + Level.NEIGHBOURS8[i];
-				if (Dungeon.level.map[pos] == Terrain.WALL_DECO) {
+				if (Dungeon.getInstance().level.map[pos] == Terrain.WALL_DECO) {
 				
 					hero.spend( TIME_TO_MINE );
 					hero.busy();
@@ -101,10 +101,10 @@ public class Pickaxe extends Weapon {
 							GameScene.updateMap( pos );
 							
 							DarkGold gold = new DarkGold();
-							if (gold.doPickUp( Dungeon.hero )) {
+							if (gold.doPickUp( Dungeon.getInstance().hero )) {
 								GLog.i( Hero.TXT_YOU_NOW_HAVE, gold.name() );
 							} else {
-								Dungeon.level.drop( gold, hero.pos ).sprite.drop();
+								Dungeon.getInstance().level.drop( gold, hero.pos ).sprite.drop();
 							}
 							
 							Hunger hunger = hero.buff( Hunger.class );
