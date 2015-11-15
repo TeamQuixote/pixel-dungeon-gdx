@@ -815,7 +815,7 @@ public class Dungeon {
 		GameScene.afterObserve(this);
 	}
 	
-	private static boolean[] passable = new boolean[Level.LENGTH];
+	private boolean[] passable = new boolean[Level.LENGTH];
 	
 	public int findPath(Char ch, int from, int to, boolean pass[], boolean[] visible ) {
 		
@@ -863,5 +863,4 @@ public class Dungeon {
 		return PathFinder.getStepBack( cur, from, passable );
 		
 	}
-
 }
