@@ -139,8 +139,9 @@ public abstract class Mob extends Char {
 		
 		boolean justAlerted = alerted;
 		alerted = false;
-		
-		sprite.hideAlert();
+
+        if(sprite != null)
+    		sprite.hideAlert();
 		
 		if (paralysed) {
 			enemySeen = false;
@@ -184,6 +185,8 @@ public abstract class Mob extends Char {
 	}
 	
 	protected boolean moveSprite( int from, int to ) {
+        if(sprite == null)
+            return true;
 
 		if (sprite.isVisible() && (dungeon.visible[from] || dungeon.visible[to])) {
 			sprite.move( from, to );
@@ -273,7 +276,8 @@ public abstract class Mob extends Char {
 		boolean visible = dungeon.visible[pos];
 		
 		if (visible) {
-			sprite.attack( enemy.pos );
+            if(sprite != null)
+    			sprite.attack( enemy.pos );
 		} else {
 			attack( enemy );
 		}
@@ -403,7 +407,8 @@ public abstract class Mob extends Char {
 	}
 	
 	public void notice() {
-		sprite.showAlert();
+        if(sprite != null)
+    		sprite.showAlert();
 	}
 	
 	public void yell( String str ) {

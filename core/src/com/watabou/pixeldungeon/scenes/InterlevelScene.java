@@ -26,6 +26,7 @@ import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.Dungeon;
+import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.Statistics;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.items.Generator;
@@ -253,7 +254,7 @@ public class InterlevelScene extends PixelScene {
 
 		dungeon.fixTime();
 		if (dungeon.hero == null) {
-			dungeon.init();
+			dungeon.init(PixelDungeon.challenges(), StartScene.curClass);
 			if (noStory) {
 				dungeon.chapters.add( WndStory.ID_SEWERS );
 				noStory = false;
@@ -267,9 +268,9 @@ public class InterlevelScene extends PixelScene {
 			level = dungeon.newLevel();
 		} else {
 			dungeon.depth++;
-			level = dungeon.loadLevel( dungeon.hero.heroClass );
+			level = dungeon.loadLevel(dungeon.hero.heroClass);
 		}
-		dungeon.switchLevel( level, level.entrance );
+		dungeon.switchLevel(level, level.entrance);
 	}
 	
 	private void fall() throws Exception {
@@ -283,9 +284,9 @@ public class InterlevelScene extends PixelScene {
 			level = dungeon.newLevel();
 		} else {
 			dungeon.depth++;
-			level = dungeon.loadLevel( dungeon.hero.heroClass );
+			level = dungeon.loadLevel(dungeon.hero.heroClass);
 		}
-		dungeon.switchLevel( level, fallIntoPit ? level.pitCell() : level.randomRespawnCell() );
+		dungeon.switchLevel(level, fallIntoPit ? level.pitCell() : level.randomRespawnCell());
 	}
 	
 	private void ascend() throws Exception {
@@ -295,8 +296,8 @@ public class InterlevelScene extends PixelScene {
 		
 		dungeon.saveLevel();
 		dungeon.depth--;
-		Level level = dungeon.loadLevel( dungeon.hero.heroClass );
-		dungeon.switchLevel( level, level.exit );
+		Level level = dungeon.loadLevel(dungeon.hero.heroClass);
+		dungeon.switchLevel(level, level.exit);
 	}
 	
 	private void returnTo() throws Exception {
@@ -305,21 +306,21 @@ public class InterlevelScene extends PixelScene {
 		
 		dungeon.saveLevel();
 		dungeon.depth = returnDepth;
-		Level level = dungeon.loadLevel( dungeon.hero.heroClass );
-		dungeon.switchLevel( level, dungeon.level.resizingNeeded ? level.adjustPos( returnPos ) : returnPos );
+		Level level = dungeon.loadLevel(dungeon.hero.heroClass);
+		dungeon.switchLevel(level, dungeon.level.resizingNeeded ? level.adjustPos(returnPos) : returnPos);
 	}
 	
 	private void restore() throws Exception {
 		Dungeon dungeon = Dungeon.getInstance();
 		dungeon.fixTime();
 		
-		dungeon.loadGame( StartScene.curClass );
+		dungeon.loadGame(StartScene.curClass);
 		if (dungeon.depth == -1) {
 			dungeon.depth = Statistics.deepestFloor;
-			dungeon.switchLevel( dungeon.loadLevel( StartScene.curClass ), -1 );
+			dungeon.switchLevel(dungeon.loadLevel(StartScene.curClass), -1);
 		} else {
-			Level level = dungeon.loadLevel( StartScene.curClass );
-			dungeon.switchLevel( level, dungeon.level.resizingNeeded ? level.adjustPos( dungeon.hero.pos ) : dungeon.hero.pos );
+			Level level = dungeon.loadLevel(StartScene.curClass);
+			dungeon.switchLevel(level, dungeon.level.resizingNeeded ? level.adjustPos(dungeon.hero.pos) : dungeon.hero.pos);
 		}
 	}
 	
@@ -331,7 +332,7 @@ public class InterlevelScene extends PixelScene {
 			dungeon.hero.resurrect( dungeon.depth );
 			dungeon.depth--;
 			Level level = dungeon.newLevel(/* true */);
-			dungeon.switchLevel( level, level.entrance );
+			dungeon.switchLevel(level, level.entrance);
 		} else {
 			dungeon.hero.resurrect( -1 );
 			dungeon.resetLevel();

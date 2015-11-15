@@ -36,8 +36,8 @@ public class GLog {
 		if (args.length > 0) {
 			text = Utils.format( text, args );
 		}
-		
-		Gdx.app.log(TAG, text);
+		if(Gdx.app != null)
+    		Gdx.app.log(TAG, text);
 		update.dispatch( text );
 	}
 	

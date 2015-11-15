@@ -79,8 +79,10 @@ public class Bones {
 	}
 	
 	public static Item get(Dungeon dungeon) {
+        if(Game.instance == null)
+            return null;
+
 		if (depth == -1) {
-			
 			try {
 				InputStream input = Game.instance.openFileInput( BONES_FILE ) ;
 				Bundle bundle = Bundle.read( input );

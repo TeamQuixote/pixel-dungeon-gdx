@@ -27,8 +27,7 @@ public class AiPixelDungeon extends PixelDungeon {
         super.create();
 
         InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-        StartScene.curClass = HeroClass.WARRIOR;
-        Dungeon.getInstance().init();
+        Dungeon.getInstance().init(PixelDungeon.challenges(), HeroClass.WARRIOR);
         Dungeon.getInstance().chapters.clear();
     }
 
@@ -41,7 +40,7 @@ public class AiPixelDungeon extends PixelDungeon {
         clearChasm();
 
         if (canAct()) {
-            GameState state = new GameState();
+            GameState state = new GameState(Dungeon.getInstance());
             Action a = ai.makeDecision(state);
             a.execute();
         }

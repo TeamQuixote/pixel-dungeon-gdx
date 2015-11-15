@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.levels.features;
 
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.pixeldungeon.Challenges;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Char;
@@ -32,6 +33,7 @@ import com.watabou.pixeldungeon.items.rings.RingOfHerbalism.Herbalism;
 import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.pixeldungeon.scenes.GameScene;
+import com.watabou.pixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
 
 public class HighGrass {
@@ -41,7 +43,7 @@ public class HighGrass {
 		Dungeon.getInstance().level.set( pos, Terrain.GRASS );
 		GameScene.updateMap( pos );
 		
-		if (!Dungeon.getInstance().isChallenged( Challenges.NO_HERBALISM )) {
+		if (!Dungeon.getInstance().isChallenged(Challenges.NO_HERBALISM)) {
 			int herbalismLevel = 0;
 			if (ch != null) {
 				Herbalism herbalism = ch.buff( Herbalism.class );
@@ -52,12 +54,16 @@ public class HighGrass {
 			
 			// Seed
 			if (herbalismLevel >= 0 && Random.Int( 18 ) <= Random.Int( herbalismLevel + 1 )) {
-				level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite.drop();
+                ItemSprite itemSprite = level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite;
+				if(itemSprite != null)
+                    itemSprite.drop();
 			}
 			
 			// Dew
 			if (herbalismLevel >= 0 && Random.Int( 6 ) <= Random.Int( herbalismLevel + 1 )) {
-				level.drop( new Dewdrop(), pos ).sprite.drop();
+				ItemSprite itemSprite = level.drop( new Dewdrop(), pos ).sprite;
+                if(itemSprite != null)
+                    itemSprite.drop();
 			}
 		}
 		
@@ -69,7 +75,10 @@ public class HighGrass {
 			leaves = 8;
 		}
 		
-		CellEmitter.get( pos ).burst( LeafParticle.LEVEL_SPECIFIC, leaves );
+		Emitter emitter = CellEmitter.get(pos);
+        if(emitter != null)
+            emitter.burst(LeafParticle.LEVEL_SPECIFIC, leaves);
+
 		Dungeon.getInstance().observe();
 	}
 }

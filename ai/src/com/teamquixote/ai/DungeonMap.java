@@ -14,10 +14,6 @@ public class DungeonMap {
     public static int DUNGEON_WIDTH = Level.WIDTH;
     public final TileInfo[] map;
 
-    public DungeonMap() {
-        this(Dungeon.getInstance().level.map, Dungeon.getInstance().level.visited);
-    }
-
     public DungeonMap(int[] map, boolean[] isMapped) {
         this.map = new TileInfo[map.length];
         for (int i = 0; i < map.length; i++) this.map[i] = new TileInfo(i, map[i], isMapped[i]);
