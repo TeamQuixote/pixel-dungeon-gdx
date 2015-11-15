@@ -69,7 +69,7 @@ public class KindOfWeapon extends EquipableItem {
 			
 		} else {
 			
-			collect( hero.belongings.backpack );
+			collect( hero.belongings.backpack, hero );
 			return false;
 		}
 	}

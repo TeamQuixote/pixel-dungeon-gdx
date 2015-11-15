@@ -101,7 +101,7 @@ public class Pickaxe extends Weapon {
 							GameScene.updateMap( pos );
 							
 							DarkGold gold = new DarkGold();
-							if (gold.doPickUp( Dungeon.hero )) {
+							if (gold.doPickUp( hero )) {
 								GLog.i( Hero.TXT_YOU_NOW_HAVE, gold.name() );
 							} else {
 								Dungeon.level.drop( gold, hero.pos ).sprite.drop();
@@ -170,7 +170,7 @@ public class Pickaxe extends Weapon {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		return
 			"This is a large and sturdy tool for breaking rocks. Probably it can be used as a weapon.";
 	}

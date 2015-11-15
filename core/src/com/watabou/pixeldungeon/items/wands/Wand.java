@@ -174,8 +174,8 @@ public abstract class Wand extends KindOfWeapon {
 	protected abstract void onZap( int cell );
 	
 	@Override
-	public boolean collect( Bag container ) {
-		if (super.collect( container )) {
+	public boolean collect( Bag container, Hero hero ) {
+		if (super.collect( container, hero )) {
 			if (container.owner != null) {
 				charge( container.owner );
 			}
@@ -253,9 +253,9 @@ public abstract class Wand extends KindOfWeapon {
 	}
 	
 	@Override
-	public String info() {
+	public String info(Hero hero) {
 		StringBuilder info = new StringBuilder( isKnown() ? desc() : String.format( TXT_WOOD, wood ) );
-		if (Dungeon.hero.heroClass == HeroClass.MAGE) {
+		if (hero.heroClass == HeroClass.MAGE) {
 			info.append( "\n\n" );
 			if (levelKnown) {
 				info.append( String.format( TXT_DAMAGE, MIN + (MAX - MIN) / 2 ) );

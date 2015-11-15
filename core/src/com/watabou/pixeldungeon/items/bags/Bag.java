@@ -65,15 +65,15 @@ public class Bag extends Item implements Iterable<Item> {
 	}
 	
 	@Override
-	public boolean collect( Bag container ) {
-		if (super.collect( container )) {	
+	public boolean collect( Bag container, Hero hero ) {
+		if (super.collect( container, hero )) {
 			
 			owner = container.owner;
 			
 			for (Item item : container.items.toArray( new Item[0] )) {
 				if (grab( item )) {
 					item.detachAll( container );
-					item.collect( this );
+					item.collect( this, hero );
 				}
 			}
 			
@@ -116,7 +116,7 @@ public class Bag extends Item implements Iterable<Item> {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		for (Bundlable item : bundle.getCollection( ITEMS )) {
-			((Item)item).collect( this );
+			((Item)item).collect( this, null ); //todo: find out how to add hero reference heres
 		};
 	}
 	

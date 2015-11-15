@@ -134,7 +134,7 @@ public class Dungeon {
 	
 	public static boolean nightMode;
 	
-	public static void init() {
+	public static void init(Hero hero) {
 
 		challenges = PixelDungeon.challenges();
 		
@@ -621,7 +621,7 @@ public class Dungeon {
 	public static void fail( String desc ) {
 		resultDescription = desc;
 		if (hero.belongings.getItem( Ankh.class ) == null) { 
-			Rankings.INSTANCE.submit( false );
+			Rankings.INSTANCE.submit( false, hero );
 		}
 	}
 	
@@ -632,7 +632,7 @@ public class Dungeon {
 		}
 		
 		resultDescription = desc;
-		Rankings.INSTANCE.submit( true );
+		Rankings.INSTANCE.submit( true, hero );
 	}
 	
 	public static void observe() {
