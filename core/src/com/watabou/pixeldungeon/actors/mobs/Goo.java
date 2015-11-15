@@ -118,7 +118,7 @@ public class Goo extends Mob {
 			
 			((GooSprite)sprite).pumpUp();
 			
-			if (Dungeon.getInstance().visible[pos]) {
+			if (dungeon.visible[pos]) {
 				sprite.showStatus( CharSprite.NEGATIVE, "!!!" );
 				GLog.n( "Goo is pumping itself up!" );
 			}
@@ -142,7 +142,7 @@ public class Goo extends Mob {
 	
 	@Override
 	public void move( int step ) {
-		((SewerBossLevel)Dungeon.getInstance().level).seal();
+		((SewerBossLevel)dungeon.level).seal();
 		super.move( step );
 	}
 	
@@ -151,10 +151,10 @@ public class Goo extends Mob {
 		
 		super.die( cause );
 		
-		((SewerBossLevel)Dungeon.getInstance().level).unseal();
+		((SewerBossLevel)dungeon.level).unseal();
 		
 		GameScene.bossSlain();
-		Dungeon.getInstance().level.drop( new SkeletonKey(), pos ).sprite.drop();
+		dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
 		
 		Badges.validateBossSlain(dungeon);
 		

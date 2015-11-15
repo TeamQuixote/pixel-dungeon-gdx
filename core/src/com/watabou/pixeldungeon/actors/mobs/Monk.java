@@ -77,7 +77,7 @@ public class Monk extends Mob {
 	
 	@Override
 	public void die( Object cause ) {
-		Imp.Quest.process( this );
+		Imp.Quest.process( this, dungeon );
 		
 		super.die( cause );
 	}
@@ -85,14 +85,14 @@ public class Monk extends Mob {
 	@Override
 	public int attackProc( Char enemy, int damage ) {
 		
-		if (Random.Int( 6 ) == 0 && enemy == Dungeon.getInstance().hero) {
+		if (Random.Int( 6 ) == 0 && enemy == dungeon.hero) {
 			
-			Hero hero = Dungeon.getInstance().hero;
+			Hero hero = dungeon.hero;
 			KindOfWeapon weapon = hero.belongings.weapon;
 			
 			if (weapon != null && !(weapon instanceof Knuckles) && !weapon.cursed) {
 				hero.belongings.weapon = null;
-				Dungeon.getInstance().level.drop( weapon, hero.pos ).sprite.drop();
+				dungeon.level.drop( weapon, hero.pos ).sprite.drop();
 				GLog.w( TXT_DISARM, name, weapon.name() );
 			}
 		}

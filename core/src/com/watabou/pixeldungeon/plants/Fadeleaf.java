@@ -54,7 +54,7 @@ public class Fadeleaf extends Plant {
 			int count = 10;
 			int newPos;
 			do {
-				newPos = Dungeon.getInstance().level.randomRespawnCell();
+				newPos = dungeon.level.randomRespawnCell();
 				if (count-- <= 0) {
 					break;
 				}
@@ -64,13 +64,13 @@ public class Fadeleaf extends Plant {
 			
 				ch.pos = newPos;
 				ch.sprite.place( ch.pos );
-				ch.sprite.visible = Dungeon.getInstance().visible[pos];
+				ch.sprite.visible = dungeon.visible[pos];
 				
 			}
 						
 		}
 		
-		if (Dungeon.getInstance().visible[pos]) {
+		if (dungeon.visible[pos]) {
 			CellEmitter.get( pos ).start( Speck.factory( Speck.LIGHT ), 0.2f, 3 );
 		}
 	}

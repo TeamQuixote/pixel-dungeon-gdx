@@ -84,7 +84,7 @@ public class Thief extends Mob {
 		super.die( cause );
 		
 		if (item != null) {
-			Dungeon.getInstance().level.drop( item, pos ).sprite.drop();
+			dungeon.level.drop( item, pos ).sprite.drop();
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class Thief extends Mob {
 	@Override
 	public int defenseProc(Char enemy, int damage) {
 		if (state == FLEEING) {
-			Dungeon.getInstance().level.drop( new Gold(), pos ).sprite.drop();
+			dungeon.level.drop( new Gold(), pos ).sprite.drop();
 		}
 		
 		return damage;

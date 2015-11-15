@@ -85,12 +85,12 @@ public class DM300 extends Mob {
 	public void move( int step ) {
 		super.move( step );
 
-		if (Dungeon.getInstance().level.map[step] == Terrain.INACTIVE_TRAP && HP < HT) {
+		if (dungeon.level.map[step] == Terrain.INACTIVE_TRAP && HP < HT) {
 			
 			HP += Random.Int( 1, HT - HP );
 			sprite.emitter().burst( ElmoParticle.FACTORY, 5 );
 			
-			if (Dungeon.getInstance().visible[step] && Dungeon.getInstance().hero.isAlive()) {
+			if (dungeon.visible[step] && dungeon.hero.isAlive()) {
 				GLog.n( "DM-300 repairs itself!" );
 			}
 		}
@@ -104,14 +104,14 @@ public class DM300 extends Mob {
 		};
 		int cell = cells[Random.Int( cells.length )];
 		
-		if (Dungeon.getInstance().visible[cell]) {
+		if (dungeon.visible[cell]) {
 			CellEmitter.get( cell ).start( Speck.factory( Speck.ROCK ), 0.07f, 10 );
 			Camera.main.shake( 3, 0.7f );
 			Sample.INSTANCE.play( Assets.SND_ROCKS );
 
 			if (Level.water[cell]) {
 				GameScene.ripple( cell );
-			} else if (Dungeon.getInstance().level.map[cell] == Terrain.EMPTY) {
+			} else if (dungeon.level.map[cell] == Terrain.EMPTY) {
 				Level.set( cell, Terrain.EMPTY_DECO );
 				GameScene.updateMap( cell );
 			}
@@ -129,7 +129,7 @@ public class DM300 extends Mob {
 		super.die( cause );
 		
 		GameScene.bossSlain();
-		Dungeon.getInstance().level.drop( new SkeletonKey(), pos ).sprite.drop();
+		dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
 		
 		Badges.validateBossSlain(dungeon);
 		

@@ -42,12 +42,12 @@ public class Icecap extends Plant {
 		
 		PathFinder.buildDistanceMap( pos, BArray.not( Level.losBlocking, null ), 1 );
 		
-		Fire fire = (Fire)Dungeon.getInstance().level.blobs.get( Fire.class );
+		Fire fire = (Fire)dungeon.level.blobs.get( Fire.class );
 		
 		for (int i=0; i < Level.LENGTH; i++) {
 			if (PathFinder.distance[i] < Integer.MAX_VALUE) {
 
-				Freezing.affect(Dungeon.getInstance(), i, fire );
+				Freezing.affect(dungeon, i, fire );
 			}
 		}
 	}

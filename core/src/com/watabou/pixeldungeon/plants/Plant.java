@@ -43,6 +43,8 @@ import com.watabou.utils.Random;
 
 public class Plant implements Bundlable {
 
+	public Dungeon dungeon = Dungeon.getInstance();
+
 	public String plantName;
 	
 	public int image;
@@ -60,19 +62,19 @@ public class Plant implements Bundlable {
 	}
 	
 	public void wither() {
-		Dungeon.getInstance().level.uproot( pos );
+		dungeon.level.uproot( pos );
 		
 		sprite.kill();
-		if (Dungeon.getInstance().visible[pos]) {
+		if (dungeon.visible[pos]) {
 			CellEmitter.get( pos ).burst( LeafParticle.GENERAL, 6 );
 		}
 		
-		if (Dungeon.getInstance().hero.subClass == HeroSubClass.WARDEN) {
+		if (dungeon.hero.subClass == HeroSubClass.WARDEN) {
 			if (Random.Int( 5 ) == 0) {
-				Dungeon.getInstance().level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite.drop();
+				dungeon.level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite.drop();
 			}
 			if (Random.Int( 5 ) == 0) {
-				Dungeon.getInstance().level.drop( new Dewdrop(), pos ).sprite.drop();
+				dungeon.level.drop( new Dewdrop(), pos ).sprite.drop();
 			}
 		}
 	}
@@ -120,10 +122,10 @@ public class Plant implements Bundlable {
 		
 		@Override
 		protected void onThrow( int cell ) {
-			if (Dungeon.getInstance().level.map[cell] == Terrain.ALCHEMY || Level.pit[cell]) {
+			if (dungeon.level.map[cell] == Terrain.ALCHEMY || Level.pit[cell]) {
 				super.onThrow( cell );
 			} else {
-				Dungeon.getInstance().level.plant( this, cell );
+				dungeon.level.plant( this, cell );
 			}
 		}
 		

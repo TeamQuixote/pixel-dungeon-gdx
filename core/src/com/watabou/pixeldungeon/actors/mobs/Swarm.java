@@ -93,7 +93,7 @@ public class Swarm extends Mob {
 				clone.pos = Random.element( candidates );
 				clone.state = clone.HUNTING;
 				
-				if (Dungeon.getInstance().level.map[clone.pos] == Terrain.DOOR) {
+				if (dungeon.level.map[clone.pos] == Terrain.DOOR) {
 					Door.enter( clone.pos );
 				}
 				
@@ -132,7 +132,7 @@ public class Swarm extends Mob {
 	@Override
 	protected void dropLoot() {
 		if (Random.Int( 5 * (generation + 1) ) == 0) {
-			Dungeon.getInstance().level.drop( new PotionOfHealing(), pos ).sprite.drop();
+			dungeon.level.drop( new PotionOfHealing(), pos ).sprite.drop();
 		}
 	}
 	

@@ -40,7 +40,7 @@ public class Shopkeeper extends NPC {
 		
 		throwItem();
 		
-		sprite.turnTo( pos, Dungeon.getInstance().hero.pos );
+		sprite.turnTo( pos, dungeon.hero.pos );
 		spend( TICK );
 		return true;
 	}
@@ -56,7 +56,7 @@ public class Shopkeeper extends NPC {
 	}
 	
 	protected void flee() {
-		for (Heap heap: Dungeon.getInstance().level.heaps.values()) {
+		for (Heap heap: dungeon.level.heaps.values()) {
 			if (heap.type == Heap.Type.FOR_SALE) {
 				CellEmitter.get( heap.pos ).burst( ElmoParticle.FACTORY, 4 );
 				heap.destroy();

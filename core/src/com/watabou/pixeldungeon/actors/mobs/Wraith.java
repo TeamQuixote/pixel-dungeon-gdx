@@ -110,7 +110,7 @@ public class Wraith extends Mob {
 		if (Level.passable[pos] && dungeon.findChar( pos ) == null) {
 			
 			Wraith w = new Wraith();
-			w.adjustStats( Dungeon.getInstance().depth );
+			w.adjustStats( dungeon.depth );
 			w.pos = pos;
 			w.state = w.HUNTING;
 			GameScene.add( w, SPAWN_DELAY );

@@ -40,7 +40,7 @@ public class Bandit extends Thief {
 		if (super.steal( hero )) {
 			
 			Buff.prolong( enemy, Blindness.class, Random.Int( 5, 12 ) );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 			
 			return true;
 		} else {

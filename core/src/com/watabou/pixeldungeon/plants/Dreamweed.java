@@ -40,7 +40,7 @@ public class Dreamweed extends Plant {
 		super.activate( ch );
 		
 		if (ch != null) {
-			GameScene.add( Blob.seed(Dungeon.getInstance(), pos, 300 + 20 * Dungeon.getInstance().depth, ConfusionGas.class ) );
+			GameScene.add( Blob.seed(dungeon, pos, 300 + 20 * dungeon.depth, ConfusionGas.class ) );
 		}
 	}
 	

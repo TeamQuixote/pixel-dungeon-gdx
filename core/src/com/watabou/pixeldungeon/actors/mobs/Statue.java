@@ -57,8 +57,8 @@ public class Statue extends Mob {
 		weapon.identify();
 		weapon.enchant( Enchantment.random() );
 		
-		HP = HT = 15 + Dungeon.getInstance().depth * 5;
-		defenseSkill = 4 + Dungeon.getInstance().depth;
+		HP = HT = 15 + dungeon.depth * 5;
+		defenseSkill = 4 + dungeon.depth;
 	}
 	
 	private static final String WEAPON	= "weapon";
@@ -77,7 +77,7 @@ public class Statue extends Mob {
 	
 	@Override
 	public boolean act() {
-		if (Dungeon.getInstance().visible[pos]) {
+		if (dungeon.visible[pos]) {
 			Journal.add( Journal.Feature.STATUE );
 		}
 		return super.act();
@@ -90,7 +90,7 @@ public class Statue extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return (int)((9 + Dungeon.getInstance().depth) * weapon.ACU);
+		return (int)((9 + dungeon.depth) * weapon.ACU);
 	}
 	
 	@Override
@@ -100,7 +100,7 @@ public class Statue extends Mob {
 	
 	@Override
 	public int dr() {
-		return Dungeon.getInstance().depth;
+		return dungeon.depth;
 	}
 	
 	@Override
@@ -125,7 +125,7 @@ public class Statue extends Mob {
 	
 	@Override
 	public void die( Object cause ) {
-		Dungeon.getInstance().level.drop( weapon, pos ).sprite.drop();
+		dungeon.level.drop( weapon, pos ).sprite.drop();
 		super.die( cause );
 	}
 	

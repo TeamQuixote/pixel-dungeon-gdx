@@ -47,7 +47,7 @@ public class Earthroot extends Plant {
 			Buff.affect( ch, Armor.class ).level = ch.HT;
 		}
 		
-		if (Dungeon.getInstance().visible[pos]) {
+		if (dungeon.visible[pos]) {
 			CellEmitter.bottom( pos ).start( EarthParticle.FACTORY, 0.05f, 8 );
 			Camera.main.shake( 1, 0.4f );
 		}

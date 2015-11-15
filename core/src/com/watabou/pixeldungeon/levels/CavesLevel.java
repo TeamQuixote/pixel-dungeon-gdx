@@ -62,7 +62,7 @@ public class CavesLevel extends RegularLevel {
 	protected void assignRoomType() {
 		super.assignRoomType();
 		
-		Blacksmith.Quest.spawn( rooms );
+		Blacksmith.Quest.spawn( rooms, Dungeon.getInstance() );
 	}
 	
 	@Override

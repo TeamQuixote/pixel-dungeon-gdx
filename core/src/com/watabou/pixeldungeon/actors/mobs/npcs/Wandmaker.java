@@ -52,6 +52,7 @@ import com.watabou.pixeldungeon.levels.PrisonLevel;
 import com.watabou.pixeldungeon.levels.Room;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.pixeldungeon.plants.Plant;
+import com.watabou.pixeldungeon.plants.Rotberry;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.pixeldungeon.sprites.WandmakerSprite;
@@ -119,23 +120,23 @@ public class Wandmaker extends NPC {
 	@Override
 	public void interact() {
 		
-		sprite.turnTo( pos, Dungeon.getInstance().hero.pos );
+		sprite.turnTo( pos, dungeon.hero.pos );
 		if (Quest.given) {
 			
 			Item item = Quest.alternative ?
-				Dungeon.getInstance().hero.belongings.getItem( CorpseDust.class ) :
-				Dungeon.getInstance().hero.belongings.getItem( Rotberry.Seed.class );
+				dungeon.hero.belongings.getItem( CorpseDust.class ) :
+				dungeon.hero.belongings.getItem( Rotberry.Seed.class );
 			if (item != null) {
 				GameScene.show( new WndWandmaker( this, item ) );
 			} else {
-				tell( Quest.alternative ? TXT_DUST2 : TXT_BERRY2, Dungeon.getInstance().hero.className() );
+				tell( Quest.alternative ? TXT_DUST2 : TXT_BERRY2, dungeon.hero.className() );
 			}
 			
 		} else {
 			tell( Quest.alternative ? TXT_DUST1 : TXT_BERRY1 );
 			Quest.given = true;
 			
-			Quest.placeItem();
+			Quest.placeItem(dungeon);
 			
 			Journal.add( Journal.Feature.WANDMAKER );
 		}
@@ -269,12 +270,12 @@ public class Wandmaker extends NPC {
 			}
 		}
 		
-		public static void placeItem() {
+		public static void placeItem(Dungeon dungeon) {
 			if (alternative) {
 				
 				ArrayList<Heap> candidates = new ArrayList<Heap>();
-				for (Heap heap : Dungeon.getInstance().level.heaps.values()) {
-					if (heap.type == Heap.Type.SKELETON && !Dungeon.getInstance().visible[heap.pos]) {
+				for (Heap heap : dungeon.level.heaps.values()) {
+					if (heap.type == Heap.Type.SKELETON && !dungeon.visible[heap.pos]) {
 						candidates.add( heap );
 					}
 				}
@@ -282,23 +283,23 @@ public class Wandmaker extends NPC {
 				if (candidates.size() > 0) {
 					Random.element( candidates ).drop( new CorpseDust() );
 				} else {
-					int pos = Dungeon.getInstance().level.randomRespawnCell();
-					while (Dungeon.getInstance().level.heaps.get( pos ) != null) {
-						pos = Dungeon.getInstance().level.randomRespawnCell();
+					int pos = dungeon.level.randomRespawnCell();
+					while (dungeon.level.heaps.get( pos ) != null) {
+						pos = dungeon.level.randomRespawnCell();
 					}
 					
-					Heap heap = Dungeon.getInstance().level.drop( new CorpseDust(), pos );
+					Heap heap = dungeon.level.drop( new CorpseDust(), pos );
 					heap.type = Heap.Type.SKELETON;
 					heap.sprite.link();
 				}
 				
 			} else {
 				
-				int shrubPos = Dungeon.getInstance().level.randomRespawnCell();
-				while (Dungeon.getInstance().level.heaps.get( shrubPos ) != null) {
-					shrubPos = Dungeon.getInstance().level.randomRespawnCell();
+				int shrubPos = dungeon.level.randomRespawnCell();
+				while (dungeon.level.heaps.get( shrubPos ) != null) {
+					shrubPos = dungeon.level.randomRespawnCell();
 				}
-				Dungeon.getInstance().level.plant( new Rotberry.Seed(), shrubPos );
+				dungeon.level.plant( new Rotberry.Seed(), shrubPos );
 				
 			}
 		}
@@ -308,72 +309,6 @@ public class Wandmaker extends NPC {
 			wand2 = null;
 			
 			Journal.remove( Journal.Feature.WANDMAKER );
-		}
-	}
-	
-	public static class Rotberry extends Plant {
-		
-		private static final String TXT_DESC = 
-			"Berries of this shrub taste like sweet, sweet death.";
-		
-		{
-			image = 7;
-			plantName = "Rotberry";
-		}
-		
-		@Override
-		public void activate( Char ch ) {
-			super.activate( ch );
-			
-			GameScene.add( Blob.seed(Dungeon.getInstance(), pos, 100, ToxicGas.class ) );
-			
-			Dungeon.getInstance().level.drop( new Seed(), pos ).sprite.drop();
-			
-			if (ch != null) {
-				Buff.prolong( ch, Roots.class, TICK * 3 );
-			}
-		}
-		
-		@Override
-		public String desc() {
-			return TXT_DESC;
-		}
-		
-		public static class Seed extends Plant.Seed {
-			{
-				plantName = "Rotberry";
-				
-				name = "seed of " + plantName;
-				image = ItemSpriteSheet.SEED_ROTBERRY;
-				
-				plantClass = Rotberry.class;
-				alchemyClass = PotionOfStrength.class;
-			}
-			
-			@Override
-			public boolean collect( Bag container ) {
-				if (super.collect( container )) {
-					
-					if (Dungeon.getInstance().level != null) {
-						for (Mob mob : Dungeon.getInstance().level.mobs) {
-							mob.beckon( Dungeon.getInstance().hero.pos );
-						}
-						
-						GLog.w( "The seed emits a roar that echoes throughout the dungeon!" );
-						CellEmitter.center( Dungeon.getInstance().hero.pos ).start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
-						Sample.INSTANCE.play( Assets.SND_CHALLENGE );
-					}
-					
-					return true;
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public String desc() {
-				return TXT_DESC;
-			}
 		}
 	}
 }
