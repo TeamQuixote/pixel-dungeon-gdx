@@ -654,12 +654,12 @@ public abstract class Level implements Bundlable {
 			break;
 			
 		case Terrain.WELL:
-			WellWater.affectCell( cell );
+			WellWater.affectCell(Dungeon.getInstance(), cell );
 			break;
 			
 		case Terrain.ALCHEMY:
 			if (ch == null) {
-				Alchemy.transmute( cell );
+				Alchemy.transmute(Dungeon.getInstance(), cell );
 			}
 			break;
 			

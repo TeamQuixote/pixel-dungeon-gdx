@@ -38,32 +38,32 @@ public class Bones {
 	private static int depth = -1;
 	private static Item item;
 	
-	public static void leave() {
+	public static void leave(Dungeon dungeon) {
 		
 		item = null;
 		switch (Random.Int( 4 )) {
 		case 0:
-			item = Dungeon.getInstance().getInstance().hero.belongings.weapon;
+			item = dungeon.hero.belongings.weapon;
 			break;
 		case 1:
-			item = Dungeon.getInstance().getInstance().hero.belongings.armor;
+			item = dungeon.hero.belongings.armor;
 			break;
 		case 2:
-			item = Dungeon.getInstance().getInstance().hero.belongings.ring1;
+			item = dungeon.hero.belongings.ring1;
 			break;
 		case 3:
-			item = Dungeon.getInstance().getInstance().hero.belongings.ring2;
+			item = dungeon.hero.belongings.ring2;
 			break;
 		}
 		if (item == null) {
-			if (Dungeon.getInstance().gold > 0) {
-				item = new Gold( Random.IntRange( 1, Dungeon.getInstance().getInstance().gold ) );
+			if (dungeon.gold > 0) {
+				item = new Gold( Random.IntRange( 1, dungeon.gold ) );
 			} else {
 				item = new Gold( 1 );
 			}
 		}
 		
-		depth = Dungeon.getInstance().getInstance().depth;
+		depth = dungeon.depth;
 		
 		Bundle bundle = new Bundle();
 		bundle.put( LEVEL, depth );
@@ -78,7 +78,7 @@ public class Bones {
 		}
 	}
 	
-	public static Item get() {
+	public static Item get(Dungeon dungeon) {
 		if (depth == -1) {
 			
 			try {
@@ -89,14 +89,14 @@ public class Bones {
 				depth = bundle.getInt( LEVEL );
 				item = (Item)bundle.get( ITEM );
 				
-				return get();
+				return get(dungeon);
 				
 			} catch (IOException e) {
 				return null;
 			}
 			
 		} else {
-			if (depth == Dungeon.getInstance().getInstance().depth) {
+			if (depth == dungeon.depth) {
 				Game.instance.deleteFile( BONES_FILE );
 				depth = 0;
 				
@@ -104,7 +104,7 @@ public class Bones {
 					item.cursed = true;
 					item.cursedKnown = true;
 					if (item.isUpgradable()) {
-						int lvl = (Dungeon.getInstance().depth - 1) * 3 / 5 + 1;
+						int lvl = (dungeon.depth - 1) * 3 / 5 + 1;
 						if (lvl < item.level) {
 							item.degrade( item.level - lvl );
 						}

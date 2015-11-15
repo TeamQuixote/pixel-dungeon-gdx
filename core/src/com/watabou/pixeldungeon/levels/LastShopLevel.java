@@ -22,6 +22,7 @@ import java.util.List;
 import com.watabou.noosa.Scene;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.Bones;
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.mobs.npcs.Imp;
 import com.watabou.pixeldungeon.items.Heap;
@@ -164,7 +165,7 @@ public class LastShopLevel extends RegularLevel {
 	
 	@Override
 	protected void createItems() {
-		Item item = Bones.get();
+		Item item = Bones.get(Dungeon.getInstance());
 		if (item != null) {
 			int pos;
 			do {

@@ -156,7 +156,7 @@ public class Goo extends Mob {
 		GameScene.bossSlain();
 		Dungeon.getInstance().level.drop( new SkeletonKey(), pos ).sprite.drop();
 		
-		Badges.validateBossSlain();
+		Badges.validateBossSlain(dungeon);
 		
 		yell( "glurp... glurp..." );
 	}

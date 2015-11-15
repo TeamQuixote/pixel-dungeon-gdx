@@ -100,7 +100,7 @@ public class TomeOfMastery extends Item {
 	
 	@Override
 	public boolean doPickUp( Hero hero ) {
-		Badges.validateMastery();
+		Badges.validateMastery(dungeon);
 		return super.doPickUp( hero );
 	}
 	

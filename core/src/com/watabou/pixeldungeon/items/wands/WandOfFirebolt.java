@@ -51,11 +51,11 @@ public class WandOfFirebolt extends Wand {
 		for (int i=1; i < Ballistica.distance - 1; i++) {
 			int c = Ballistica.trace[i];
 			if (Level.flamable[c]) {
-				GameScene.add( Blob.seed( c, 1, Fire.class ) );
+				GameScene.add( Blob.seed(dungeon, c, 1, Fire.class ) );
 			}
 		}
 		
-		GameScene.add( Blob.seed( cell, 1, Fire.class ) );
+		GameScene.add( Blob.seed(dungeon, cell, 1, Fire.class ) );
 					
 		Char ch = dungeon.findChar( cell );
 		if (ch != null) {	

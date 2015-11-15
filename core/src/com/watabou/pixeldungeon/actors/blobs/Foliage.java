@@ -36,7 +36,7 @@ public class Foliage extends Blob {
 		int from = WIDTH + 1;
 		int to = Level.LENGTH - WIDTH - 1;
 		
-		int[] map = Dungeon.getInstance().getInstance().level.map;
+		int[] map = dungeon.level.map;
 		boolean regrowth = false;
 		
 		boolean visible = false;
@@ -52,14 +52,14 @@ public class Foliage extends Blob {
 					regrowth = true;
 				}
 				
-				visible = visible || Dungeon.getInstance().getInstance().visible[pos];
+				visible = visible || dungeon.visible[pos];
 				
 			} else {
 				off[pos] = 0;
 			}
 		}
 		
-		Hero hero = Dungeon.getInstance().getInstance().hero;
+		Hero hero = dungeon.hero;
 		if (hero.isAlive() && hero.visibleEnemies() == 0 && cur[hero.pos] > 0) {
 			Buff.affect( hero, Shadows.class ).prolong();
 		}

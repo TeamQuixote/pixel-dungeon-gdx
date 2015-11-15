@@ -42,7 +42,7 @@ public class Freezing {
 			fire.clear( cell );
 		}
 		
-		Heap heap = Dungeon.getInstance().getInstance().level.heaps.get( cell );
+		Heap heap = Dungeon.getInstance().level.heaps.get( cell );
 		if (heap != null) {
 			heap.freeze();
 		}

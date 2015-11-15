@@ -372,7 +372,7 @@ public class Ghost extends NPC {
 		@Override
 		public int defenseProc( Char enemy, int damage ) {
 			
-			GameScene.add( Blob.seed( pos, 20, ParalyticGas.class ) );
+			GameScene.add( Blob.seed(dungeon, pos, 20, ParalyticGas.class ) );
 			
 			return super.defenseProc(enemy, damage);
 		}

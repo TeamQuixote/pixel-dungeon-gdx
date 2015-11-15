@@ -6,6 +6,6 @@ public class WaitAction extends Action {
 
     @Override
     public void execute() {
-        Dungeon.getInstance().getInstance().hero.rest(false);
+        Dungeon.getInstance().hero.rest(false);
     }
 }

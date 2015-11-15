@@ -195,7 +195,7 @@ public class CavesBossLevel extends Level {
 	
 	@Override
 	protected void createItems() {
-		Item item = Bones.get();
+		Item item = Bones.get(Dungeon.getInstance());
 		if (item != null) {
 			int pos;
 			do {

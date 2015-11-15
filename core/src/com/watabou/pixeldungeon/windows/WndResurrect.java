@@ -19,6 +19,7 @@ package com.watabou.pixeldungeon.windows;
 
 import com.watabou.noosa.BitmapTextMultiline;
 import com.watabou.noosa.Game;
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.Rankings;
 import com.watabou.pixeldungeon.Statistics;
 import com.watabou.pixeldungeon.actors.hero.Hero;
@@ -81,7 +82,7 @@ public class WndResurrect extends Window {
 				hide();
 				
 				Rankings.INSTANCE.submit( false );
-				Hero.reallyDie( WndResurrect.causeOfDeath );
+				Hero.reallyDie(Dungeon.getInstance(), WndResurrect.causeOfDeath );
 			}
 		};
 		btnNo.setRect( 0, btnYes.bottom() + GAP, WIDTH, BTN_HEIGHT );

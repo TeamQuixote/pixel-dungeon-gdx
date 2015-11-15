@@ -28,8 +28,9 @@ public class ToxicTrap {
 	// 0x40CC55
 	
 	public static void trigger( int pos, Char ch ) {
-		
-		GameScene.add( Blob.seed( pos, 300 + 20 * Dungeon.getInstance().depth, ToxicGas.class ) );
+		Dungeon dungeon = Dungeon.getInstance();
+
+		GameScene.add( Blob.seed(dungeon, pos, 300 + 20 * dungeon.depth, ToxicGas.class ) );
 		
 	}
 }

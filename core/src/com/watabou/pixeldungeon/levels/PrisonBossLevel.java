@@ -291,7 +291,7 @@ public class PrisonBossLevel extends RegularLevel {
 		}
 		drop( new IronKey(), keyPos ).type = Heap.Type.CHEST;
 		
-		Item item = Bones.get();
+		Item item = Bones.get(Dungeon.getInstance());
 		if (item != null) {
 			int pos;
 			do {

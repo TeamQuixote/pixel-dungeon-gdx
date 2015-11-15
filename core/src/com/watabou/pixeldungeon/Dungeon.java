@@ -332,7 +332,7 @@ public class Dungeon {
 
 	public void fixTime() {
 
-		if (Dungeon.getInstance().hero != null && allActors.contains( Dungeon.getInstance().getInstance().hero )) {
+		if (this.hero != null && allActors.contains( this.hero )) {
 			Statistics.duration += now;
 		}
 
@@ -350,13 +350,13 @@ public class Dungeon {
 
 	public void initActors() {
 
-		addActorDelayed( Dungeon.getInstance().getInstance().hero, -Float.MIN_VALUE );
+		addActorDelayed( this.hero, -Float.MIN_VALUE );
 
-		for (Mob mob : Dungeon.getInstance().getInstance().level.mobs) {
+		for (Mob mob : this.level.mobs) {
 			addActor( mob );
 		}
 
-		for (Blob blob : Dungeon.getInstance().getInstance().level.blobs.values()) {
+		for (Blob blob : this.level.blobs.values()) {
 			addActor( blob );
 		}
 
@@ -413,7 +413,7 @@ public class Dungeon {
 				}
 
 				doNext = currentActor.act();
-				if (doNext && !Dungeon.getInstance().hero.isAlive()) {
+				if (doNext && !this.hero.isAlive()) {
 					doNext = false;
 					currentActor = null;
 				}
@@ -649,7 +649,7 @@ public class Dungeon {
 		} else if (WndResurrect.instance != null) {
 			
 			WndResurrect.instance.hide();
-			Hero.reallyDie( WndResurrect.causeOfDeath );
+			Hero.reallyDie(this, WndResurrect.causeOfDeath );
 			
 		}
 	}

@@ -354,7 +354,7 @@ public class Yog extends Mob {
 		public boolean act() {
 			
 			for (int i=0; i < Level.NEIGHBOURS9.length; i++) {
-				GameScene.add( Blob.seed( pos + Level.NEIGHBOURS9[i], 2, Fire.class ) );
+				GameScene.add( Blob.seed(dungeon, pos + Level.NEIGHBOURS9[i], 2, Fire.class ) );
 			}
 			
 			return super.act();

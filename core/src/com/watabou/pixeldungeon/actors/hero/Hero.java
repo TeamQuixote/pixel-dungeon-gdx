@@ -1033,7 +1033,7 @@ public class Hero extends Char {
 			sprite.showStatus( CharSprite.POSITIVE, TXT_LEVEL_UP );
 			Sample.INSTANCE.play( Assets.SND_LEVELUP );
 			
-			Badges.validateLevelReached();
+			Badges.validateLevelReached(dungeon);
 		}
 		
 		if (subClass == HeroSubClass.WARLOCK) {
@@ -1144,7 +1144,7 @@ public class Hero extends Char {
 		Ankh ankh = (Ankh)belongings.getItem( Ankh.class );
 		if (ankh == null) {
 			
-			reallyDie( cause );
+			reallyDie(dungeon, cause );
 			
 		} else {
 			
@@ -1154,7 +1154,7 @@ public class Hero extends Char {
 		}
 	}
 	
-	public static void reallyDie( Object cause ) {
+	public static void reallyDie(Dungeon dungeon, Object cause ) {
 		
 		int length = Level.LENGTH;
 		int[] map = Dungeon.getInstance().level.map;
@@ -1175,7 +1175,7 @@ public class Hero extends Char {
 			}
 		}
 		
-		Bones.leave();
+		Bones.leave(dungeon);
 		
 		Dungeon.getInstance().observe();
 				

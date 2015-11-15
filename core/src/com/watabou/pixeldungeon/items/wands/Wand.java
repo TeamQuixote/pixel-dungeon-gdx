@@ -219,7 +219,7 @@ public abstract class Wand extends KindOfWeapon {
 			handler.know( this );
 		}
 		
-		Badges.validateAllWandsIdentified();
+		Badges.validateAllWandsIdentified(dungeon);
 	}
 	
 	@Override

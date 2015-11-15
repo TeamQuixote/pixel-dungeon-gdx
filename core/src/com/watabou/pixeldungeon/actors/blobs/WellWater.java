@@ -49,7 +49,7 @@ public class WellWater extends Blob {
 	protected void evolve() {
 		volume = off[pos] = cur[pos];
 		
-		if (Dungeon.getInstance().visible[pos]) {
+		if (dungeon.visible[pos]) {
 			if (this instanceof WaterOfAwareness) {
 				Journal.add( Feature.WELL_OF_AWARENESS );
 			} else if (this instanceof WaterOfHealth) {
@@ -64,12 +64,12 @@ public class WellWater extends Blob {
 
 		Heap heap;
 		
-		if (pos == Dungeon.getInstance().getInstance().hero.pos && affectHero( Dungeon.getInstance().getInstance().hero )) {
+		if (pos == dungeon.hero.pos && affectHero( dungeon.hero )) {
 			
 			volume = off[pos] = cur[pos] = 0;
 			return true;
 			
-		} else if ((heap = Dungeon.getInstance().getInstance().level.heaps.get( pos )) != null) {
+		} else if ((heap = dungeon.level.heaps.get( pos )) != null) {
 			
 			Item oldItem = heap.peek();
 			Item newItem = affectItem( oldItem );
@@ -98,7 +98,7 @@ public class WellWater extends Blob {
 				do {
 					newPlace = pos + Level.NEIGHBOURS8[Random.Int( 8 )];
 				} while (!Level.passable[newPlace] && !Level.avoid[newPlace]);
-				Dungeon.getInstance().level.drop( heap.pickUp(), newPlace ).sprite.drop( pos );
+				dungeon.level.drop( heap.pickUp(), newPlace ).sprite.drop( pos );
 				
 				return false;
 				
@@ -126,12 +126,12 @@ public class WellWater extends Blob {
 		volume = cur[pos] = amount;
 	}
 	
-	public static void affectCell( int cell ) {
+	public static void affectCell(Dungeon dungeon, int cell ) {
 		
 		Class<?>[] waters = {WaterOfHealth.class, WaterOfAwareness.class, WaterOfTransmutation.class};
 		
 		for (Class<?>waterClass : waters) {
-			WellWater water = (WellWater)Dungeon.getInstance().level.blobs.get( waterClass );
+			WellWater water = (WellWater)dungeon.level.blobs.get( waterClass );
 			if (water != null && 
 				water.volume > 0 && 
 				water.pos == cell && 

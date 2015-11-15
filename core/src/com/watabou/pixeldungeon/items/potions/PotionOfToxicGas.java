@@ -38,7 +38,7 @@ public class PotionOfToxicGas extends Potion {
 		splash( cell );
 		Sample.INSTANCE.play( Assets.SND_SHATTER );
 		
-		ToxicGas gas = Blob.seed( cell, 1000, ToxicGas.class );
+		ToxicGas gas = Blob.seed(dungeon, cell, 1000, ToxicGas.class );
 		dungeon.addActor( gas );
 		GameScene.add( gas );
 	}

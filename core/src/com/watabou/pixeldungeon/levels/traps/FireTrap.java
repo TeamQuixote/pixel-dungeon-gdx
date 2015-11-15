@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.levels.traps;
 
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.actors.blobs.Blob;
 import com.watabou.pixeldungeon.actors.blobs.Fire;
@@ -29,8 +30,9 @@ public class FireTrap {
 	// 0xFF7708
 	
 	public static void trigger( int pos, Char ch ) {
-		
-		GameScene.add( Blob.seed( pos, 2, Fire.class ) );
+		Dungeon dungeon = Dungeon.getInstance();
+
+		GameScene.add( Blob.seed(dungeon, pos, 2, Fire.class ) );
 		CellEmitter.get( pos ).burst( FlameParticle.FACTORY, 5 );
 		
 	}

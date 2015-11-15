@@ -140,7 +140,7 @@ public class King extends Mob {
 		
 		super.die( cause );
 		
-		Badges.validateBossSlain();
+		Badges.validateBossSlain(dungeon);
 		
 		yell( "You cannot kill me, " + Dungeon.getInstance().hero.heroClass.title() + "... I am... immortal..." );
 	}

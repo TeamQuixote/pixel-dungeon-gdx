@@ -192,13 +192,13 @@ public class Blob extends Actor {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static<T extends Blob> T seed( int cell, int amount, Class<T> type ) {
+	public static<T extends Blob> T seed(Dungeon dungeon, int cell, int amount, Class<T> type ) {
 		try {
 			
-			T gas = (T)Dungeon.getInstance().level.blobs.get( type );
+			T gas = (T)dungeon.level.blobs.get( type );
 			if (gas == null) {
 				gas = ClassReflection.newInstance(type);
-				Dungeon.getInstance().level.blobs.put( type, gas );
+				dungeon.level.blobs.put( type, gas );
 			}
 			
 			gas.seed( cell, amount );

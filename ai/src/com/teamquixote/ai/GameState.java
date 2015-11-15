@@ -20,7 +20,7 @@ public class GameState {
     public GameState() {
         this.previousGameState = null;
         this.previousAction = null;
-        heroPosition = Dungeon.getInstance().getInstance().hero.pos;
+        heroPosition = Dungeon.getInstance().hero.pos;
         dungeonMap = new DungeonMap();
         this.visibleEnemies = buildVisibleEnemies();
 
@@ -35,7 +35,7 @@ public class GameState {
     }
 
     private List<DungeonEnemy> buildVisibleEnemies(){
-        return Dungeon.getInstance().getInstance().level.mobs.stream()
+        return Dungeon.getInstance().level.mobs.stream()
                 .filter(enemy -> enemy.isAlive() && Level.fieldOfView[enemy.pos] && enemy.invisible <= 0)
                 .map(mob -> new DungeonEnemy(mob.pos))
                 .collect(Collectors.toList());

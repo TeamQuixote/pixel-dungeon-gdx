@@ -200,7 +200,7 @@ public class Ring extends EquipableItem {
 			handler.know( this );
 		}
 		
-		Badges.validateAllRingsIdentified();
+		Badges.validateAllRingsIdentified(dungeon);
 	}
 	
 	@Override

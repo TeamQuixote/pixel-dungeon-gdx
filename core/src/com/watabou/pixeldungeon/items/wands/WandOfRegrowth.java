@@ -58,7 +58,7 @@ public class WandOfRegrowth extends Wand {
 			c == Terrain.GRASS ||
 			c == Terrain.HIGH_GRASS) {
 			
-			GameScene.add( Blob.seed( cell, (level() + 2) * 20, Regrowth.class ) );
+			GameScene.add( Blob.seed(dungeon, cell, (level() + 2) * 20, Regrowth.class ) );
 			
 		} else {
 			

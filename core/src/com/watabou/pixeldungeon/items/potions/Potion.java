@@ -227,7 +227,7 @@ public class Potion extends Item {
 			handler.know( this );
 		}
 		
-		Badges.validateAllPotionsIdentified();
+		Badges.validateAllPotionsIdentified(dungeon);
 	}
 	
 	@Override

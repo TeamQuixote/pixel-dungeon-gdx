@@ -15,7 +15,7 @@ public class DungeonMap {
     public final TileInfo[] map;
 
     public DungeonMap() {
-        this(Dungeon.getInstance().level.map, Dungeon.getInstance().getInstance().level.visited);
+        this(Dungeon.getInstance().level.map, Dungeon.getInstance().level.visited);
     }
 
     public DungeonMap(int[] map, boolean[] isMapped) {

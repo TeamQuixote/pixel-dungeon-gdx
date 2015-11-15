@@ -98,7 +98,7 @@ public class Tengu extends Mob {
 		Dungeon.getInstance().level.drop( new SkeletonKey(), pos ).sprite.drop();
 		super.die( cause );
 		
-		Badges.validateBossSlain();
+		Badges.validateBossSlain(dungeon);
 		
 		yell( "Free at last..." );
 	}

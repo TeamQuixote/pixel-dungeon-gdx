@@ -65,7 +65,7 @@ public class Amulet extends Item {
 			
 			if (!Statistics.amuletObtained) {
 				Statistics.amuletObtained = true;
-				Badges.validateVictory();
+				Badges.validateVictory(dungeon);
 
 				showAmuletScene( true );
 			}

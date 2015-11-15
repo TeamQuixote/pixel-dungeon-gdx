@@ -28,8 +28,8 @@ public class AiPixelDungeon extends PixelDungeon {
 
         InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
         StartScene.curClass = HeroClass.WARRIOR;
-        Dungeon.getInstance().getInstance().init();
-        Dungeon.getInstance().getInstance().chapters.clear();
+        Dungeon.getInstance().init();
+        Dungeon.getInstance().chapters.clear();
     }
 
     @Override
@@ -69,6 +69,6 @@ public class AiPixelDungeon extends PixelDungeon {
     private boolean canAct() {
         boolean isGameScene = scene.getClass().equals(GameScene.class);
 
-        return Dungeon.getInstance().getInstance().hero.ready && scene.active && scene.alive && isGameScene;
+        return Dungeon.getInstance().hero.ready && scene.active && scene.alive && isGameScene;
     }
 }

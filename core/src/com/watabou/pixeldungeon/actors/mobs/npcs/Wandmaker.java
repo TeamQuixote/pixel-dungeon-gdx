@@ -325,7 +325,7 @@ public class Wandmaker extends NPC {
 		public void activate( Char ch ) {
 			super.activate( ch );
 			
-			GameScene.add( Blob.seed( pos, 100, ToxicGas.class ) );
+			GameScene.add( Blob.seed(Dungeon.getInstance(), pos, 100, ToxicGas.class ) );
 			
 			Dungeon.getInstance().level.drop( new Seed(), pos ).sprite.drop();
 			

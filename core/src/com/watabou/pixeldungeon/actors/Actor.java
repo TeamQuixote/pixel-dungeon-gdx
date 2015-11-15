@@ -36,13 +36,13 @@ public abstract class Actor implements Bundlable {
 	}
 	
 	protected void postpone( float time ) {
-		if (this.time < Dungeon.getInstance().now + time) {
-			this.time = Dungeon.getInstance().now + time;
+		if (this.time < dungeon.now + time) {
+			this.time = dungeon.now + time;
 		}
 	}
 	
 	protected float cooldown() {
-		return time - Dungeon.getInstance().now;
+		return time - dungeon.now;
 	}
 	
 	protected void diactivate() {

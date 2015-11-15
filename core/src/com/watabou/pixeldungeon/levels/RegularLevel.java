@@ -625,7 +625,7 @@ public abstract class RegularLevel extends Level {
 			drop( item, cell ).type = Heap.Type.HEAP;
 		}
 		
-		Item item = Bones.get();
+		Item item = Bones.get(Dungeon.getInstance());
 		if (item != null) {
 			drop( item, randomDropCell() ).type = Heap.Type.SKELETON;
 		}

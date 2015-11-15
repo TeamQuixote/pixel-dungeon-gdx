@@ -76,7 +76,7 @@ public class DM300 extends Mob {
 	@Override
 	public boolean act() {
 
-		GameScene.add( Blob.seed( pos, 30, ToxicGas.class ) );
+		GameScene.add( Blob.seed(dungeon, pos, 30, ToxicGas.class ) );
 		
 		return super.act();
 	}
@@ -131,7 +131,7 @@ public class DM300 extends Mob {
 		GameScene.bossSlain();
 		Dungeon.getInstance().level.drop( new SkeletonKey(), pos ).sprite.drop();
 		
-		Badges.validateBossSlain();
+		Badges.validateBossSlain(dungeon);
 		
 		yell( "Mission failed. Shutting down." );
 	}
