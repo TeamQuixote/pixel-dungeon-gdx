@@ -62,7 +62,7 @@ public class WandOfTelekinesis extends Wand {
 			
 			int c = Ballistica.trace[i];
 			
-			int before = Dungeon.getInstance().level.map[c];
+			int before = dungeon.level.map[c];
 			
 			if ((ch = dungeon.findChar( c )) != null) {
 
@@ -82,9 +82,9 @@ public class WandOfTelekinesis extends Wand {
 
 						// FIXME
 						if (ch instanceof Mob) {
-							Dungeon.getInstance().level.mobPress( (Mob)ch );
+							dungeon.level.mobPress( (Mob)ch );
 						} else {
-							Dungeon.getInstance().level.press( ch.pos, ch );
+							dungeon.level.press( ch.pos, ch );
 						}
 						
 					} else {
@@ -95,7 +95,7 @@ public class WandOfTelekinesis extends Wand {
 				}
 			}
 			
-			if (heap == null && (heap = Dungeon.getInstance().level.heaps.get( c )) != null) {
+			if (heap == null && (heap = dungeon.level.heaps.get( c )) != null) {
 				switch (heap.type) {
 				case HEAP:
 					transport( heap );
@@ -107,7 +107,7 @@ public class WandOfTelekinesis extends Wand {
 				}
 			}
 			
-			Dungeon.getInstance().level.press( c, null );
+			dungeon.level.press( c, null );
 			if (before == Terrain.OPEN_DOOR && dungeon.findChar( c ) == null) {
 				
 				Level.set( c, Terrain.DOOR );
@@ -119,13 +119,13 @@ public class WandOfTelekinesis extends Wand {
 				
 			}
 			
-			if (!mapUpdated && Dungeon.getInstance().level.map[c] != before) {
+			if (!mapUpdated && dungeon.level.map[c] != before) {
 				mapUpdated = true;
 			}
 		}
 		
 		if (mapUpdated) {
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 		}
 	}
 	
@@ -146,7 +146,7 @@ public class WandOfTelekinesis extends Wand {
 			}
 
 		} else {
-			Dungeon.getInstance().level.drop( item, curUser.pos ).sprite.drop();
+			dungeon.level.drop( item, curUser.pos ).sprite.drop();
 		}
 	}
 	

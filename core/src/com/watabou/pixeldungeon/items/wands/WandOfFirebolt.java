@@ -51,11 +51,11 @@ public class WandOfFirebolt extends Wand {
 		for (int i=1; i < Ballistica.distance - 1; i++) {
 			int c = Ballistica.trace[i];
 			if (Level.flamable[c]) {
-				GameScene.add( Blob.seed(dungeon, c, 1, Fire.class ) );
+				GameScene.add( Blob.seed(dungeon, c, 1, Fire.class ), dungeon );
 			}
 		}
 		
-		GameScene.add( Blob.seed(dungeon, cell, 1, Fire.class ) );
+		GameScene.add( Blob.seed(dungeon, cell, 1, Fire.class ), dungeon );
 					
 		Char ch = dungeon.findChar( cell );
 		if (ch != null) {	
@@ -66,7 +66,7 @@ public class WandOfFirebolt extends Wand {
 			ch.sprite.emitter().burst( FlameParticle.FACTORY, 5 );
 			
 			if (ch == curUser && !ch.isAlive()) {
-				Dungeon.getInstance().fail( Utils.format( ResultDescriptions.WAND, name, Dungeon.getInstance().depth ) );
+				dungeon.fail( Utils.format( ResultDescriptions.WAND, name, dungeon.depth ) );
 				GLog.n( "You killed yourself with your own Wand of Firebolt..." );
 			}
 		}

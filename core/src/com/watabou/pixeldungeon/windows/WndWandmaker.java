@@ -82,23 +82,23 @@ public class WndWandmaker extends Window {
 	}
 	
 	private void selectReward( Wandmaker wandmaker, Item item, Wand reward ) {
-		
+		Dungeon dungeon = Dungeon.getInstance();
 		hide();
 		
-		item.detach( Dungeon.getInstance().hero.belongings.backpack );
+		item.detach( dungeon.hero.belongings.backpack );
 
 		reward.identify();
-		if (reward.doPickUp( Dungeon.getInstance().hero )) {
+		if (reward.doPickUp( dungeon.hero )) {
 			GLog.i( Hero.TXT_YOU_NOW_HAVE, reward.name() );
 		} else {
-			Dungeon.getInstance().level.drop( reward, wandmaker.pos ).sprite.drop();
+			dungeon.level.drop( reward, wandmaker.pos ).sprite.drop();
 		}
 		
-		wandmaker.yell( Utils.format( TXT_FARAWELL, Dungeon.getInstance().hero.className() ) );
+		wandmaker.yell( Utils.format( TXT_FARAWELL, dungeon.hero.className() ) );
 		wandmaker.destroy();
 		
 		wandmaker.sprite.die();
 		
-		Wandmaker.Quest.complete();
+		Wandmaker.Quest.complete(dungeon.depth);
 	}
 }

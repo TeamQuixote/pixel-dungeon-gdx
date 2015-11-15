@@ -40,7 +40,7 @@ public class WandOfAmok extends Wand {
 		Char ch = dungeon.findChar( cell );
 		if (ch != null) {
 			
-			if (ch == Dungeon.getInstance().hero) {
+			if (ch == dungeon.hero) {
 				Buff.affect( ch, Vertigo.class, Vertigo.duration( ch ) );
 			} else {
 				Buff.affect( ch, Amok.class, 3f + level() );

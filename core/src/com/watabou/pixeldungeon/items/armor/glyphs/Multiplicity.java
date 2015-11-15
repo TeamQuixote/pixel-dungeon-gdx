@@ -19,6 +19,7 @@ package com.watabou.pixeldungeon.items.armor.glyphs;
 
 import java.util.ArrayList;
 
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.actors.hero.Hero;
@@ -40,6 +41,7 @@ public class Multiplicity extends Glyph {
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {
+		Dungeon dungeon = Dungeon.getInstance();
 
 		int level = Math.max( 0, armor.level );
 		
@@ -57,7 +59,7 @@ public class Multiplicity extends Glyph {
 			if (respawnPoints.size() > 0) {
 				MirrorImage mob = new MirrorImage();
 				mob.duplicate( (Hero)defender );
-				GameScene.add( mob );
+				GameScene.add( mob, dungeon );
 				WandOfBlink.appear( mob, Random.element( respawnPoints ) );
 				
 				defender.damage( Random.IntRange( 1, defender.HT / 6 ), /*attacker*/ this );

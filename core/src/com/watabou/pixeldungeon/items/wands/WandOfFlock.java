@@ -78,8 +78,8 @@ public class WandOfFlock extends Wand {
 						Sheep sheep = new Sheep();
 						sheep.lifespan = lifespan;
 						sheep.pos = j;
-						GameScene.add( sheep );
-						Dungeon.getInstance().level.mobPress( sheep );
+						GameScene.add( sheep, dungeon);
+						dungeon.level.mobPress( sheep );
 						
 						CellEmitter.get( j ).burst( Speck.factory( Speck.WOOL ), 4 );
 						

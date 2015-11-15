@@ -303,7 +303,8 @@ public class PrisonBossLevel extends RegularLevel {
 
 	@Override
 	public void press( int cell, Char ch ) {
-		
+		Dungeon dungeon = Dungeon.getInstance();
+
 		super.press( cell, ch );
 		
 		if (ch == Dungeon.getInstance().hero && !enteredArena && roomExit.inside( cell )) {
@@ -318,7 +319,7 @@ public class PrisonBossLevel extends RegularLevel {
 			Mob boss = Bestiary.mob( Dungeon.getInstance().depth );
 			boss.state = boss.HUNTING;
 			boss.pos = pos;
-			GameScene.add( boss );
+			GameScene.add( boss, dungeon );
 			boss.notice();
 			
 			mobPress( boss );

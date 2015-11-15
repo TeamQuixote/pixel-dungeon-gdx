@@ -116,7 +116,7 @@ public class FogOfWar extends Image {
 		@Override
 		public void reload() {
 			super.reload();
-			GameScene.afterObserve();
+			GameScene.afterObserve(Dungeon.getInstance());
 		}
 	}
 }

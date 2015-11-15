@@ -37,12 +37,12 @@ public class Stench extends Glyph {
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {
-
+		Dungeon dungeon = Dungeon.getInstance();
 		int level = Math.max( 0, armor.level );
 		
 		if (Level.adjacent( attacker.pos, defender.pos ) && Random.Int( level + 5 ) >= 4) {
 			
-			GameScene.add( Blob.seed(Dungeon.getInstance(), attacker.pos, 20, ToxicGas.class ) );
+			GameScene.add( Blob.seed(Dungeon.getInstance(), attacker.pos, 20, ToxicGas.class ), dungeon );
 			
 		}
 		

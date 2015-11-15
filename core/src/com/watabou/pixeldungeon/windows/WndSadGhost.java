@@ -85,10 +85,10 @@ public class WndSadGhost extends Window {
 	}
 	
 	private void selectReward( Ghost ghost, Item item, Item reward ) {
-		
+		Dungeon dungeon = Dungeon.getInstance();
 		hide();
 		
-		item.detach( Dungeon.getInstance().hero.belongings.backpack );
+		item.detach( dungeon.hero.belongings.backpack );
 		
 		if (reward.doPickUp( Dungeon.getInstance().hero )) {
 			GLog.i( Hero.TXT_YOU_NOW_HAVE, reward.name() );
@@ -99,6 +99,6 @@ public class WndSadGhost extends Window {
 		ghost.yell( "Farewell, adventurer!" );
 		ghost.die( null );
 		
-		Ghost.Quest.complete();
+		Ghost.Quest.complete(dungeon.depth);
 	}
 }

@@ -170,7 +170,8 @@ public class CityBossLevel extends Level {
 	
 	@Override
 	public void press( int cell, Char hero ) {
-		
+		Dungeon dungeon = Dungeon.getInstance();
+
 		super.press( cell, hero );
 		
 		if (!enteredArena && outsideEntraceRoom( cell ) && hero == Dungeon.getInstance().hero) {
@@ -185,7 +186,7 @@ public class CityBossLevel extends Level {
 				!passable[boss.pos] ||
 				!outsideEntraceRoom( boss.pos ) ||
 				Dungeon.getInstance().visible[boss.pos]);
-			GameScene.add( boss );
+			GameScene.add( boss, dungeon );
 			
 			set( arenaDoor, Terrain.LOCKED_DOOR );
 			GameScene.updateMap( arenaDoor );

@@ -71,20 +71,21 @@ public class WndImp extends Window {
 	}
 	
 	private void takeReward( Imp imp, DwarfToken tokens, Item reward ) {
-		
+		Dungeon dungeon = Dungeon.getInstance();
+
 		hide();
 		
-		tokens.detachAll( Dungeon.getInstance().hero.belongings.backpack );
+		tokens.detachAll( dungeon.hero.belongings.backpack );
 
 		reward.identify();
-		if (reward.doPickUp( Dungeon.getInstance().hero )) {
+		if (reward.doPickUp( dungeon.hero )) {
 			GLog.i( Hero.TXT_YOU_NOW_HAVE, reward.name() );
 		} else {
-			Dungeon.getInstance().level.drop( reward, imp.pos ).sprite.drop();
+			dungeon.level.drop( reward, imp.pos ).sprite.drop();
 		}
 		
 		imp.flee();
 		
-		Imp.Quest.complete();
+		Imp.Quest.complete(dungeon.depth);
 	}
 }

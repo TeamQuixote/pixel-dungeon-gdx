@@ -94,7 +94,7 @@ public class Tengu extends Mob {
 			dungeon.level.drop( new TomeOfMastery(), pos ).sprite.drop();
 		}
 		
-		GameScene.bossSlain();
+		GameScene.bossSlain(dungeon);
 		dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
 		super.die( cause );
 		

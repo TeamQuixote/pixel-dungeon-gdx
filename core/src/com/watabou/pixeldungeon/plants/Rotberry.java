@@ -31,7 +31,7 @@ public class Rotberry extends Plant {
     public void activate( Char ch ) {
         super.activate( ch );
 
-        GameScene.add( Blob.seed(dungeon, pos, 100, ToxicGas.class ) );
+        GameScene.add( Blob.seed(dungeon, pos, 100, ToxicGas.class ), dungeon );
 
         dungeon.level.drop( new Seed(), pos ).sprite.drop();
 

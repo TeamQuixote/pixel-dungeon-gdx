@@ -186,7 +186,8 @@ public class Toolbar extends Component {
 	private static CellSelector.Listener informer = new CellSelector.Listener() {
 		@Override
 		public void onSelect( Integer cell ) {
-            GameScene.examineCell( cell );
+			Dungeon dungeon = Dungeon.getInstance();
+            GameScene.examineCell( cell, dungeon );
 		}	
 		@Override
 		public String prompt() {

@@ -40,7 +40,7 @@ public class PotionOfToxicGas extends Potion {
 		
 		ToxicGas gas = Blob.seed(dungeon, cell, 1000, ToxicGas.class );
 		dungeon.addActor( gas );
-		GameScene.add( gas );
+		GameScene.add( gas, dungeon );
 	}
 	
 	@Override

@@ -97,7 +97,7 @@ public class Swarm extends Mob {
 					Door.enter( clone.pos );
 				}
 				
-				GameScene.add( clone, SPLIT_DELAY );
+				GameScene.add( clone, SPLIT_DELAY, dungeon );
 				dungeon.addActorDelayed( new Pushing( clone, pos, clone.pos ), -1 );
 				
 				HP -= clone.HP;

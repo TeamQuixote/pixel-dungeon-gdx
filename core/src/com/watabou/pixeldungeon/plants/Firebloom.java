@@ -40,7 +40,7 @@ public class Firebloom extends Plant {
 	public void activate( Char ch ) {
 		super.activate( ch );
 		
-		GameScene.add( Blob.seed(dungeon, pos, 2, Fire.class ) );
+		GameScene.add( Blob.seed(dungeon, pos, 2, Fire.class ), dungeon );
 		
 		if (dungeon.visible[pos]) {
 			CellEmitter.get( pos ).burst( FlameParticle.FACTORY, 5 );

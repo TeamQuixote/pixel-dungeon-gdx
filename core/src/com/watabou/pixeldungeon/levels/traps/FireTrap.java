@@ -32,7 +32,7 @@ public class FireTrap {
 	public static void trigger( int pos, Char ch ) {
 		Dungeon dungeon = Dungeon.getInstance();
 
-		GameScene.add( Blob.seed(dungeon, pos, 2, Fire.class ) );
+		GameScene.add( Blob.seed(dungeon, pos, 2, Fire.class ), dungeon );
 		CellEmitter.get( pos ).burst( FlameParticle.FACTORY, 5 );
 		
 	}

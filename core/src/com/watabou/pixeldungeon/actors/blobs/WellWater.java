@@ -51,11 +51,11 @@ public class WellWater extends Blob {
 		
 		if (dungeon.visible[pos]) {
 			if (this instanceof WaterOfAwareness) {
-				Journal.add( Feature.WELL_OF_AWARENESS );
+				Journal.add( Feature.WELL_OF_AWARENESS, dungeon.depth );
 			} else if (this instanceof WaterOfHealth) {
-				Journal.add( Feature.WELL_OF_HEALTH );
+				Journal.add( Feature.WELL_OF_HEALTH, dungeon.depth );
 			} else if (this instanceof WaterOfTransmutation) {
-				Journal.add( Feature.WELL_OF_TRANSMUTATION );
+				Journal.add( Feature.WELL_OF_TRANSMUTATION, dungeon.depth );
 			}
 		}
 	}

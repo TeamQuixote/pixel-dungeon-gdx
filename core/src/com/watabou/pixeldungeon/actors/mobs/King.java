@@ -134,7 +134,7 @@ public class King extends Mob {
 	
 	@Override
 	public void die( Object cause ) {
-		GameScene.bossSlain();
+		GameScene.bossSlain(dungeon);
 		dungeon.level.drop( new ArmorKit(), pos ).sprite.drop();
 		dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
 		
@@ -177,7 +177,7 @@ public class King extends Mob {
 						
 						Undead undead = new Undead();
 						undead.pos = j;
-						GameScene.add( undead );
+						GameScene.add( undead, dungeon );
 						
 						WandOfBlink.appear( undead, j );
 						new Flare( 3, 32 ).color( 0x000000, false ).show( undead.sprite, 2f ) ;

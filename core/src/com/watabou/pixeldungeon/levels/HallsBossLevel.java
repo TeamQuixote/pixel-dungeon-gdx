@@ -161,7 +161,8 @@ public class HallsBossLevel extends Level {
 	
 	@Override
 	public void press( int cell, Char hero ) {
-		
+		Dungeon dungeon = Dungeon.getInstance();
+
 		super.press( cell, hero );
 		
 		if (!enteredArena && hero == Dungeon.getInstance().hero && cell != entrance) {
@@ -187,7 +188,7 @@ public class HallsBossLevel extends Level {
 			} while (
 				!passable[boss.pos] ||
 				Dungeon.getInstance().visible[boss.pos]);
-			GameScene.add( boss );
+			GameScene.add( boss, dungeon );
 			boss.spawnFists();
 			
 			stairs = entrance;

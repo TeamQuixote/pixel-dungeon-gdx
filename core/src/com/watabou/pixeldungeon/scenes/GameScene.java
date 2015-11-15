@@ -17,35 +17,16 @@
  */
 package com.watabou.pixeldungeon.scenes;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.utils.IntMap;
 import com.watabou.input.NoosaInputProcessor;
-import com.watabou.noosa.Camera;
-import com.watabou.noosa.Game;
-import com.watabou.noosa.Group;
-import com.watabou.noosa.SkinnedBlock;
-import com.watabou.noosa.Visual;
+import com.watabou.noosa.*;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
-import com.watabou.pixeldungeon.Assets;
-import com.watabou.pixeldungeon.Badges;
-import com.watabou.pixeldungeon.Dungeon;
-import com.watabou.pixeldungeon.DungeonTilemap;
-import com.watabou.pixeldungeon.FogOfWar;
-import com.watabou.pixeldungeon.PixelDungeon;
-import com.watabou.pixeldungeon.Statistics;
-import com.watabou.pixeldungeon.actors.Actor;
+import com.watabou.pixeldungeon.*;
 import com.watabou.pixeldungeon.actors.blobs.Blob;
 import com.watabou.pixeldungeon.actors.mobs.Mob;
-import com.watabou.pixeldungeon.effects.BannerSprites;
-import com.watabou.pixeldungeon.effects.BlobEmitter;
-import com.watabou.pixeldungeon.effects.EmoIcon;
-import com.watabou.pixeldungeon.effects.Flare;
-import com.watabou.pixeldungeon.effects.FloatingText;
-import com.watabou.pixeldungeon.effects.Ripple;
-import com.watabou.pixeldungeon.effects.SpellSprite;
+import com.watabou.pixeldungeon.effects.*;
 import com.watabou.pixeldungeon.items.Heap;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.items.wands.WandOfBlink;
@@ -53,34 +34,14 @@ import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.RegularLevel;
 import com.watabou.pixeldungeon.levels.features.Chasm;
 import com.watabou.pixeldungeon.plants.Plant;
-import com.watabou.pixeldungeon.sprites.CharSprite;
-import com.watabou.pixeldungeon.sprites.DiscardedItemSprite;
-import com.watabou.pixeldungeon.sprites.HeroSprite;
-import com.watabou.pixeldungeon.sprites.ItemSprite;
-import com.watabou.pixeldungeon.sprites.PlantSprite;
-import com.watabou.pixeldungeon.ui.AttackIndicator;
-import com.watabou.pixeldungeon.ui.Banner;
-import com.watabou.pixeldungeon.ui.BusyIndicator;
-import com.watabou.pixeldungeon.ui.GameLog;
-import com.watabou.pixeldungeon.ui.HealthIndicator;
-import com.watabou.pixeldungeon.ui.QuickSlot;
-import com.watabou.pixeldungeon.ui.StatusPane;
-import com.watabou.pixeldungeon.ui.Toast;
-import com.watabou.pixeldungeon.ui.Toolbar;
-import com.watabou.pixeldungeon.ui.Window;
+import com.watabou.pixeldungeon.sprites.*;
+import com.watabou.pixeldungeon.ui.*;
 import com.watabou.pixeldungeon.utils.GLog;
+import com.watabou.pixeldungeon.windows.*;
 import com.watabou.pixeldungeon.windows.WndBag.Mode;
-import com.watabou.pixeldungeon.windows.WndGame;
-import com.watabou.pixeldungeon.windows.WndBag;
-import com.watabou.pixeldungeon.windows.WndHero;
-import com.watabou.pixeldungeon.windows.WndInfoCell;
-import com.watabou.pixeldungeon.windows.WndInfoItem;
-import com.watabou.pixeldungeon.windows.WndInfoMob;
-import com.watabou.pixeldungeon.windows.WndInfoPlant;
-import com.watabou.pixeldungeon.windows.WndMessage;
-import com.watabou.pixeldungeon.windows.WndStory;
-import com.watabou.pixeldungeon.windows.WndTradeItem;
 import com.watabou.utils.Random;
+
+import java.io.IOException;
 
 public class GameScene extends PixelScene {
 	
@@ -94,19 +55,17 @@ public class GameScene extends PixelScene {
 	private static final String TXT_SECRETS	= "The atmosphere hints that this floor hides many secrets.";
 	
 	static GameScene scene;
-	
+
+	public Dungeon dungeon = Dungeon.getInstance();
+
 	private SkinnedBlock water;
 	private DungeonTilemap tiles;
 	private FogOfWar fog;
-	private HeroSprite hero;
-	
+
 	private GameLog log;
-	
-	private BusyIndicator busy;
-	
+
 	private static CellSelector cellSelector;
-	
-	private Group terrain;
+
 	private Group ripples;
 	private Group plants;
 	private Group heaps;
@@ -126,21 +85,21 @@ public class GameScene extends PixelScene {
 		
 		Music.INSTANCE.play( Assets.TUNE, true );
 		Music.INSTANCE.volume( 1f );
-		
-		PixelDungeon.lastClass( Dungeon.getInstance().hero.heroClass.ordinal() );
+		Dungeon dungeon = Dungeon.getInstance();
+		PixelDungeon.lastClass( dungeon.hero.heroClass.ordinal() );
 		
 		super.create();
 		Camera.main.zoom( defaultZoom + PixelDungeon.zoom() );
 		
 		scene = this;
 
-		terrain = new Group();
-		add( terrain );
+		Group terrain = new Group();
+		add(terrain);
 		
 		water = new SkinnedBlock( 
 			Level.WIDTH * DungeonTilemap.SIZE, 
 			Level.HEIGHT * DungeonTilemap.SIZE,
-			Dungeon.getInstance().level.waterTex() );
+			dungeon.level.waterTex() );
 		terrain.add( water );
 		
 		ripples = new Group();
@@ -149,19 +108,19 @@ public class GameScene extends PixelScene {
 		tiles = new DungeonTilemap();
 		terrain.add( tiles );
 		
-		Dungeon.getInstance().level.addVisuals( this );
+		dungeon.level.addVisuals( this );
 		
 		plants = new Group();
 		add( plants );
 
-		for (IntMap.Entry<Plant> plant : Dungeon.getInstance().level.plants) {
+		for (IntMap.Entry<Plant> plant : dungeon.level.plants) {
 			addPlantSprite( plant.value );
 		}
 		
 		heaps = new Group();
 		add( heaps );
 
-		for (IntMap.Entry<Heap> heap : Dungeon.getInstance().level.heaps) {
+		for (IntMap.Entry<Heap> heap : dungeon.level.heaps) {
 			addHeapSprite( heap.value );
 		}
 		
@@ -172,10 +131,10 @@ public class GameScene extends PixelScene {
 		mobs = new Group();
 		add( mobs );
 		
-		for (Mob mob : Dungeon.getInstance().level.mobs) {
+		for (Mob mob : dungeon.level.mobs) {
 			addMobSprite( mob );
 			if (Statistics.amuletObtained) {
-				mob.beckon( Dungeon.getInstance().hero.pos );
+				mob.beckon( dungeon.hero.pos );
 			}
 		}
 		
@@ -185,13 +144,13 @@ public class GameScene extends PixelScene {
 		gases = new Group();
 		add( gases );
 		
-		for (Blob blob : Dungeon.getInstance().level.blobs.values()) {
+		for (Blob blob : dungeon.level.blobs.values()) {
 			blob.emitter = null;
 			addBlobSprite( blob );
 		}
 		
 		fog = new FogOfWar( Level.WIDTH, Level.HEIGHT );
-		fog.updateVisibility( Dungeon.getInstance().visible, Dungeon.getInstance().level.visited, Dungeon.getInstance().level.mapped );
+		fog.updateVisibility( dungeon.visible, dungeon.level.visited, dungeon.level.mapped );
 		add( fog );
 		
 		brightness( PixelDungeon.brightness() );
@@ -203,11 +162,11 @@ public class GameScene extends PixelScene {
 		add( statuses );
 		
 		add( emoicons );
-		
-		hero = new HeroSprite();
-		hero.place( Dungeon.getInstance().hero.pos );
+
+		HeroSprite hero = new HeroSprite();
+		hero.place( dungeon.hero.pos );
 		hero.updateArmor();
-		mobs.add( hero );
+		mobs.add(hero);
 
 		add( new HealthIndicator() );
 		
@@ -235,13 +194,13 @@ public class GameScene extends PixelScene {
 		log.setRect( 0, toolbar.top(), attack.left(),  0 );
 		add( log );
 		
-		if (Dungeon.getInstance().depth < Statistics.deepestFloor) {
-			GLog.i( TXT_WELCOME_BACK, Dungeon.getInstance().depth );
+		if (dungeon.depth < Statistics.deepestFloor) {
+			GLog.i( TXT_WELCOME_BACK, dungeon.depth );
 		} else {
-			GLog.i( TXT_WELCOME, Dungeon.getInstance().depth );
+			GLog.i( TXT_WELCOME, dungeon.depth );
 			Sample.INSTANCE.play( Assets.SND_DESCEND );
 		}
-		switch (Dungeon.getInstance().level.feeling) {
+		switch (dungeon.level.feeling) {
 		case CHASM:
 			GLog.w( TXT_CHASM );
 			break;
@@ -253,33 +212,33 @@ public class GameScene extends PixelScene {
 			break;
 		default:
 		}
-		if (Dungeon.getInstance().level instanceof RegularLevel &&
-			((RegularLevel)Dungeon.getInstance().level).secretDoors > Random.IntRange( 3, 4 )) {
+		if (dungeon.level instanceof RegularLevel &&
+			((RegularLevel)dungeon.level).secretDoors > Random.IntRange( 3, 4 )) {
 			GLog.w( TXT_SECRETS );
 		}
-		if (Dungeon.getInstance().nightMode && !Dungeon.getInstance().bossLevel()) {
+		if (dungeon.nightMode && !dungeon.bossLevel()) {
 			GLog.w( TXT_NIGHT_MODE );
 		}
-		
-		busy = new BusyIndicator();
+
+		BusyIndicator busy = new BusyIndicator();
 		busy.camera = uiCamera;
 		busy.x = 1;
 		busy.y = sb.bottom() + 1;
-		add( busy );
+		add(busy);
 		
 		switch (InterlevelScene.mode) {
 		case RESURRECT:
-			WandOfBlink.appear( Dungeon.getInstance().hero, Dungeon.getInstance().level.entrance );
-			new Flare( 8, 32 ).color( 0xFFFF66, true ).show( hero, 2f ) ;
+			WandOfBlink.appear( dungeon.hero, dungeon.level.entrance );
+			new Flare( 8, 32 ).color( 0xFFFF66, true ).show(hero, 2f ) ;
 			break;
 		case RETURN:
-			WandOfBlink.appear(  Dungeon.getInstance().hero, Dungeon.getInstance().hero.pos );
+			WandOfBlink.appear(  dungeon.hero, dungeon.hero.pos );
 			break;
 		case FALL:
-			Chasm.heroLand();
+			Chasm.heroLand(dungeon);
 			break;
 		case DESCEND:
-			switch (Dungeon.getInstance().depth) {
+			switch (dungeon.depth) {
 			case 1:
 				WndStory.showChapter( WndStory.ID_SEWERS );
 				break;
@@ -296,7 +255,7 @@ public class GameScene extends PixelScene {
 				WndStory.showChapter( WndStory.ID_HALLS );
 				break;
 			}
-			if (Dungeon.getInstance().hero.isAlive() && Dungeon.getInstance().depth != 22) {
+			if (dungeon.hero.isAlive() && dungeon.depth != 22) {
 				Badges.validateNoKilling();
 			}
 			break;
@@ -320,7 +279,7 @@ public class GameScene extends PixelScene {
 	@Override
 	public synchronized void pause() {
 		try {
-			Dungeon.getInstance().saveAll();
+			dungeon.saveAll();
 			Badges.saveGlobal();
 		} catch (IOException e) {
 			//
@@ -329,7 +288,7 @@ public class GameScene extends PixelScene {
 	
 	@Override
 	public synchronized void update() {
-		if (Dungeon.getInstance().hero == null) {
+		if (dungeon.hero == null) {
 			return;
 		}
 			
@@ -337,25 +296,25 @@ public class GameScene extends PixelScene {
 		
 		water.offset( 0, -5 * Game.elapsed );
 		
-		Dungeon.getInstance().process();
+		dungeon.process();
 		
-		if (Dungeon.getInstance().hero.ready && !Dungeon.getInstance().hero.paralysed) {
+		if (dungeon.hero.ready && !dungeon.hero.paralysed) {
 			log.newLine();
 		}
 		
-		cellSelector.enabled = Dungeon.getInstance().hero.ready;
+		cellSelector.enabled = dungeon.hero.ready;
 	}
 	
 	@Override
 	protected void onBackPressed() {
-		if (!cancel()) {
+		if (!cancel(dungeon)) {
 			add( new WndGame() );
 		}
 	}
 	
 	@Override
 	protected void onMenuPressed() {
-		if (Dungeon.getInstance().hero.ready) {
+		if (dungeon.hero.ready) {
 			selectItem( null, WndBag.Mode.ALL, null );
 		}
 	}
@@ -399,7 +358,7 @@ public class GameScene extends PixelScene {
 	
 	private void addMobSprite( Mob mob ) {
 		CharSprite sprite = mob.sprite();
-		sprite.visible = Dungeon.getInstance().visible[mob.pos];
+		sprite.visible = dungeon.visible[mob.pos];
 		mobs.add( sprite );
 		sprite.link( mob );
 	}
@@ -415,7 +374,7 @@ public class GameScene extends PixelScene {
 			prompt = new Toast( text ) {
 				@Override
 				protected void onClose() {
-					cancel();
+					cancel(dungeon);
 				}
 			};
 			prompt.camera = uiCamera;
@@ -439,8 +398,8 @@ public class GameScene extends PixelScene {
 		}
 	}
 	
-	public static void add( Blob gas ) {
-		Dungeon.getInstance().addActor( gas );
+	public static void add( Blob gas, Dungeon dungeon ) {
+		dungeon.addActor( gas );
 		if (scene != null) {
 			scene.addBlobSprite( gas );
 		}
@@ -458,16 +417,14 @@ public class GameScene extends PixelScene {
 		}
 	}
 	
-	public static void add( Mob mob ) {
-		Dungeon dungeon = Dungeon.getInstance();
+	public static void add( Mob mob, Dungeon dungeon ) {
 		dungeon.level.mobs.add( mob );
 		dungeon.addActor( mob );
 		dungeon.occupyCell( mob );
 		scene.addMobSprite( mob );
 	}
 	
-	public static void add( Mob mob, float delay ) {
-		Dungeon dungeon = Dungeon.getInstance();
+	public static void add( Mob mob, float delay, Dungeon dungeon ) {
 		dungeon.level.mobs.add( mob );
 		dungeon.addActorDelayed( mob, delay );
 		dungeon.occupyCell( mob );
@@ -533,12 +490,12 @@ public class GameScene extends PixelScene {
 		scene.add( wnd );
 	}
 	
-	public static void afterObserve() {
+	public static void afterObserve(Dungeon dungeon) {
 		if (scene != null) {
-			scene.fog.updateVisibility( Dungeon.getInstance().visible, Dungeon.getInstance().level.visited, Dungeon.getInstance().level.mapped );
+			scene.fog.updateVisibility( dungeon.visible, dungeon.level.visited, dungeon.level.mapped );
 			
-			for (Mob mob : Dungeon.getInstance().level.mobs) {
-				mob.sprite.visible = Dungeon.getInstance().visible[mob.pos];
+			for (Mob mob : dungeon.level.mobs) {
+				mob.sprite.visible = dungeon.visible[mob.pos];
 			}
 		}
 	}
@@ -555,8 +512,8 @@ public class GameScene extends PixelScene {
 		Sample.INSTANCE.play( Assets.SND_DEATH );
 	}
 	
-	public static void bossSlain() {
-		if (Dungeon.getInstance().hero.isAlive()) {
+	public static void bossSlain(Dungeon dungeon) {
+		if (dungeon.hero.isAlive()) {
 			Banner bossSlain = new Banner( BannerSprites.get( BannerSprites.Type.BOSS_SLAIN ) );
 			bossSlain.show( 0xFFFFFF, 0.3f, 5f );
 			scene.showBanner( bossSlain );
@@ -594,11 +551,11 @@ public class GameScene extends PixelScene {
 		return wnd;
 	}
 	
-	static boolean cancel() {
-		if (Dungeon.getInstance().hero.curAction != null || Dungeon.getInstance().hero.restoreHealth) {
+	static boolean cancel(Dungeon dungeon) {
+		if (dungeon.hero.curAction != null || dungeon.hero.restoreHealth) {
 			
-			Dungeon.getInstance().hero.curAction = null;
-			Dungeon.getInstance().hero.restoreHealth = false;
+			dungeon.hero.curAction = null;
+			dungeon.hero.restoreHealth = false;
 			return true;
 			
 		} else {
@@ -613,8 +570,7 @@ public class GameScene extends PixelScene {
 		QuickSlot.cancel();
 	}
 
-    public static void examineCell( Integer cell ) {
-		Dungeon dungeon = Dungeon.getInstance();
+    public static void examineCell( Integer cell, Dungeon dungeon ) {
         if (cell == null) {
             return;
         }
@@ -662,11 +618,12 @@ public class GameScene extends PixelScene {
 	private static final CellSelector.Listener defaultCellListener = new CellSelector.Listener() {
 		@Override
 		public void onSelect( Integer cell ) {
+			Dungeon dungeon = Dungeon.getInstance();
 			if (NoosaInputProcessor.modifier) {
-				examineCell( cell );
+				examineCell( cell, dungeon );
 			} else {
-				if (Dungeon.getInstance().hero.handle(cell)) {
-					Dungeon.getInstance().nextActor(Dungeon.getInstance().hero);
+				if (dungeon.hero.handle(cell)) {
+					dungeon.nextActor(dungeon.hero);
 				}
 			}
 		}

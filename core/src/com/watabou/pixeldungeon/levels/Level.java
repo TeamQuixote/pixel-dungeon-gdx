@@ -367,7 +367,7 @@ public abstract class Level implements Bundlable {
 					mob.state = mob.WANDERING;
 					mob.pos = randomRespawnCell();
 					if (Dungeon.getInstance().hero.isAlive() && mob.pos != -1) {
-						GameScene.add( mob );
+						GameScene.add( mob, dungeon );
 						if (Statistics.amuletObtained) {
 							mob.beckon( Dungeon.getInstance().hero.pos );
 						}
@@ -583,9 +583,9 @@ public abstract class Level implements Bundlable {
 	}
 	
 	public void press( int cell, Char ch ) {
-
-		if (pit[cell] && ch == Dungeon.getInstance().hero) {
-			Chasm.heroFall( cell );
+		Dungeon dungeon = Dungeon.getInstance();
+		if (pit[cell] && ch == dungeon.hero) {
+			Chasm.heroFall( cell, dungeon.hero, this );
 			return;
 		}
 		

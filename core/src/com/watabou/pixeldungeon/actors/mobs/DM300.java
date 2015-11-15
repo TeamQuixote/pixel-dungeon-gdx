@@ -76,7 +76,7 @@ public class DM300 extends Mob {
 	@Override
 	public boolean act() {
 
-		GameScene.add( Blob.seed(dungeon, pos, 30, ToxicGas.class ) );
+		GameScene.add( Blob.seed(dungeon, pos, 30, ToxicGas.class ), dungeon );
 		
 		return super.act();
 	}
@@ -128,7 +128,7 @@ public class DM300 extends Mob {
 		
 		super.die( cause );
 		
-		GameScene.bossSlain();
+		GameScene.bossSlain(dungeon);
 		dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
 		
 		Badges.validateBossSlain(dungeon);

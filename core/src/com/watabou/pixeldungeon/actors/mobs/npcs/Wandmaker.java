@@ -138,7 +138,7 @@ public class Wandmaker extends NPC {
 			
 			Quest.placeItem(dungeon);
 			
-			Journal.add( Journal.Feature.WANDMAKER );
+			Journal.add( Journal.Feature.WANDMAKER, dungeon.depth );
 		}
 	}
 	
@@ -304,11 +304,11 @@ public class Wandmaker extends NPC {
 			}
 		}
 		
-		public static void complete() {
+		public static void complete(int depth) {
 			wand1 = null;
 			wand2 = null;
 			
-			Journal.remove( Journal.Feature.WANDMAKER );
+			Journal.remove( Journal.Feature.WANDMAKER, depth );
 		}
 	}
 }

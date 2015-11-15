@@ -151,7 +151,7 @@ public class CellSelector extends TouchArea<GameAction> {
 			
 		} else {
 			
-			GameScene.cancel();
+			GameScene.cancel(Dungeon.getInstance());
 			
 		}
 	}

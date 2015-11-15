@@ -38,7 +38,7 @@ public class PotionOfLiquidFlame extends Potion {
 		Sample.INSTANCE.play( Assets.SND_SHATTER );
 		
 		Fire fire = Blob.seed(dungeon, cell, 2, Fire.class );
-		GameScene.add( fire );
+		GameScene.add( fire, dungeon );
 	}
 	
 	@Override

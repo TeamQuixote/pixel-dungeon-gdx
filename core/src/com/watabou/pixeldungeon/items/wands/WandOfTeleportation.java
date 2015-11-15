@@ -48,7 +48,7 @@ public class WandOfTeleportation extends Wand {
 			int count = 10;
 			int pos;
 			do {
-				pos = Dungeon.getInstance().level.randomRespawnCell();
+				pos = dungeon.level.randomRespawnCell();
 				if (count-- <= 0) {
 					break;
 				}
@@ -62,7 +62,7 @@ public class WandOfTeleportation extends Wand {
 			
 				ch.pos = pos;
 				ch.sprite.place( ch.pos );
-				ch.sprite.visible = Dungeon.getInstance().visible[pos];
+				ch.sprite.visible = dungeon.visible[pos];
 				GLog.i( curUser.name + " teleported " + ch.name + " to somewhere" );
 				
 			}

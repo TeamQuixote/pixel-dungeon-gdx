@@ -81,7 +81,7 @@ public class WandOfAvalanche extends Wand {
 		}
 		
 		if (!curUser.isAlive()) {
-			Dungeon.getInstance().fail( Utils.format( ResultDescriptions.WAND, name, Dungeon.getInstance().depth ) );
+			dungeon.fail( Utils.format( ResultDescriptions.WAND, name, dungeon.depth ) );
 			GLog.n( "You killed yourself with your own Wand of Avalanche..." );
 		}
 	}

@@ -156,7 +156,7 @@ public class Ghost extends NPC {
 			GameScene.show( new WndQuest( this, Quest.alternative ? TXT_RAT1 : TXT_ROSE1 ) );
 			Quest.given = true;
 			
-			Journal.add( Journal.Feature.GHOST );
+			Journal.add( Journal.Feature.GHOST, dungeon.depth );
 		}
 	}
 	
@@ -314,7 +314,7 @@ public class Ghost extends NPC {
 					FetidRat rat = new FetidRat();
 					rat.pos = dungeon.level.randomRespawnCell();
 					if (rat.pos != -1) {
-						GameScene.add( rat );
+						GameScene.add( rat, dungeon );
 						processed = true;
 					}
 					
@@ -331,11 +331,11 @@ public class Ghost extends NPC {
 			}
 		}
 		
-		public static void complete() {
+		public static void complete(int depth) {
 			weapon = null;
 			armor = null;
 			
-			Journal.remove( Journal.Feature.GHOST );
+			Journal.remove( Journal.Feature.GHOST,  depth);
 		}
 	}
 	
@@ -372,7 +372,7 @@ public class Ghost extends NPC {
 		@Override
 		public int defenseProc( Char enemy, int damage ) {
 			
-			GameScene.add( Blob.seed(dungeon, pos, 20, ParalyticGas.class ) );
+			GameScene.add( Blob.seed(dungeon, pos, 20, ParalyticGas.class ), dungeon );
 			
 			return super.defenseProc(enemy, damage);
 		}

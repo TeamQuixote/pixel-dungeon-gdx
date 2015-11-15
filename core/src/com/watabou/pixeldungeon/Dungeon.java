@@ -812,7 +812,7 @@ public class Dungeon {
 		
 		BArray.or( level.visited, visible, level.visited );
 		
-		GameScene.afterObserve();
+		GameScene.afterObserve(this);
 	}
 	
 	private static boolean[] passable = new boolean[Level.LENGTH];

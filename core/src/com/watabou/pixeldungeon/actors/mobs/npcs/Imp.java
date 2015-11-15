@@ -131,7 +131,7 @@ public class Imp extends NPC {
 			Quest.given = true;
 			Quest.completed = false;
 			
-			Journal.add( Journal.Feature.IMP );
+			Journal.add( Journal.Feature.IMP, dungeon.depth );
 		}
 	}
 	
@@ -242,11 +242,11 @@ public class Imp extends NPC {
 			}
 		}
 		
-		public static void complete() {
+		public static void complete(int depth) {
 			reward = null;
 			completed = true;
 			
-			Journal.remove( Journal.Feature.IMP );
+			Journal.remove( Journal.Feature.IMP, depth	 );
 		}
 		
 		public static boolean isCompleted() {

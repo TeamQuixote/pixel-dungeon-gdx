@@ -97,25 +97,23 @@ public class Journal {
 		}
 	}
 	
-	public static void add( Feature feature ) {
-		Dungeon dungeon = Dungeon.getInstance();
+	public static void add( Feature feature, int depth ) {
 		int size = records.size();
 		for (int i=0; i < size; i++) {
 			Record rec = records.get( i );
-			if (rec.feature == feature && rec.depth == dungeon.depth) {
+			if (rec.feature == feature && rec.depth == depth) {
 				return;
 			}
 		}
 		
-		records.add( new Record( feature, dungeon.depth ) );
+		records.add( new Record( feature, depth ) );
 	}
 	
-	public static void remove( Feature feature ) {
-		Dungeon dungeon = Dungeon.getInstance();
+	public static void remove( Feature feature, int depth ) {
 		int size = records.size();
 		for (int i=0; i < size; i++) {
 			Record rec = records.get( i );
-			if (rec.feature == feature && rec.depth == dungeon.depth) {
+			if (rec.feature == feature && rec.depth == depth) {
 				records.remove( i );
 				return;
 			}

@@ -30,7 +30,7 @@ public class ParalyticTrap {
 	public static void trigger( int pos, Char ch ) {
 		Dungeon dungeon = Dungeon.getInstance();
 
-		GameScene.add( Blob.seed(dungeon, pos, 80 + 5 * dungeon.depth, ParalyticGas.class ) );
+		GameScene.add( Blob.seed(dungeon, pos, 80 + 5 * dungeon.depth, ParalyticGas.class ), dungeon );
 		
 	}
 }
