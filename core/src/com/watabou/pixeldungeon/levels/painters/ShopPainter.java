@@ -60,7 +60,7 @@ public class ShopPainter extends Painter {
 		pasHeight = room.height() - 2;
 		int per = pasWidth * 2 + pasHeight * 2;
 		
-		Item[] range = range();
+		Item[] range = range(level.dungeon);
 		
 		int pos = xy2p( room, room.entrance() ) + (per - range.length) / 2;
 		for (int i=0; i < range.length; i++) {
@@ -86,11 +86,11 @@ public class ShopPainter extends Painter {
 		}
 	}
 	
-	private static Item[] range() {
+	private static Item[] range(Dungeon dungeon) {
 		
 		ArrayList<Item> items = new ArrayList<Item>();
 		
-		switch (Dungeon.getInstance().depth) {
+		switch (dungeon.depth) {
 		
 		case 6:
 			items.add( (Random.Int( 2 ) == 0 ? new Quarterstaff() : new Spear()).identify() );

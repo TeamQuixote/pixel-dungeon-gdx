@@ -116,7 +116,7 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 		
-		if (Dungeon.getInstance().shopOnLevel()) {
+		if (dungeon.shopOnLevel()) {
 			Room shop = null;
 			for (Room r : roomEntrance.connected.keySet()) {
 				if (r.connected.size() == 1 && r.width() >= 5 && r.height() >= 5) {
@@ -133,7 +133,7 @@ public abstract class RegularLevel extends Level {
 		}
 		
 		specials = new ArrayList<Room.Type>( Room.SPECIALS );
-		if (Dungeon.getInstance().bossLevel(Dungeon.getInstance().depth + 1)) {
+		if (dungeon.bossLevel(dungeon.depth + 1)) {
 			specials.remove( Room.Type.WEAK_FLOOR );
 		}
 		assignRoomType();
@@ -192,11 +192,11 @@ public abstract class RegularLevel extends Level {
 						specials.remove( Type.VAULT );
 						specials.remove( Type.WEAK_FLOOR );
 						
-					} else if (Dungeon.getInstance().depth % 5 == 2 && specials.contains( Type.LABORATORY )) {
+					} else if (dungeon.depth % 5 == 2 && specials.contains( Type.LABORATORY )) {
 						
 						r.type = Type.LABORATORY;
 						
-					} else if (Dungeon.getInstance().depth >= Dungeon.getInstance().transmutation && specials.contains( Type.MAGIC_WELL )) {
+					} else if (dungeon.depth >= dungeon.transmutation && specials.contains( Type.MAGIC_WELL )) {
 						
 						r.type = Type.MAGIC_WELL;
 						
@@ -337,7 +337,7 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	protected int nTraps() {
-		return Dungeon.getInstance().depth <= 1 ? 0 : Random.Int( 1, rooms.size() + Dungeon.getInstance().depth );
+		return dungeon.depth <= 1 ? 0 : Random.Int( 1, rooms.size() + dungeon.depth );
 	}
 	
 	protected float[] trapChances() {
@@ -444,10 +444,10 @@ public abstract class RegularLevel extends Level {
 				map[door] =  tunnelTile();
 				break;
 			case REGULAR:
-				if (Dungeon.getInstance().depth <= 1) {
+				if (dungeon.depth <= 1) {
 					map[door] = Terrain.DOOR;
 				} else {
-					boolean secret = (Dungeon.getInstance().depth < 6 ? Random.Int( 12 - Dungeon.getInstance().depth ) : Random.Int( 6 )) == 0;
+					boolean secret = (dungeon.depth < 6 ? Random.Int( 12 - dungeon.depth ) : Random.Int( 6 )) == 0;
 					map[door] = secret ? Terrain.SECRET_DOOR : Terrain.DOOR;
 					if (secret) {
 						secretDoors++;
@@ -525,15 +525,14 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	public int nMobs() {
-		return 2 + Dungeon.getInstance().depth % 5 + Random.Int( 3 );
+		return 2 + dungeon.depth % 5 + Random.Int( 3 );
 	}
 	
 	@Override
 	protected void createMobs() {
-		Dungeon dungeon = Dungeon.getInstance();
 		int nMobs = nMobs();
 		for (int i=0; i < nMobs; i++) {
-			Mob mob = Bestiary.mob( Dungeon.getInstance().depth );
+			Mob mob = Bestiary.mob( dungeon.depth );
 			do {
 				mob.pos = randomRespawnCell();
 			} while (mob.pos == -1);
@@ -544,7 +543,6 @@ public abstract class RegularLevel extends Level {
 	
 	@Override
 	public int randomRespawnCell() {
-		Dungeon dungeon = Dungeon.getInstance();
 		int count = 0;
 		int cell = -1;
 		
@@ -560,7 +558,7 @@ public abstract class RegularLevel extends Level {
 			}
 			
 			cell = room.random();
-			if (!Dungeon.getInstance().visible[cell] && dungeon.findChar( cell ) == null && passable[cell]) {
+			if (!dungeon.visible[cell] && dungeon.findChar( cell ) == null && passable[cell]) {
 				return cell;
 			}
 			
@@ -625,7 +623,7 @@ public abstract class RegularLevel extends Level {
 			drop( item, cell ).type = Heap.Type.HEAP;
 		}
 		
-		Item item = Bones.get(Dungeon.getInstance());
+		Item item = Bones.get(dungeon);
 		if (item != null) {
 			drop( item, randomDropCell() ).type = Heap.Type.SKELETON;
 		}

@@ -151,7 +151,7 @@ public class CityBossLevel extends Level {
 	
 	@Override
 	protected void createItems() {
-		Item item = Bones.get(Dungeon.getInstance());
+		Item item = Bones.get(dungeon);
 		if (item != null) {
 			int pos;
 			do {
@@ -170,27 +170,25 @@ public class CityBossLevel extends Level {
 	
 	@Override
 	public void press( int cell, Char hero ) {
-		Dungeon dungeon = Dungeon.getInstance();
-
 		super.press( cell, hero );
 		
-		if (!enteredArena && outsideEntraceRoom( cell ) && hero == Dungeon.getInstance().hero) {
+		if (!enteredArena && outsideEntraceRoom( cell ) && hero == dungeon.hero) {
 			
 			enteredArena = true;
 			
-			Mob boss = Bestiary.mob( Dungeon.getInstance().depth );
+			Mob boss = Bestiary.mob( dungeon.depth );
 			boss.state = boss.HUNTING;
 			do {
 				boss.pos = Random.Int( LENGTH );
 			} while (
 				!passable[boss.pos] ||
 				!outsideEntraceRoom( boss.pos ) ||
-				Dungeon.getInstance().visible[boss.pos]);
+				dungeon.visible[boss.pos]);
 			GameScene.add( boss, dungeon );
 			
 			set( arenaDoor, Terrain.LOCKED_DOOR );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 		}
 	}
 	
@@ -203,7 +201,7 @@ public class CityBossLevel extends Level {
 			
 			set( arenaDoor, Terrain.DOOR );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 		}
 		
 		return super.drop( item, cell );

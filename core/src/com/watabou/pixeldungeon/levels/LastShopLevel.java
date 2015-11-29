@@ -165,7 +165,7 @@ public class LastShopLevel extends RegularLevel {
 	
 	@Override
 	protected void createItems() {
-		Item item = Bones.get(Dungeon.getInstance());
+		Item item = Bones.get(dungeon);
 		if (item != null) {
 			int pos;
 			do {

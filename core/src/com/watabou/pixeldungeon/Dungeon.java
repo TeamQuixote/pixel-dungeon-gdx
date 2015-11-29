@@ -271,7 +271,7 @@ public class Dungeon {
 			Statistics.deepestFloor--;
 		}
 		
-		level.create();
+		level.create(this);
 		
 		Statistics.qualifiedForNoKilling = !bossLevel();
 		

@@ -34,17 +34,15 @@ public class HallsLevel extends RegularLevel {
 
 	{
 		minRoomSize = 6;
-		
-		viewDistance = Math.max( 25 - Dungeon.getInstance().depth, 1 );
-		
 		color1 = 0x801500;
 		color2 = 0xa68521;
 	}
 	
 	@Override
-	public void create() {
+	public void create(Dungeon dungeon) {
 		addItemToSpawn( new Torch() );
-		super.create();
+		super.create(dungeon);
+		viewDistance = Math.max( 25 - dungeon.depth, 1 );
 	}
 	
 	@Override
@@ -149,7 +147,7 @@ public class HallsLevel extends RegularLevel {
 	public static void addVisuals( Level level, Scene scene ) {
 		for (int i=0; i < LENGTH; i++) {
 			if (level.map[i] == 63) {
-				scene.add( new Stream( i ) );
+				scene.add( new Stream( i, level.dungeon ) );
 			}
 		}
 	}
@@ -157,13 +155,15 @@ public class HallsLevel extends RegularLevel {
 	private static class Stream extends Group {
 		
 		private int pos;
-		
+		private Dungeon dungeon;
+
 		private float delay;
 		
-		public Stream( int pos ) {
+		public Stream( int pos, Dungeon dungeon ) {
 			super();
 			
 			this.pos = pos;
+			this.dungeon = dungeon;
 			
 			delay = Random.Float( 2 );
 		}
@@ -171,7 +171,7 @@ public class HallsLevel extends RegularLevel {
 		@Override
 		public void update() {
 			
-			if (visible = Dungeon.getInstance().visible[pos]) {
+			if (visible = dungeon.visible[pos]) {
 				
 				super.update();
 				

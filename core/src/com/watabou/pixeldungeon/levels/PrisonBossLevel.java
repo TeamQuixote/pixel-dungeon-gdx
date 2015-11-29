@@ -291,7 +291,7 @@ public class PrisonBossLevel extends RegularLevel {
 		}
 		drop( new IronKey(), keyPos ).type = Heap.Type.CHEST;
 		
-		Item item = Bones.get(Dungeon.getInstance());
+		Item item = Bones.get(dungeon);
 		if (item != null) {
 			int pos;
 			do {
@@ -303,20 +303,18 @@ public class PrisonBossLevel extends RegularLevel {
 
 	@Override
 	public void press( int cell, Char ch ) {
-		Dungeon dungeon = Dungeon.getInstance();
-
 		super.press( cell, ch );
 		
-		if (ch == Dungeon.getInstance().hero && !enteredArena && roomExit.inside( cell )) {
+		if (ch == dungeon.hero && !enteredArena && roomExit.inside( cell )) {
 			
 			enteredArena = true;
 		
 			int pos;
 			do {
 				pos = roomExit.random();
-			} while (pos == cell || Dungeon.getInstance().findChar( pos ) != null);
+			} while (pos == cell || dungeon.findChar( pos ) != null);
 			
-			Mob boss = Bestiary.mob( Dungeon.getInstance().depth );
+			Mob boss = Bestiary.mob( dungeon.depth );
 			boss.state = boss.HUNTING;
 			boss.pos = pos;
 			GameScene.add( boss, dungeon );
@@ -326,7 +324,7 @@ public class PrisonBossLevel extends RegularLevel {
 			
 			set( arenaDoor, Terrain.LOCKED_DOOR );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 		}
 	}
 	
@@ -339,7 +337,7 @@ public class PrisonBossLevel extends RegularLevel {
 			
 			set( arenaDoor, Terrain.DOOR );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 		}
 		
 		return super.drop( item, cell );

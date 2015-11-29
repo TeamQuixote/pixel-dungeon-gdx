@@ -34,7 +34,7 @@ public class TrapsPainter extends Painter {
 		Integer traps[] = {
 			Terrain.TOXIC_TRAP, Terrain.TOXIC_TRAP, Terrain.TOXIC_TRAP, 
 			Terrain.PARALYTIC_TRAP, Terrain.PARALYTIC_TRAP, 
-			!Dungeon.getInstance().bossLevel( Dungeon.getInstance().depth + 1 ) ? Terrain.CHASM : Terrain.SUMMONING_TRAP };
+			!level.dungeon.bossLevel( level.dungeon.depth + 1 ) ? Terrain.CHASM : Terrain.SUMMONING_TRAP };
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Random.element( traps ) );
 		

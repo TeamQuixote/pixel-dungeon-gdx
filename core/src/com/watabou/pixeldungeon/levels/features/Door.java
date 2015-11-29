@@ -26,22 +26,21 @@ import com.watabou.pixeldungeon.scenes.GameScene;
 
 public class Door {
 
-	public static void enter( int pos ) {
-		Dungeon.getInstance().level.set( pos, Terrain.OPEN_DOOR );
+	public static void enter( int pos, Dungeon dungeon ) {
+		dungeon.level.set( pos, Terrain.OPEN_DOOR );
 		GameScene.updateMap( pos );
-		Dungeon.getInstance().observe();
+		dungeon.observe();
 		
-		if (Dungeon.getInstance().visible[pos]) {
+		if (dungeon.visible[pos]) {
 			Sample.INSTANCE.play( Assets.SND_OPEN );
 		}
 	}
 	
-	public static void leave( int pos ) {
-		Dungeon dungeon = Dungeon.getInstance();
+	public static void leave( int pos, Dungeon dungeon ) {
 		if (dungeon.level.heaps.get( pos ) == null) {
 			dungeon.level.set( pos, Terrain.DOOR );
 			GameScene.updateMap( pos );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 		}
 	}
 }

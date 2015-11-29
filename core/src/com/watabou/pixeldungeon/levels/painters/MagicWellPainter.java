@@ -44,12 +44,12 @@ public class MagicWellPainter extends Painter {
 		
 		@SuppressWarnings("unchecked")
 		Class<? extends WellWater> waterClass = 
-			Dungeon.getInstance().depth >= Dungeon.getInstance().transmutation ?
+			level.dungeon.depth >= level.dungeon.transmutation ?
 			WaterOfTransmutation.class :		
 			(Class<? extends WellWater>)Random.element( WATERS );
 			
 		if (waterClass == WaterOfTransmutation.class) {
-			Dungeon.getInstance().transmutation = Integer.MAX_VALUE;
+			level.dungeon.transmutation = Integer.MAX_VALUE;
 		}
 		
 		WellWater water = (WellWater)level.blobs.get( waterClass );

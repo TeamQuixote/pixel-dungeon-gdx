@@ -36,10 +36,14 @@ public class CavesLevel extends RegularLevel {
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
-		
+	}
+
+	@Override
+	public void create(Dungeon dungeon){
+		super.create(dungeon);
 		viewDistance = 6;
 	}
-	
+
 	@Override
 	public String tilesTex() {
 		return Assets.TILES_CAVES;
@@ -62,7 +66,7 @@ public class CavesLevel extends RegularLevel {
 	protected void assignRoomType() {
 		super.assignRoomType();
 		
-		Blacksmith.Quest.spawn( rooms, Dungeon.getInstance() );
+		Blacksmith.Quest.spawn( rooms, dungeon );
 	}
 	
 	@Override
@@ -149,7 +153,7 @@ public class CavesLevel extends RegularLevel {
 			}
 		}
 		
-		if (Dungeon.getInstance().bossLevel( Dungeon.getInstance().depth + 1 )) {
+		if (dungeon.bossLevel( dungeon.depth + 1 )) {
 			return;
 		}
 		
@@ -223,7 +227,7 @@ public class CavesLevel extends RegularLevel {
 	public static void addVisuals( Level level, Scene scene ) {
 		for (int i=0; i < LENGTH; i++) {
 			if (level.map[i] == Terrain.WALL_DECO) {
-				scene.add( new Vein( i ) );
+				scene.add( new Vein( i, level.dungeon ) );
 			}
 		}
 	}
@@ -231,13 +235,15 @@ public class CavesLevel extends RegularLevel {
 	private static class Vein extends Group {
 		
 		private int pos;
+		private Dungeon dungeon;
 		
 		private float delay;
 		
-		public Vein( int pos ) {
+		public Vein( int pos, Dungeon dungeon ) {
 			super();
 			
 			this.pos = pos;
+			this.dungeon = dungeon;
 			
 			delay = Random.Float( 2 );
 		}
@@ -245,7 +251,7 @@ public class CavesLevel extends RegularLevel {
 		@Override
 		public void update() {
 			
-			if (visible = Dungeon.getInstance().visible[pos]) {
+			if (visible = dungeon.visible[pos]) {
 				
 				super.update();
 				

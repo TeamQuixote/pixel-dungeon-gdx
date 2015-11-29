@@ -69,7 +69,7 @@ public class PrisonLevel extends RegularLevel {
 	protected void createMobs() {
 		super.createMobs();
 		
-		Wandmaker.Quest.spawn(Dungeon.getInstance(), this, roomEntrance );
+		Wandmaker.Quest.spawn(dungeon, this, roomEntrance );
 	}
 	
 	@Override
@@ -157,7 +157,7 @@ public class PrisonLevel extends RegularLevel {
 	public static void addVisuals( Level level, Scene scene ) {
 		for (int i=0; i < LENGTH; i++) {
 			if (level.map[i] == Terrain.WALL_DECO) {
-				scene.add( new Torch( i ) );
+				scene.add( new Torch( i, level.dungeon ) );
 			}
 		}
 	}
@@ -165,11 +165,13 @@ public class PrisonLevel extends RegularLevel {
 	private static class Torch extends Emitter {
 		
 		private int pos;
+		private Dungeon dungeon;
 		
-		public Torch( int pos ) {
+		public Torch( int pos, Dungeon dungeon ) {
 			super();
 			
 			this.pos = pos;
+			this.dungeon = dungeon;
 			
 			PointF p = DungeonTilemap.tileCenterToWorld( pos );
 			pos( p.x - 1, p.y + 3, 2, 0 );
@@ -181,7 +183,7 @@ public class PrisonLevel extends RegularLevel {
 		
 		@Override
 		public void update() {
-			if (visible = Dungeon.getInstance().visible[pos]) {
+			if (visible = dungeon.visible[pos]) {
 				super.update();
 			}
 		}

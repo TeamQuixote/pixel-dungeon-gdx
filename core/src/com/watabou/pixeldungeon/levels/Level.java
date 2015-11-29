@@ -94,12 +94,13 @@ public abstract class Level implements Bundlable {
 	// This one can be different from resizingNeeded if the level
 	// was created in the older version of the game
 	public int loadedMapSize;
-	
+
+	public Dungeon dungeon;
 	public int[] map;
 	public boolean[] visited;
 	public boolean[] mapped;
 	
-	public int viewDistance = Dungeon.getInstance().isChallenged(Challenges.DARKNESS) ? 3: 8;
+	public int viewDistance;
 	
 	public boolean[] fieldOfView = new boolean[LENGTH];
 	
@@ -142,8 +143,10 @@ public abstract class Level implements Bundlable {
 	private static final String MOBS		= "mobs";
 	private static final String BLOBS		= "blobs";
 	
-	public void create() {
-		
+	public void create(Dungeon dungeon) {
+		this.dungeon = dungeon;
+		viewDistance = this.dungeon.isChallenged(Challenges.DARKNESS) ? 3: 8;
+
 		resizingNeeded = false;
 		
 		map = new int[LENGTH];
@@ -157,25 +160,25 @@ public abstract class Level implements Bundlable {
 		blobs = new HashMap<Class<? extends Blob>,Blob>();
 		plants = new SparseArray<Plant>();
 		
-		if (!Dungeon.getInstance().bossLevel()) {
+		if (!this.dungeon.bossLevel()) {
 			addItemToSpawn( Generator.random( Generator.Category.FOOD ) );
-			if (Dungeon.getInstance().posNeeded()) {
+			if (this.dungeon.posNeeded()) {
 				addItemToSpawn( new PotionOfStrength() );
-				Dungeon.getInstance().potionOfStrength++;
+				this.dungeon.potionOfStrength++;
 			}
-			if (Dungeon.getInstance().soeNeeded()) {
+			if (this.dungeon.soeNeeded()) {
 				addItemToSpawn( new ScrollOfUpgrade() );
-				Dungeon.getInstance().scrollsOfUpgrade++;
+				this.dungeon.scrollsOfUpgrade++;
 			}
-			if (Dungeon.getInstance().asNeeded()) {
+			if (this.dungeon.asNeeded()) {
 				addItemToSpawn( new Stylus() );
-				Dungeon.getInstance().arcaneStyli++;
+				this.dungeon.arcaneStyli++;
 			}
 			
-			if (Dungeon.getInstance().depth > 1) {
+			if (this.dungeon.depth > 1) {
 				switch (Random.Int( 10 )) {
 				case 0:
-					if (!Dungeon.getInstance().bossLevel(Dungeon.getInstance().depth + 1)) {
+					if (!this.dungeon.bossLevel(this.dungeon.depth + 1)) {
 						feeling = Feeling.CHASM;
 					}
 					break;
@@ -189,7 +192,7 @@ public abstract class Level implements Bundlable {
 			}
 		}
 		
-		boolean pitNeeded = Dungeon.getInstance().depth > 1 && weakFloorCreated;
+		boolean pitNeeded = this.dungeon.depth > 1 && weakFloorCreated;
 		
 		do {
 			Arrays.fill( map, feeling == Feeling.CHASM ? Terrain.CHASM : Terrain.WALL );
@@ -363,29 +366,29 @@ public abstract class Level implements Bundlable {
 			public boolean act() {
 				if (mobs.size() < nMobs()) {
 
-					Mob mob = Bestiary.mutable( Dungeon.getInstance().depth );
+					Mob mob = Bestiary.mutable( this.dungeon.depth );
 					mob.state = mob.WANDERING;
 					mob.pos = randomRespawnCell();
-					if (Dungeon.getInstance().hero.isAlive() && mob.pos != -1) {
+					if (this.dungeon.hero.isAlive() && mob.pos != -1) {
 						GameScene.add( mob, dungeon );
 						if (Statistics.amuletObtained) {
-							mob.beckon( Dungeon.getInstance().hero.pos );
+							mob.beckon( this.dungeon.hero.pos );
 						}
 					}
 				}
-				spend( Dungeon.getInstance().nightMode || Statistics.amuletObtained ? TIME_TO_RESPAWN / 2 : TIME_TO_RESPAWN );
+				spend( this.dungeon.nightMode || Statistics.amuletObtained ? TIME_TO_RESPAWN / 2 : TIME_TO_RESPAWN );
 				return true;
 			}
 		};
 	}
 	
 	public int randomRespawnCell() {
-		Dungeon dungeon = Dungeon.getInstance();
+		Dungeon dungeon = this.dungeon;
 
 		int cell;
 		do {
 			cell = Random.Int( LENGTH );
-		} while (!passable[cell] || Dungeon.getInstance().visible[cell] || dungeon.findChar( cell ) != null);
+		} while (!passable[cell] || this.dungeon.visible[cell] || dungeon.findChar( cell ) != null);
 		return cell;
 	}
 	
@@ -500,7 +503,7 @@ public abstract class Level implements Bundlable {
 	}
 
 	public static void set( int cell, int terrain, Level level ) {
-		Painter.set( Dungeon.getInstance().level, cell, terrain );
+		Painter.set( level, cell, terrain );
 
 		int flags = Terrain.flags[terrain];
 		level.passable[cell]		= (flags & Terrain.PASSABLE) != 0;
@@ -515,13 +518,13 @@ public abstract class Level implements Bundlable {
 	
 	public Heap drop( Item item, int cell ) {
 		
-		if (Dungeon.getInstance().isChallenged(Challenges.NO_FOOD) && item instanceof Food) {
+		if (this.dungeon.isChallenged(Challenges.NO_FOOD) && item instanceof Food) {
 			item = new Gold( item.price() );
 		} else
-		if (Dungeon.getInstance().isChallenged( Challenges.NO_ARMOR ) && item instanceof Armor) {
+		if (this.dungeon.isChallenged( Challenges.NO_ARMOR ) && item instanceof Armor) {
 			item = new Gold( item.price() );
 		} else
-		if (Dungeon.getInstance().isChallenged(Challenges.NO_HEALING) && item instanceof PotionOfHealing) {
+		if (this.dungeon.isChallenged(Challenges.NO_HEALING) && item instanceof PotionOfHealing) {
 			item = new Gold( item.price() );
 		}
 		
@@ -538,7 +541,7 @@ public abstract class Level implements Bundlable {
 			
 			heap = new Heap();
 			heap.pos = cell;
-			if (map[cell] == Terrain.CHASM || (Dungeon.getInstance().level != null && pit[cell])) {
+			if (map[cell] == Terrain.CHASM || pit[cell]) {
 				GameScene.discard( heap );
 			} else {
 				heaps.put( cell, heap );
@@ -556,10 +559,8 @@ public abstract class Level implements Bundlable {
 		}
 		heap.drop( item );
 		
-		if (Dungeon.getInstance().level != null) {
-			press( cell, null );
-		}
-				
+		press( cell, null );
+
 		return heap;
 	}
 	
@@ -587,7 +588,6 @@ public abstract class Level implements Bundlable {
 	}
 	
 	public void press( int cell, Char ch ) {
-		Dungeon dungeon = Dungeon.getInstance();
 		if (pit[cell] && ch == dungeon.hero) {
 			Chasm.heroFall( cell, dungeon.hero, this );
 			return;
@@ -658,24 +658,24 @@ public abstract class Level implements Bundlable {
 			break;
 			
 		case Terrain.WELL:
-			WellWater.affectCell(Dungeon.getInstance(), cell );
+			WellWater.affectCell(this.dungeon, cell );
 			break;
 			
 		case Terrain.ALCHEMY:
 			if (ch == null) {
-				Alchemy.transmute(Dungeon.getInstance(), cell );
+				Alchemy.transmute(this.dungeon, cell );
 			}
 			break;
 			
 		case Terrain.DOOR:
-			Door.enter( cell );
+			Door.enter( cell, dungeon );
 			break;
 		}
 		
 		if (trap) {
 			Sample.INSTANCE.play( Assets.SND_TRAP );
-			if (ch == Dungeon.getInstance().hero) {
-				Dungeon.getInstance().hero.interrupt();
+			if (ch == this.dungeon.hero) {
+				this.dungeon.hero.interrupt();
 			}
 			set( cell, Terrain.INACTIVE_TRAP, this );
 			GameScene.updateMap( cell );
@@ -732,14 +732,14 @@ public abstract class Level implements Bundlable {
 			break;
 			
 		case Terrain.DOOR:
-			Door.enter( cell );
+			Door.enter( cell, dungeon );
 			
 		default:
 			trap = false;
 		}
 		
 		if (trap) {
-			if (Dungeon.getInstance().visible[cell]) {
+			if (this.dungeon.visible[cell]) {
 				Sample.INSTANCE.play( Assets.SND_TRAP );
 			}
 			set( cell, Terrain.INACTIVE_TRAP, this );
@@ -803,7 +803,7 @@ public abstract class Level implements Bundlable {
 					fieldOfView[p + WIDTH] = true;
 					fieldOfView[p - WIDTH] = true;
 				}
-			} else if (c == Dungeon.getInstance().hero && ((Hero)c).heroClass == HeroClass.HUNTRESS) {
+			} else if (c == this.dungeon.hero && ((Hero)c).heroClass == HeroClass.HUNTRESS) {
 				for (Mob mob : mobs) {
 					int p = mob.pos;
 					if (distance( c.pos, p) == 2) {

@@ -40,10 +40,10 @@ public class HighGrass {
 
 	public static void trample( Level level, int pos, Char ch ) {
 		
-		Dungeon.getInstance().level.set( pos, Terrain.GRASS );
+		level.set( pos, Terrain.GRASS );
 		GameScene.updateMap( pos );
 		
-		if (!Dungeon.getInstance().isChallenged(Challenges.NO_HERBALISM)) {
+		if (!level.dungeon.isChallenged(Challenges.NO_HERBALISM)) {
 			int herbalismLevel = 0;
 			if (ch != null) {
 				Herbalism herbalism = ch.buff( Herbalism.class );
@@ -79,6 +79,6 @@ public class HighGrass {
         if(emitter != null)
             emitter.burst(LeafParticle.LEVEL_SPECIFIC, leaves);
 
-		Dungeon.getInstance().observe();
+		level.dungeon.observe();
 	}
 }

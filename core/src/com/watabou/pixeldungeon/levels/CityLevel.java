@@ -86,7 +86,6 @@ public class CityLevel extends RegularLevel {
 	
 	@Override
 	protected void createItems() {
-		Dungeon dungeon = Dungeon.getInstance();
 		super.createItems();
 		
 		Imp.Quest.spawn(dungeon, this, roomEntrance );
@@ -135,15 +134,16 @@ public class CityLevel extends RegularLevel {
 	public static void addVisuals( Level level, Scene scene ) {
 		for (int i=0; i < LENGTH; i++) {
 			if (level.map[i] == Terrain.WALL_DECO) {
-				scene.add( new Smoke( i ) );
+				scene.add( new Smoke( i, level.dungeon ) );
 			}
 		}
 	}
 	
 	private static class Smoke extends Emitter {
-		
+
 		private int pos;
-		
+		private Dungeon dungeon;
+
 		private static final Emitter.Factory factory = new Factory() {
 			
 			@Override
@@ -153,10 +153,11 @@ public class CityLevel extends RegularLevel {
 			}
 		};
 		
-		public Smoke( int pos ) {
+		public Smoke( int pos, Dungeon dungeon ) {
 			super();
 			
 			this.pos = pos;
+			this.dungeon = dungeon;
 			
 			PointF p = DungeonTilemap.tileCenterToWorld( pos );
 			pos( p.x - 4, p.y - 2, 4, 0 );
@@ -166,7 +167,7 @@ public class CityLevel extends RegularLevel {
 		
 		@Override
 		public void update() {
-			if (visible = Dungeon.getInstance().visible[pos]) {
+			if (visible = dungeon.visible[pos]) {
 				super.update();
 			}
 		}

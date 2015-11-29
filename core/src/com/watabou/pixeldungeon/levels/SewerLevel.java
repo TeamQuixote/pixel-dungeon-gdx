@@ -106,14 +106,14 @@ public class SewerLevel extends RegularLevel {
 	protected void createMobs() {
 		super.createMobs();
 
-		Ghost.Quest.spawn(Dungeon.getInstance(), this );
+		Ghost.Quest.spawn(dungeon, this );
 	}
 	
 	@Override
 	protected void createItems() {
-		if (Dungeon.getInstance().dewVial && Random.Int( 4 - Dungeon.getInstance().depth ) == 0) {
+		if (dungeon.dewVial && Random.Int( 4 - dungeon.depth ) == 0) {
 			addItemToSpawn( new DewVial() );
-			Dungeon.getInstance().dewVial = false;
+			dungeon.dewVial = false;
 		}
 		
 		super.createItems();
@@ -128,7 +128,7 @@ public class SewerLevel extends RegularLevel {
 	public static void addVisuals( Level level, Scene scene ) {
 		for (int i=0; i < LENGTH; i++) {
 			if (level.map[i] == Terrain.WALL_DECO) {
-				scene.add( new Sink( i ) );
+				scene.add( new Sink( i, level.dungeon ) );
 			}
 		}
 	}
@@ -158,6 +158,7 @@ public class SewerLevel extends RegularLevel {
 	private static class Sink extends Emitter {
 		
 		private int pos;
+		private Dungeon dungeon;
 		private float rippleDelay = 0;
 		
 		private static final Emitter.Factory factory = new Factory() {
@@ -169,10 +170,11 @@ public class SewerLevel extends RegularLevel {
 			}
 		};
 		
-		public Sink( int pos ) {
+		public Sink( int pos, Dungeon dungeon ) {
 			super();
 			
 			this.pos = pos;
+			this.dungeon = dungeon;
 			
 			PointF p = DungeonTilemap.tileCenterToWorld( pos );
 			pos( p.x - 2, p.y + 1, 4, 0 );
@@ -182,7 +184,7 @@ public class SewerLevel extends RegularLevel {
 		
 		@Override
 		public void update() {
-			if (visible = Dungeon.getInstance().visible[pos]) {
+			if (visible = dungeon.visible[pos]) {
 				
 				super.update();
 				

@@ -39,8 +39,6 @@ public class HallsBossLevel extends Level {
 	{
 		color1 = 0x801500;
 		color2 = 0xa68521;
-		
-		viewDistance = 3;
 	}
 	
 	private static final int ROOM_LEFT		= WIDTH / 2 - 1;
@@ -51,7 +49,13 @@ public class HallsBossLevel extends Level {
 	private int stairs = -1;
 	private boolean enteredArena = false;
 	private boolean keyDropped = false;
-	
+
+	@Override
+	public void create(Dungeon dungeon){
+		super.create(dungeon);
+		viewDistance = 3;
+	}
+
 	@Override
 	public String tilesTex() {
 		return Assets.TILES_HALLS;
@@ -144,7 +148,7 @@ public class HallsBossLevel extends Level {
 	
 	@Override
 	protected void createItems() {
-		Item item = Bones.get(Dungeon.getInstance());
+		Item item = Bones.get(dungeon);
 		if (item != null) {
 			int pos;
 			do {
@@ -161,11 +165,9 @@ public class HallsBossLevel extends Level {
 	
 	@Override
 	public void press( int cell, Char hero ) {
-		Dungeon dungeon = Dungeon.getInstance();
-
 		super.press( cell, hero );
 		
-		if (!enteredArena && hero == Dungeon.getInstance().hero && cell != entrance) {
+		if (!enteredArena && hero == dungeon.hero && cell != entrance) {
 			
 			enteredArena = true;
 			
@@ -180,14 +182,14 @@ public class HallsBossLevel extends Level {
 			doMagic( entrance );
 			GameScene.updateMap();
 
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 			
 			Yog boss = new Yog();
 			do {
 				boss.pos = Random.Int( LENGTH );
 			} while (
 				!passable[boss.pos] ||
-				Dungeon.getInstance().visible[boss.pos]);
+				dungeon.visible[boss.pos]);
 			GameScene.add( boss, dungeon );
 			boss.spawnFists();
 			

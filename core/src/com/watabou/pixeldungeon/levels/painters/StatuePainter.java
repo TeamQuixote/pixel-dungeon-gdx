@@ -29,7 +29,7 @@ import com.watabou.utils.Point;
 public class StatuePainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
-		Dungeon dungeon = Dungeon.getInstance();
+		Dungeon dungeon = level.dungeon;
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY );

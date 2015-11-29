@@ -94,7 +94,7 @@ public class Swarm extends Mob {
 				clone.state = clone.HUNTING;
 				
 				if (dungeon.level.map[clone.pos] == Terrain.DOOR) {
-					Door.enter( clone.pos );
+					Door.enter( clone.pos, dungeon );
 				}
 				
 				GameScene.add( clone, SPLIT_DELAY, dungeon );

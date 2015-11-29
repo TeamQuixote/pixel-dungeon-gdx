@@ -29,7 +29,7 @@ import com.watabou.utils.Random;
 public class BlacksmithPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
-		Dungeon dungeon = Dungeon.getInstance();
+		Dungeon dungeon = level.dungeon;
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.FIRE_TRAP );

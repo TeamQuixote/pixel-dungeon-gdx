@@ -42,8 +42,6 @@ public class CavesBossLevel extends Level {
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
-		
-		viewDistance = 6;
 	}
 	
 	private static final int ROOM_LEFT		= WIDTH / 2 - 2;
@@ -54,7 +52,13 @@ public class CavesBossLevel extends Level {
 	private int arenaDoor;
 	private boolean enteredArena = false;
 	private boolean keyDropped = false;
-	
+
+	@Override
+	public void create(Dungeon dungeon){
+		super.create(dungeon);
+		viewDistance = 6;
+	}
+
 	@Override
 	public String tilesTex() {
 		return Assets.TILES_CAVES;
@@ -195,7 +199,7 @@ public class CavesBossLevel extends Level {
 	
 	@Override
 	protected void createItems() {
-		Item item = Bones.get(Dungeon.getInstance());
+		Item item = Bones.get(dungeon);
 		if (item != null) {
 			int pos;
 			do {
@@ -212,26 +216,25 @@ public class CavesBossLevel extends Level {
 	
 	@Override
 	public void press( int cell, Char hero ) {
-		Dungeon dungeon = Dungeon.getInstance();
 		super.press( cell, hero );
 		
-		if (!enteredArena && outsideEntraceRoom( cell ) && hero == Dungeon.getInstance().hero) {
+		if (!enteredArena && outsideEntraceRoom( cell ) && hero == dungeon.hero) {
 			
 			enteredArena = true;
 			
-			Mob boss = Bestiary.mob( Dungeon.getInstance().depth );
+			Mob boss = Bestiary.mob( dungeon.depth );
 			boss.state = boss.HUNTING;
 			do {
 				boss.pos = Random.Int( LENGTH );
 			} while (
 				!passable[boss.pos] ||
 				!outsideEntraceRoom( boss.pos ) ||
-				Dungeon.getInstance().visible[boss.pos]);
+				dungeon.visible[boss.pos]);
 			GameScene.add( boss, dungeon );
 			
 			set( arenaDoor, Terrain.WALL );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 			
 			CellEmitter.get( arenaDoor ).start( Speck.factory( Speck.ROCK ), 0.07f, 10 );
 			Camera.main.shake( 3, 0.7f );
@@ -250,7 +253,7 @@ public class CavesBossLevel extends Level {
 			
 			set( arenaDoor, Terrain.EMPTY_DECO );
 			GameScene.updateMap( arenaDoor );
-			Dungeon.getInstance().observe();
+			dungeon.observe();
 		}
 		
 		return super.drop( item, cell );

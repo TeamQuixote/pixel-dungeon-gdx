@@ -76,9 +76,9 @@ public class PoolPainter extends Painter {
 			Piranha piranha = new Piranha();
 			do {
 				piranha.pos = room.random();
-			} while (level.map[piranha.pos] != Terrain.WATER|| Dungeon.getInstance().findChar( piranha.pos ) != null);
+			} while (level.map[piranha.pos] != Terrain.WATER|| level.dungeon.findChar( piranha.pos ) != null);
 			level.mobs.add( piranha );
-			Dungeon.getInstance().occupyCell( piranha );
+			level.dungeon.occupyCell( piranha );
 		}
 	}
 	
