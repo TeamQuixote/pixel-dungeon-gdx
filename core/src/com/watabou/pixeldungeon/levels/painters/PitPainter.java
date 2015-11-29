@@ -58,12 +58,12 @@ public class PitPainter extends Painter {
 		level.drop( new IronKey(), remains ).type = Type.SKELETON;
 		
 		if (Random.Int( 5 ) == 0) {
-			level.drop( Generator.random( Generator.Category.RING ), remains );
+			level.drop( Generator.random( Generator.Category.RING, level.dungeon ), remains );
 		} else {
 			level.drop( Generator.random( Random.oneOf( 
 				Generator.Category.WEAPON, 
 				Generator.Category.ARMOR
-			) ), remains );
+			), level.dungeon ), remains );
 		}
 		
 		int n = Random.IntRange( 1, 2 );
@@ -84,6 +84,6 @@ public class PitPainter extends Painter {
 			Generator.Category.SCROLL,
 			Generator.Category.FOOD, 
 			Generator.Category.GOLD
-		) );
+		), level.dungeon );
 	}
 }

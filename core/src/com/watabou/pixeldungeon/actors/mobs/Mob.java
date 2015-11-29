@@ -373,7 +373,7 @@ public abstract class Mob extends Char {
 			Item item = null;
 			if (loot instanceof Generator.Category) {
 				
-				item = Generator.random( (Generator.Category)loot );
+				item = Generator.random( (Generator.Category)loot, dungeon );
 				
 			} else if (loot instanceof Class<?>) {
 				

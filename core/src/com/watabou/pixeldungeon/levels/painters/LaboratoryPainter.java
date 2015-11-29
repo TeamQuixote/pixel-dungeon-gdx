@@ -77,6 +77,6 @@ public class LaboratoryPainter extends Painter {
 			level.addItemToSpawn( prize );
 		}
 		
-		return Generator.random( Generator.Category.POTION );
+		return Generator.random( Generator.Category.POTION, level.dungeon );
 	}
 }

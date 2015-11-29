@@ -44,7 +44,7 @@ public class BlacksmithPainter extends Painter {
 				Generator.random( Random.oneOf( 
 					Generator.Category.ARMOR, 
 					Generator.Category.WEAPON
-				) ), pos );
+				), dungeon ), pos );
 		}
 		
 		for (Room.Door door : room.connected.values()) {

@@ -84,6 +84,6 @@ public class LibraryPainter extends Painter {
 			level.addItemToSpawn( prize );
 		}
 		
-		return Generator.random( Generator.Category.SCROLL );
+		return Generator.random( Generator.Category.SCROLL, level.dungeon );
 	}
 }

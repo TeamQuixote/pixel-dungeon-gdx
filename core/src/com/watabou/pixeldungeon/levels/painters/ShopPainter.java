@@ -132,13 +132,13 @@ public class ShopPainter extends Painter {
 		
 		items.add( new PotionOfHealing() );
 		for (int i=0; i < 3; i++) {
-			items.add( Generator.random( Generator.Category.POTION ) );
+			items.add( Generator.random( Generator.Category.POTION, dungeon ) );
 		}
 		
 		items.add( new ScrollOfIdentify() );
 		items.add( new ScrollOfRemoveCurse() );
 		items.add( new ScrollOfMagicMapping() );
-		items.add( Generator.random( Generator.Category.SCROLL ) );
+		items.add( Generator.random( Generator.Category.SCROLL, dungeon ) );
 		
 		items.add( new OverpricedRation() );
 		items.add( new OverpricedRation() );

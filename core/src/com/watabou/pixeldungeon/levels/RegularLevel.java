@@ -608,7 +608,7 @@ public abstract class RegularLevel extends Level {
 			default:
 				type = Heap.Type.HEAP;
 			}
-			drop( Generator.random(), randomDropCell() ).type = type;
+			drop( Generator.random(dungeon), randomDropCell() ).type = type;
 		}
 
 		for (Item item : itemsToSpawn) {

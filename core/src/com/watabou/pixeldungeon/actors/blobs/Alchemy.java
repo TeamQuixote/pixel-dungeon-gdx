@@ -61,7 +61,7 @@ public class Alchemy extends Blob {
 		Heap heap = dungeon.level.heaps.get( cell );
 		if (heap != null) {
 			
-			Item result = heap.transmute();
+			Item result = heap.transmute(dungeon);
 			if (result != null) {
 				dungeon.level.drop( result, cell ).sprite.drop( cell );
 			}

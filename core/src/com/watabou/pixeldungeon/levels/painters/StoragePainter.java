@@ -59,6 +59,6 @@ public class StoragePainter extends Painter {
 			Generator.Category.SCROLL,
 			Generator.Category.FOOD, 
 			Generator.Category.GOLD
-		) );
+		), level.dungeon );
 	}
 }

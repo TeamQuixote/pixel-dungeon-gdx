@@ -51,7 +51,7 @@ public class Statue extends Mob {
 		super();
 		
 		do {
-			weapon = (Weapon)Generator.random( Generator.Category.WEAPON );
+			weapon = (Weapon)Generator.random( Generator.Category.WEAPON, dungeon );
 		} while (!(weapon instanceof MeleeWeapon) || weapon.level < 0);
 		
 		weapon.identify();

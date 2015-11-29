@@ -161,7 +161,7 @@ public abstract class Level implements Bundlable {
 		plants = new SparseArray<Plant>();
 		
 		if (!this.dungeon.bossLevel()) {
-			addItemToSpawn( Generator.random( Generator.Category.FOOD ) );
+			addItemToSpawn( Generator.random( Generator.Category.FOOD, dungeon ) );
 			if (this.dungeon.posNeeded()) {
 				addItemToSpawn( new PotionOfStrength() );
 				this.dungeon.potionOfStrength++;

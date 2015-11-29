@@ -87,13 +87,13 @@ public class TrapsPainter extends Painter {
 		prize = Generator.random( Random.oneOf(  
 			Generator.Category.WEAPON, 
 			Generator.Category.ARMOR 
-		) );
+		), level.dungeon );
 
 		for (int i=0; i < 3; i++) {
 			Item another = Generator.random( Random.oneOf(  
 				Generator.Category.WEAPON, 
 				Generator.Category.ARMOR 
-			) );
+			), level.dungeon );
 			if (another.level > prize.level) {
 				prize = another;
 			}

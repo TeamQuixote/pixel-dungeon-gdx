@@ -71,7 +71,7 @@ public class Plant implements Bundlable {
 		
 		if (dungeon.hero.subClass == HeroSubClass.WARDEN) {
 			if (Random.Int( 5 ) == 0) {
-				dungeon.level.drop( Generator.random( Generator.Category.SEED ), pos ).sprite.drop();
+				dungeon.level.drop( Generator.random( Generator.Category.SEED, dungeon ), pos ).sprite.drop();
 			}
 			if (Random.Int( 5 ) == 0) {
 				dungeon.level.drop( new Dewdrop(), pos ).sprite.drop();

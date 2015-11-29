@@ -194,20 +194,20 @@ public class Generator {
 		}
 	}
 	
-	public static Item random() {
-		return random( Random.chances( categoryProbs ) );
+	public static Item random(Dungeon dungeon) {
+		return random( Random.chances( categoryProbs ), dungeon );
 	}
 	
-	public static Item random( Category cat ) {
+	public static Item random( Category cat, Dungeon dungeon ) {
 		try {
 			
 			categoryProbs.put( cat, categoryProbs.get( cat ) / 2 );
 			
 			switch (cat) {
 			case ARMOR:
-				return randomArmor();
+				return randomArmor(dungeon);
 			case WEAPON:
-				return randomWeapon();
+				return randomWeapon(dungeon);
 			default:
 				return ((Item)cat.classes[Random.chances( cat.probs )].newInstance()).random();
 			}
@@ -231,9 +231,9 @@ public class Generator {
 		}
 	}
 	
-	public static Armor randomArmor() throws Exception {
+	public static Armor randomArmor(Dungeon dungeon) throws Exception {
 		
-		int curStr = Hero.STARTING_STR + Dungeon.getInstance().potionOfStrength;
+		int curStr = Hero.STARTING_STR + dungeon.potionOfStrength;
 		
 		Category cat = Category.ARMOR;
 		
@@ -246,9 +246,9 @@ public class Generator {
 		return Math.abs( curStr - a1.STR ) < Math.abs( curStr - a2.STR ) ? a1 : a2;
 	}
 	
-	public static Weapon randomWeapon() throws Exception {
+	public static Weapon randomWeapon(Dungeon dungeon) throws Exception {
 		
-		int curStr = Hero.STARTING_STR + Dungeon.getInstance().potionOfStrength;
+		int curStr = Hero.STARTING_STR + dungeon.potionOfStrength;
 		
 		Category cat = Category.WEAPON;
 		

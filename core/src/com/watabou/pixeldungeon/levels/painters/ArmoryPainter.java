@@ -65,6 +65,6 @@ public class ArmoryPainter extends Painter {
 		return Generator.random( Random.oneOf( 
 			Generator.Category.ARMOR, 
 			Generator.Category.WEAPON
-		) );
+		), level.dungeon );
 	}
 }

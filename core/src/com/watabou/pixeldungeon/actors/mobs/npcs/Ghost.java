@@ -280,24 +280,24 @@ public class Ghost extends NPC {
 				depth = dungeon.depth;
 				
 				do {
-					weapon = (Weapon)Generator.random( Generator.Category.WEAPON );
+					weapon = (Weapon)Generator.random( Generator.Category.WEAPON, dungeon );
 				} while (weapon instanceof MissileWeapon);
 				
 				if (dungeon.isChallenged(Challenges.NO_ARMOR)) {
 					armor = (Armor)new ClothArmor().degrade();
 				} else {
-					armor = (Armor)Generator.random( Generator.Category.ARMOR );
+					armor = (Armor)Generator.random( Generator.Category.ARMOR, dungeon );
 				}
 					
 				for (int i=0; i < 3; i++) {
 					Item another;
 					do {
-						another = Generator.random( Generator.Category.WEAPON );
+						another = Generator.random( Generator.Category.WEAPON, dungeon );
 					} while (another instanceof MissileWeapon);
 					if (another.level > weapon.level) {
 						weapon = (Weapon)another;
 					}
-					another = Generator.random( Generator.Category.ARMOR );
+					another = Generator.random( Generator.Category.ARMOR, dungeon );
 					if (another.level > armor.level) {
 						armor = (Armor)another;
 					}

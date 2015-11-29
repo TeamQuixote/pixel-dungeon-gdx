@@ -233,7 +233,7 @@ public class Heap implements Bundlable {
 		}
 	}
 	
-	public Item transmute() {
+	public Item transmute(Dungeon dungeon) {
 		
 		CellEmitter.get( pos ).burst( Speck.factory( Speck.BUBBLE ), 3 );
 		Splash.at( pos, 0xFFFFFF, 3 );
@@ -266,7 +266,7 @@ public class Heap implements Bundlable {
 				Statistics.potionsCooked++;
 				Badges.validatePotionsCooked();
 				
-				return Generator.random( Generator.Category.POTION );
+				return Generator.random( Generator.Category.POTION, dungeon  );
 				
 			} else {
 				
@@ -279,7 +279,7 @@ public class Heap implements Bundlable {
 				Badges.validatePotionsCooked();
 				
 				if (itemClass == null) {
-					return Generator.random( Generator.Category.POTION );
+					return Generator.random( Generator.Category.POTION, dungeon );
 				} else {
 					try {
 						return ClassReflection.newInstance(itemClass);

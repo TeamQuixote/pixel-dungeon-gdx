@@ -83,9 +83,9 @@ public class Skeleton extends Mob {
 	@Override
 	protected void dropLoot() {
 		if (Random.Int( 5 ) == 0) {
-			Item loot = Generator.random( Generator.Category.WEAPON );
+			Item loot = Generator.random( Generator.Category.WEAPON, dungeon );
 			for (int i=0; i < 2; i++) {
-				Item l = Generator.random( Generator.Category.WEAPON );
+				Item l = Generator.random( Generator.Category.WEAPON, dungeon );
 				if (l.level < loot.level) {
 					loot = l;
 				}
