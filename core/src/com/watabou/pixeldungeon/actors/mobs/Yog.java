@@ -79,6 +79,8 @@ public class Yog extends Mob {
 	public void spawnFists() {
 		RottingFist fist1 = new RottingFist();
 		BurningFist fist2 = new BurningFist();
+		fist1.dungeon = dungeon;
+		fist2.dungeon = dungeon;
 		
 		do {
 			fist1.pos = pos + dungeon.level.NEIGHBOURS8[Random.Int( 8 )];
@@ -120,10 +122,13 @@ public class Yog extends Mob {
 		
 		if (spawnPoints.size() > 0) {
 			Larva larva = new Larva();
+			larva.dungeon = dungeon;
 			larva.pos = Random.element( spawnPoints );
 			
 			GameScene.add( larva, dungeon );
-			dungeon.addActorDelayed( new Pushing( larva, pos, larva.pos ), -1 );
+			Pushing p = new Pushing( larva, pos, larva.pos );
+			p.dungeon = dungeon;
+			dungeon.addActorDelayed( p, -1 );
 		}
 
 		return super.defenseProc(enemy, damage);

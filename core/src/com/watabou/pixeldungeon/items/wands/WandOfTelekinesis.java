@@ -75,7 +75,9 @@ public class WandOfTelekinesis extends Wand {
 					int next = Ballistica.trace[i + 1];
 					if ((dungeon.level.passable[next] || dungeon.level.avoid[next]) && dungeon.findChar( next ) == null) {
 						
-						dungeon.addActorDelayed( new Pushing( ch, ch.pos, next ), -1 );
+						Pushing p = new Pushing( ch, ch.pos, next );
+						p.dungeon = dungeon;
+						dungeon.addActorDelayed( p, -1 );
 						
 						ch.pos = next;
 						dungeon.freeCell( next );

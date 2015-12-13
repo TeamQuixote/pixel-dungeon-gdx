@@ -110,6 +110,7 @@ public class Wraith extends Mob {
 		if (dungeon.level.passable[pos] && dungeon.findChar( pos ) == null) {
 			
 			Wraith w = new Wraith();
+			w.dungeon = dungeon;
 			w.adjustStats( dungeon.depth );
 			w.pos = pos;
 			w.state = w.HUNTING;

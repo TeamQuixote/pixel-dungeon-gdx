@@ -532,7 +532,7 @@ public abstract class RegularLevel extends Level {
 	protected void createMobs() {
 		int nMobs = nMobs();
 		for (int i=0; i < nMobs; i++) {
-			Mob mob = Bestiary.mob( dungeon.depth );
+			Mob mob = Bestiary.mob( dungeon );
 			do {
 				mob.pos = randomRespawnCell();
 			} while (mob.pos == -1);

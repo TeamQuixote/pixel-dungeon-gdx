@@ -25,7 +25,9 @@ public class RingOfSatiety extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Satiety();
+		RingBuff buff = new Satiety();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

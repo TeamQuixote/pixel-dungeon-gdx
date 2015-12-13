@@ -25,7 +25,9 @@ public class RingOfHerbalism extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Herbalism();
+		RingBuff buff = new Herbalism();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

@@ -38,7 +38,9 @@ public class RingOfDetection extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Detection();
+		RingBuff buff = new Detection();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

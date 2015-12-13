@@ -213,6 +213,7 @@ public class Imp extends NPC {
 			if (!spawned && dungeon.depth > 16 && Random.Int( 20 - dungeon.depth ) == 0) {
 				
 				Imp npc = new Imp();
+				npc.dungeon = dungeon;
 				do {
 					npc.pos = level.randomRespawnCell();
 				} while (npc.pos == -1 || level.heaps.get( npc.pos ) != null);

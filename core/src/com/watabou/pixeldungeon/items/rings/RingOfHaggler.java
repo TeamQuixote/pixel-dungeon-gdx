@@ -18,6 +18,7 @@
 package com.watabou.pixeldungeon.items.rings;
 
 import com.watabou.pixeldungeon.Badges;
+import com.watabou.pixeldungeon.actors.buffs.Regeneration;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.items.Item;
 
@@ -29,7 +30,9 @@ public class RingOfHaggler extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Haggling();
+		RingBuff buff = new Haggling();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

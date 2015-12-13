@@ -17,7 +17,6 @@
  */
 package com.watabou.pixeldungeon.effects;
 
-import com.sun.org.apache.bcel.internal.generic.PUSH;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Visual;
 import com.watabou.pixeldungeon.actors.Actor;

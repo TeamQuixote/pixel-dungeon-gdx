@@ -19,15 +19,12 @@ package com.watabou.pixeldungeon.actors.mobs;
 
 import java.util.ArrayList;
 
-import com.watabou.pixeldungeon.Dungeon;
-import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.actors.buffs.Buff;
 import com.watabou.pixeldungeon.actors.buffs.Burning;
 import com.watabou.pixeldungeon.actors.buffs.Poison;
 import com.watabou.pixeldungeon.effects.Pushing;
 import com.watabou.pixeldungeon.items.potions.PotionOfHealing;
-import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.pixeldungeon.levels.features.Door;
 import com.watabou.pixeldungeon.scenes.GameScene;
@@ -98,7 +95,9 @@ public class Swarm extends Mob {
 				}
 				
 				GameScene.add( clone, SPLIT_DELAY, dungeon );
-				dungeon.addActorDelayed( new Pushing( clone, pos, clone.pos ), -1 );
+				Pushing pushing = new Pushing( clone, pos, clone.pos );
+				pushing.dungeon = dungeon;
+				dungeon.addActorDelayed( pushing, -1 );
 				
 				HP -= clone.HP;
 			}
@@ -119,6 +118,7 @@ public class Swarm extends Mob {
 	
 	private Swarm split() {
 		Swarm clone = new Swarm();
+		clone.dungeon = dungeon;
 		clone.generation = generation + 1;
 		if (buff( Burning.class ) != null) {
 			Buff.affect( clone, Burning.class ).reignite( clone );

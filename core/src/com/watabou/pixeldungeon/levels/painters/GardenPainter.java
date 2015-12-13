@@ -42,6 +42,7 @@ public class GardenPainter extends Painter {
 		Foliage light = (Foliage)level.blobs.get( Foliage.class );
 		if (light == null) {
 			light = new Foliage();
+			light.dungeon = level.dungeon;
 		}
 		for (int i=room.top + 1; i < room.bottom; i++) {
 			for (int j=room.left + 1; j < room.right; j++) {

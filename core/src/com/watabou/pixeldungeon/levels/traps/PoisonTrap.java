@@ -31,7 +31,9 @@ public class PoisonTrap {
 	public static void trigger( int pos, Char ch ) {
 		
 		if (ch != null) {
-			Buff.affect( ch, Poison.class ).set( Poison.durationFactor( ch ) * (4 + Dungeon.getInstance().depth / 2) );
+			Poison b = Buff.affect(ch, Poison.class);
+			if (b != null)
+				b.set(Poison.durationFactor(ch) * (4 + Dungeon.getInstance().depth / 2));
 		}
 		
 		CellEmitter.center( pos ).burst( PoisonParticle.SPLASH, 3 );

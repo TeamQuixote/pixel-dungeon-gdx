@@ -25,7 +25,9 @@ public class RingOfShadows extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Shadows();
+		RingBuff buff = new Shadows();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

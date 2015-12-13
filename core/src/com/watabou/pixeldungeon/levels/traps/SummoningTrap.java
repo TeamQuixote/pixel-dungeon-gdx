@@ -38,16 +38,18 @@ public class SummoningTrap {
 	// 0x770088
 	
 	public static void trigger( int pos, Char c ) {
-		Dungeon dungeon = Dungeon.getInstance();
+		if(c == null)
+			return;
+
+		Dungeon dungeon = c.dungeon;
+		DUMMY.dungeon = dungeon;
 
 		if (dungeon.bossLevel()) {
 			return;
 		}
 		
-		if (c != null) {
-			dungeon.occupyCell( c );
-		}
-		
+		dungeon.occupyCell( c );
+
 		int nMobs = 1;
 		if (Random.Int( 2 ) == 0) {
 			nMobs++;
@@ -80,7 +82,7 @@ public class SummoningTrap {
 		}
 		
 		for (Integer point : respawnPoints) {
-			Mob mob = Bestiary.mob( Dungeon.getInstance().depth );
+			Mob mob = Bestiary.mob( dungeon );
 			mob.state = mob.WANDERING;
 			GameScene.add( mob, DELAY, dungeon );
 			WandOfBlink.appear( mob, point );

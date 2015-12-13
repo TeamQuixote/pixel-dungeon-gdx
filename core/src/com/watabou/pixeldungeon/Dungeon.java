@@ -185,6 +185,7 @@ public class Dungeon {
 		Room.shuffleTypes();
 		
 		hero = new Hero();
+		hero.dungeon = this;
 		hero.live();
 		
 		Badges.reset();
@@ -300,10 +301,11 @@ public class Dungeon {
 	}
 
 	private void addActor( Actor actor, float time ) {
-
 		if (allActors.contains( actor )) {
 			return;
 		}
+
+		actor.dungeon = this;
 
 		allActors.add( actor );
 		actor.time += time;	// (+=) => (=) ?
@@ -483,7 +485,7 @@ public class Dungeon {
 		
 		Actor respawner = level.respawner();
 		if (respawner != null) {
-			addActor( level.respawner() );
+			addActor( respawner );
 		}
 		
 		hero.pos = pos != -1 ? pos : level.exit;

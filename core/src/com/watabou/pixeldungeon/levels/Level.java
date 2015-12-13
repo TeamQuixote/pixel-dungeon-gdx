@@ -361,12 +361,12 @@ public abstract class Level implements Bundlable {
 	}
 	
 	public Actor respawner() {
-		return new Actor() {	
+		Actor r = new Actor() {
 			@Override
 			public boolean act() {
 				if (mobs.size() < nMobs()) {
 
-					Mob mob = Bestiary.mutable( this.dungeon.depth );
+					Mob mob = Bestiary.mutable( this.dungeon );
 					mob.state = mob.WANDERING;
 					mob.pos = randomRespawnCell();
 					if (this.dungeon.hero.isAlive() && mob.pos != -1) {
@@ -380,6 +380,8 @@ public abstract class Level implements Bundlable {
 				return true;
 			}
 		};
+		r.dungeon = dungeon;
+		return r;
 	}
 	
 	public int randomRespawnCell() {

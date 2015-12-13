@@ -43,8 +43,9 @@ public class Bounce extends Glyph {
 				if (attacker.pos - defender.pos == ofs) {
 					int newPos = attacker.pos + ofs;
 					if ((attacker.dungeon.level.passable[newPos] || attacker.dungeon.level.avoid[newPos]) && attacker.dungeon.findChar( newPos ) == null) {
-
-						attacker.dungeon.addActorDelayed( new Pushing( attacker, attacker.pos, newPos ), -1 );
+						Pushing p = new Pushing( attacker, attacker.pos, newPos );
+						p.dungeon = attacker.dungeon;
+						attacker.dungeon.addActorDelayed( p, -1 );
 
 						attacker.pos = newPos;
 						// FIXME

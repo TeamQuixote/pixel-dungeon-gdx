@@ -50,6 +50,7 @@ public class LaboratoryPainter extends Painter {
 		set( level, pot, Terrain.ALCHEMY );
 		
 		Alchemy alchemy = new Alchemy();
+		alchemy.dungeon = level.dungeon;
 		alchemy.seed( pot.x + Level.WIDTH * pot.y, 1 );
 		level.blobs.put( Alchemy.class, alchemy );
 		

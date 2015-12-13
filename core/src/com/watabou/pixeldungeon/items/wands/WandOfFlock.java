@@ -76,6 +76,7 @@ public class WandOfFlock extends Wand {
 					if (PathFinder.distance[j] == dist) {
 						
 						Sheep sheep = new Sheep();
+						sheep.dungeon = dungeon;
 						sheep.lifespan = lifespan;
 						sheep.pos = j;
 						GameScene.add( sheep, dungeon);

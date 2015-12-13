@@ -34,6 +34,7 @@ public class Buff extends Actor {
 		
 		this.target = target;
 		target.add( this );
+		this.dungeon = target.dungeon;
 		
 		return true;
 	}

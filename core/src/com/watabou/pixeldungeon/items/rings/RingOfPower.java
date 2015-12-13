@@ -25,7 +25,9 @@ public class RingOfPower extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Power();
+		RingBuff buff = new Power();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

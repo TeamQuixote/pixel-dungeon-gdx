@@ -159,6 +159,7 @@ public class ShopPainter extends Painter {
 		} while (level.heaps.get( pos ) != null);
 		
 		Mob shopkeeper = level instanceof LastShopLevel ? new ImpShopkeeper() : new Shopkeeper();
+		shopkeeper.dungeon = level.dungeon;
 		shopkeeper.pos = pos;
 		level.mobs.add( shopkeeper );
 		

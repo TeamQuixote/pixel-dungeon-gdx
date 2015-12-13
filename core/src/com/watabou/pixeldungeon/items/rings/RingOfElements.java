@@ -36,7 +36,9 @@ public class RingOfElements extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Resistance();
+		RingBuff buff = new Resistance();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

@@ -25,7 +25,9 @@ public class RingOfHaste extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Haste();
+		RingBuff buff = new Haste();
+		buff.dungeon =	dungeon;
+		return buff;
 	}
 	
 	@Override

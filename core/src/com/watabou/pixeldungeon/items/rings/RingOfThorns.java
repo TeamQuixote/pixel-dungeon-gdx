@@ -29,7 +29,9 @@ public class RingOfThorns extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Thorns();
+		RingBuff buff = new Thorns();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

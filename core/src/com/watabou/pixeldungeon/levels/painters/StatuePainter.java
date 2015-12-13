@@ -66,6 +66,7 @@ public class StatuePainter extends Painter {
 		}
 		
 		Statue statue = new Statue();
+		statue.dungeon = dungeon;
 		statue.pos = cx + cy * Level.WIDTH;
 		level.mobs.add( statue );
 		dungeon.occupyCell( statue );

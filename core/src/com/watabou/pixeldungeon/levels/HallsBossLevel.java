@@ -185,6 +185,7 @@ public class HallsBossLevel extends Level {
 			dungeon.observe();
 			
 			Yog boss = new Yog();
+			boss.dungeon = dungeon;
 			do {
 				boss.pos = Random.Int( LENGTH );
 			} while (

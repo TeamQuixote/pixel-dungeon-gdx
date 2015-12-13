@@ -263,6 +263,7 @@ public class Ghost extends NPC {
 			if (!spawned && dungeon.depth > 1 && Random.Int( 5 - dungeon.depth ) == 0) {
 				
 				Ghost ghost = new Ghost();
+				ghost.dungeon = dungeon;
 				do {
 					ghost.pos = level.randomRespawnCell();
 				} while (ghost.pos == -1);
@@ -312,6 +313,7 @@ public class Ghost extends NPC {
 				if (alternative) {
 					
 					FetidRat rat = new FetidRat();
+					rat.dungeon = dungeon;
 					rat.pos = dungeon.level.randomRespawnCell();
 					if (rat.pos != -1) {
 						GameScene.add( rat, dungeon );

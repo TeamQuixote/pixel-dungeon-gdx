@@ -23,7 +23,7 @@ import com.watabou.utils.Bundle;
 
 public abstract class Actor implements Bundlable {
 
-	public Dungeon dungeon = Dungeon.getInstance();
+	public Dungeon dungeon;
 
 	public static final float TICK	= 1f;
 

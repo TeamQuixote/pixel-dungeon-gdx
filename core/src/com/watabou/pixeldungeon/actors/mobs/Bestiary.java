@@ -18,24 +18,27 @@
 package com.watabou.pixeldungeon.actors.mobs;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.utils.Random;
 
 public class Bestiary {
 
-	public static Mob mob( int depth ) {
+	public static Mob mob(Dungeon dungeon) {
 		@SuppressWarnings("unchecked")
-		Class<? extends Mob> cl = (Class<? extends Mob>)mobClass( depth );
+		Class<? extends Mob> cl = (Class<? extends Mob>)mobClass( dungeon.depth );
 		try {
-			return ClassReflection.newInstance(cl);
+			Mob m = ClassReflection.newInstance(cl);
+			m.dungeon = dungeon;
+			return m;
 		} catch (Exception e) {
 			return null;
 		}
 	}
 	
-	public static Mob mutable( int depth ) {
+	public static Mob mutable( Dungeon dungeon ) {
 		@SuppressWarnings("unchecked")
-		Class<? extends Mob> cl = (Class<? extends Mob>)mobClass( depth );
+		Class<? extends Mob> cl = (Class<? extends Mob>)mobClass( dungeon.depth );
 		
 		if (Random.Int( 30 ) == 0) {
 			if (cl == Rat.class) {
@@ -52,7 +55,9 @@ public class Bestiary {
 		}
 		
 		try {
-			return ClassReflection.newInstance(cl);
+			Mob mob = ClassReflection.newInstance(cl);
+			mob.dungeon = dungeon;
+			return mob;
 		} catch (Exception e) {
 			return null;
 		}

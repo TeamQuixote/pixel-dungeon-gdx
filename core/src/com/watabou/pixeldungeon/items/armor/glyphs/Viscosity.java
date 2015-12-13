@@ -41,6 +41,8 @@ public class Viscosity extends Glyph {
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage ) {
+		if(armor.dungeon != attacker.dungeon || armor.dungeon != defender.dungeon)
+			throw new IllegalArgumentException("armor, attacker and defender all need to have same dungeon");
 
 		if (damage == 0) {
 			return 0;
@@ -53,6 +55,7 @@ public class Viscosity extends Glyph {
 			DeferedDamage debuff = defender.buff( DeferedDamage.class );
 			if (debuff == null) {
 				debuff = new DeferedDamage();
+				debuff.dungeon = armor.dungeon;
 				debuff.attachTo( defender );
 			}
 			debuff.prolong( damage );

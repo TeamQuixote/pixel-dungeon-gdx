@@ -176,6 +176,7 @@ public class King extends Mob {
 					if (PathFinder.distance[j] == dist) {
 						
 						Undead undead = new Undead();
+						undead.dungeon = dungeon;
 						undead.pos = j;
 						GameScene.add( undead, dungeon );
 						

@@ -44,11 +44,11 @@ public class Piranha extends Mob {
 		EXP = 0;
 	}
 	
-	public Piranha() {
+	public Piranha(int dungeonDepth) {
 		super();
 		
-		HP = HT = 10 + dungeon.depth * 5;
-		defenseSkill = 10 + dungeon.depth * 2;
+		HP = HT = 10 + dungeonDepth * 5;
+		defenseSkill = 10 + dungeonDepth * 2;
 	}
 	
 	@Override

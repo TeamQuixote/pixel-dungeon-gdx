@@ -25,7 +25,9 @@ public class RingOfMending extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Rejuvenation();
+		RingBuff buff = new Rejuvenation();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

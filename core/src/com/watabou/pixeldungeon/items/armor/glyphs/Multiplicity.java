@@ -41,7 +41,10 @@ public class Multiplicity extends Glyph {
 	
 	@Override
 	public int proc( Armor armor, Char attacker, Char defender, int damage) {
-		Dungeon dungeon = Dungeon.getInstance();
+		if(armor.dungeon != attacker.dungeon || armor.dungeon != defender.dungeon)
+			throw new IllegalArgumentException("armor, attacker and defender all need to have same dungeon");
+
+		Dungeon dungeon = armor.dungeon;
 
 		int level = Math.max( 0, armor.level );
 		
@@ -51,13 +54,14 @@ public class Multiplicity extends Glyph {
 			
 			for (int i=0; i < Level.NEIGHBOURS8.length; i++) {
 				int p = defender.pos + Level.NEIGHBOURS8[i];
-				if (attacker.dungeon.findChar( p ) == null && (dungeon.level.passable[p] || dungeon.level.avoid[p])) {
+				if (dungeon.findChar( p ) == null && (dungeon.level.passable[p] || dungeon.level.avoid[p])) {
 					respawnPoints.add( p );
 				}
 			}
 			
 			if (respawnPoints.size() > 0) {
 				MirrorImage mob = new MirrorImage();
+				mob.dungeon = dungeon;
 				mob.duplicate( (Hero)defender );
 				GameScene.add( mob, dungeon );
 				WandOfBlink.appear( mob, Random.element( respawnPoints ) );

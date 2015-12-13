@@ -25,7 +25,9 @@ public class RingOfAccuracy extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Accuracy();
+		RingBuff buff = new Accuracy();
+		buff.dungeon = dungeon;
+		return buff;
 	}
 	
 	@Override

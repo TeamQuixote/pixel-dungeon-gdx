@@ -25,7 +25,9 @@ public class RingOfEvasion extends Ring {
 	
 	@Override
 	protected RingBuff buff( ) {
-		return new Evasion();
+		RingBuff buff = new Evasion();
+		buff.dungeon = dungeon;
+		return  buff;
 	}
 	
 	@Override

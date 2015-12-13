@@ -73,7 +73,8 @@ public class PoolPainter extends Painter {
 		level.addItemToSpawn( new PotionOfInvisibility() );
 		
 		for (int i=0; i < NPIRANHAS; i++) {
-			Piranha piranha = new Piranha();
+			Piranha piranha = new Piranha(level.dungeon.depth);
+			piranha.dungeon = level.dungeon;
 			do {
 				piranha.pos = room.random();
 			} while (level.map[piranha.pos] != Terrain.WATER|| level.dungeon.findChar( piranha.pos ) != null);

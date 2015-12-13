@@ -219,6 +219,7 @@ public class Wandmaker extends NPC {
 			if (!spawned && dungeon.depth > 6 && Random.Int( 10 - dungeon.depth ) == 0) {
 				
 				Wandmaker npc = new Wandmaker();
+				npc.dungeon = dungeon;
 				do {
 					npc.pos = room.random();
 				} while (level.map[npc.pos] == Terrain.ENTRANCE || level.map[npc.pos] == Terrain.SIGN);
