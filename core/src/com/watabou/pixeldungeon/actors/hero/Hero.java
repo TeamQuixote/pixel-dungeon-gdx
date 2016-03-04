@@ -490,7 +490,9 @@ public class Hero extends Char {
 			
 		} else {
 			if (dungeon.level.map[pos] == Terrain.SIGN) {
-				GameScene.show( new WndMessage( dungeon.tip() ) );
+                if(Game.instance != null) {
+                    GameScene.show(new WndMessage(dungeon.tip()));
+                }
 			}
 			ready();
 			return false;
@@ -632,7 +634,8 @@ public class Hero extends Char {
 				switch (heap.type) {
 				case TOMB:
 					Sample.INSTANCE.play( Assets.SND_TOMB );
-					Camera.main.shake( 1, 0.5f );
+                    if(Camera.main != null)
+    					Camera.main.shake( 1, 0.5f );
 					break;
 				case SKELETON:
 					break;
@@ -641,7 +644,11 @@ public class Hero extends Char {
 				}
 				
 				spend( Key.TIME_TO_UNLOCK );
-				sprite.operate( dst );
+                if(sprite != null) {
+                    sprite.operate(dst);
+                } else {
+                    onOperateComplete();
+                }
 				
 			} else {
 				ready();
@@ -710,10 +717,12 @@ public class Hero extends Char {
 			if (hunger != null && !hunger.isStarving()) {
 				hunger.satisfy( -Hunger.STARVING / 10 );
 			}
-			
-			InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-			Game.switchScene( InterlevelScene.class );
-			
+
+            if(Game.instance != null) {
+                InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
+                Game.switchScene(InterlevelScene.class);
+            }
+
 			return false;
 			
 		} else if (getCloser( stairs )) {
@@ -733,7 +742,8 @@ public class Hero extends Char {
 			if (dungeon.depth == 1) {
 				
 				if (belongings.getItem( Amulet.class ) == null) {
-					GameScene.show( new WndMessage( TXT_LEAVE ) );
+                    if(Game.instance != null)
+    					GameScene.show( new WndMessage( TXT_LEAVE ) );
 					ready();
 				} else {
 					dungeon.win(ResultDescriptions.WIN);
@@ -1043,7 +1053,8 @@ public class Hero extends Char {
 		if (levelUp) {
 			
 			GLog.p( TXT_NEW_LEVEL, lvl );
-			sprite.showStatus( CharSprite.POSITIVE, TXT_LEVEL_UP );
+            if(sprite != null)
+    			sprite.showStatus( CharSprite.POSITIVE, TXT_LEVEL_UP );
 			Sample.INSTANCE.play( Assets.SND_LEVELUP );
 			
 			Badges.validateLevelReached(dungeon);
@@ -1054,7 +1065,8 @@ public class Hero extends Char {
 			int value = Math.min( HT - HP, 1 + (dungeon.depth - 1) / 5 );
 			if (value > 0) {
 				HP += value;
-				sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
+				if(sprite != null)
+                    sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
 			}
 			
 			((Hunger)buff( Hunger.class )).satisfy( 10 );
@@ -1353,7 +1365,7 @@ public class Hero extends Char {
 			if (smthFound) {
 				spendAndNext( Random.Float() < level ? TIME_TO_SEARCH : TIME_TO_SEARCH * 2 );
 			} else {
-				spendAndNext( TIME_TO_SEARCH );
+				spendAndNext(TIME_TO_SEARCH);
 			}
 			
 		}

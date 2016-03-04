@@ -63,11 +63,12 @@ public class Plant implements Bundlable {
 	
 	public void wither() {
 		dungeon.level.uproot( pos );
-		
-		sprite.kill();
-		if (dungeon.visible[pos]) {
-			CellEmitter.get( pos ).burst( LeafParticle.GENERAL, 6 );
-		}
+		if(sprite != null) {
+            sprite.kill();
+            if (dungeon.visible[pos]) {
+                CellEmitter.get(pos).burst(LeafParticle.GENERAL, 6);
+            }
+        }
 		
 		if (dungeon.hero.subClass == HeroSubClass.WARDEN) {
 			if (Random.Int( 5 ) == 0) {

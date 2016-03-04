@@ -429,7 +429,8 @@ public class GameScene extends PixelScene {
 		dungeon.level.mobs.add( mob );
 		dungeon.addActorDelayed( mob, delay );
 		dungeon.occupyCell( mob );
-		scene.addMobSprite( mob );
+        if(scene != null)
+    		scene.addMobSprite( mob );
 	}
 	
 	public static void add( EmoIcon icon ) {
@@ -507,6 +508,9 @@ public class GameScene extends PixelScene {
 	}
 	
 	public static void gameOver() {
+        if(scene == null)
+            return;
+
 		Banner gameOver = new Banner( BannerSprites.get( BannerSprites.Type.GAME_OVER ) );
 		gameOver.show( 0x000000, 1f );
 		scene.showBanner( gameOver );

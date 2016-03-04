@@ -1,22 +1,17 @@
 package com.teamquixote.ai;
 
 import com.teamquixote.ai.actions.Action;
-import com.teamquixote.ai.agents.AngryFrontiersman;
 import com.teamquixote.ai.agents.Spelunker;
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.Dungeon;
-import com.watabou.pixeldungeon.PixelDungeon;
-import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.actors.hero.HeroAction;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
 import com.watabou.pixeldungeon.items.Generator;
 import com.watabou.pixeldungeon.levels.Level;
-import com.watabou.pixeldungeon.levels.Terrain;
 import org.junit.Test;
 
-import java.util.List;
-
 public class BasicTest {
+
     @Test
     public void test(){
 
@@ -41,6 +36,11 @@ public class BasicTest {
                 Action action = agent.makeDecision(g);
                 describeState(stats, action, d);
                 action.execute();
+            }
+
+            if(d.hero.curAction instanceof HeroAction.Descend){
+                System.out.print("Descending...");
+                break;
             }
         }
     }

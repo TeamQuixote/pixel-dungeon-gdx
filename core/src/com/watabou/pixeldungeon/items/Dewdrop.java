@@ -52,8 +52,10 @@ public class Dewdrop extends Item {
 			int effect = Math.min( hero.HT - hero.HP, value * quantity );
 			if (effect > 0) {
 				hero.HP += effect;
-				hero.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );
-				hero.sprite.showStatus( CharSprite.POSITIVE, TXT_VALUE, effect );
+                if(hero.sprite != null) {
+                    hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
+                    hero.sprite.showStatus(CharSprite.POSITIVE, TXT_VALUE, effect);
+                }
 			}
 			
 		} else if (vial != null) {

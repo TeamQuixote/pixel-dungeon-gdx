@@ -70,9 +70,11 @@ public class Bones {
 		bundle.put( ITEM, item );
 		
 		try {
-			OutputStream output = Game.instance.openFileOutput( BONES_FILE );
-			Bundle.write( bundle, output );
-			output.close();
+            if(Game.instance != null) {
+                OutputStream output = Game.instance.openFileOutput(BONES_FILE);
+                Bundle.write(bundle, output);
+                output.close();
+            }
 		} catch (IOException e) {
 
 		}

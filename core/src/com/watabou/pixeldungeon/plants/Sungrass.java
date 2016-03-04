@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.plants;
 
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.actors.buffs.Buff;
@@ -44,9 +45,11 @@ public class Sungrass extends Plant {
 		if (ch != null) {
 			Buff.affect( ch, Health.class );
 		}
-		
+
 		if (dungeon.visible[pos]) {
-			CellEmitter.get( pos ).start( ShaftParticle.FACTORY, 0.2f, 3 );
+            Emitter emitter = CellEmitter.get(pos);
+            if(emitter != null)
+                emitter.start(ShaftParticle.FACTORY, 0.2f, 3);
 		}
 	}
 	

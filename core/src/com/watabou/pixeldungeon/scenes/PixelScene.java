@@ -249,6 +249,9 @@ public class PixelScene extends Scene {
 	}
 	
 	public static void showBadge( Badges.Badge badge ) {
+        if(Game.instance == null)
+            return;
+
 		BadgeBanner banner = BadgeBanner.show( badge.image );
 		banner.camera = uiCamera;
 		banner.x = align( banner.camera, (banner.camera.width - banner.width) / 2 );

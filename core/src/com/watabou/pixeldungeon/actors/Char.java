@@ -413,17 +413,19 @@ public abstract class Char extends Actor {
 		buffs.remove( buff );
 		dungeon.removeActor( buff );
 
-		if (buff instanceof Burning) {
-			sprite.remove( CharSprite.State.BURNING );
-		} else if (buff instanceof Levitation) {
-			sprite.remove( CharSprite.State.LEVITATING );
-		} else if (buff instanceof Invisibility && invisible <= 0) {
-			sprite.remove( CharSprite.State.INVISIBLE );
-		} else if (buff instanceof Paralysis) {
-			sprite.remove( CharSprite.State.PARALYSED );
-		} else if (buff instanceof Frost) {
-			sprite.remove( CharSprite.State.FROZEN );
-		}
+        if(sprite != null) {
+            if (buff instanceof Burning) {
+                sprite.remove(CharSprite.State.BURNING);
+            } else if (buff instanceof Levitation) {
+                sprite.remove(CharSprite.State.LEVITATING);
+            } else if (buff instanceof Invisibility && invisible <= 0) {
+                sprite.remove(CharSprite.State.INVISIBLE);
+            } else if (buff instanceof Paralysis) {
+                sprite.remove(CharSprite.State.PARALYSED);
+            } else if (buff instanceof Frost) {
+                sprite.remove(CharSprite.State.FROZEN);
+            }
+        }
 	}
 
 	public void remove( Class<? extends Buff> buffClass ) {

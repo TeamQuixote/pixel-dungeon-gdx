@@ -110,8 +110,10 @@ public class Heap implements Bundlable {
 		}
 		
 		type = Type.HEAP;
-		sprite.link();
-		sprite.drop();
+        if(sprite != null) {
+            sprite.link();
+            sprite.drop();
+        }
 	}
 	
 	public int size() {

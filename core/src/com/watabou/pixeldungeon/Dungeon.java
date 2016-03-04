@@ -760,7 +760,9 @@ public class Dungeon {
 	}
 	
 	public static void deleteGame( HeroClass cl, boolean deleteLevels ) {
-		
+		if(Game.instance == null)
+            return;
+
 		Game.instance.deleteFile( gameFile( cl ) );
 		
 		if (deleteLevels) {
