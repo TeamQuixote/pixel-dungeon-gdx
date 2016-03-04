@@ -276,8 +276,11 @@ public abstract class Mob extends Char {
 		boolean visible = dungeon.visible[pos];
 		
 		if (visible) {
-            if(sprite != null)
-    			sprite.attack( enemy.pos );
+            if(sprite != null) {
+                sprite.attack(enemy.pos);
+            } else {
+                onAttackComplete();
+            }
 		} else {
 			attack( enemy );
 		}
@@ -344,7 +347,8 @@ public abstract class Mob extends Char {
 			}
 			
 			if (dungeon.hero.lvl <= maxLvl && EXP > 0) {
-				dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, TXT_EXP, EXP );
+                if(dungeon.hero.sprite != null)
+    				dungeon.hero.sprite.showStatus( CharSprite.POSITIVE, TXT_EXP, EXP );
 				dungeon.hero.earnExp( EXP );
 			}
 		}

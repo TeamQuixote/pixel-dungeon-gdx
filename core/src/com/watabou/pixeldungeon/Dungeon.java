@@ -285,7 +285,6 @@ public class Dungeon {
 
 	private Actor currentActor;
 
-
 	private HashSet<Actor> allActors = new HashSet<>();
 
 	public HashSet<Actor> getAllActors() {

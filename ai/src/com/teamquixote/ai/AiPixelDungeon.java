@@ -42,8 +42,22 @@ public class AiPixelDungeon extends PixelDungeon {
         if (canAct()) {
             GameState state = new GameState(Dungeon.getInstance());
             Action a = ai.makeDecision(state);
+            describeState(a, Dungeon.getInstance());
             a.execute();
         }
+    }
+
+    private void describeState(Action action, Dungeon dungeon) {
+        DungeonStats stats = new DungeonStats(dungeon);
+        System.out.format("Dungeon Time: %f\n", dungeon.now);
+        System.out.format("Hero Location: %s\n", posToRowColumn(dungeon.hero.pos));
+        System.out.format("Discovered Tiles: %d\n", stats.getTotalDiscoveredTiles());
+        System.out.format("Action: %s\n", action.describeAction());
+        System.out.print("\n");
+    }
+
+    private String posToRowColumn(int pos){
+        return String.format("%d,%d",DungeonMap.MapUtilities.getColumn(pos), DungeonMap.MapUtilities.getRow(pos));
     }
 
     private void clearChasm() {

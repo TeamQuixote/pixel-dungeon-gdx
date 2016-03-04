@@ -158,8 +158,10 @@ public abstract class Char extends Actor {
 				dungeon.hero.interrupt();
 			}
 
-			enemy.sprite.bloodBurstA( sprite.center(), effectiveDamage );
-			enemy.sprite.flash();
+            if(enemy.sprite != null) {
+                enemy.sprite.bloodBurstA(sprite.center(), effectiveDamage);
+                enemy.sprite.flash();
+            }
 
 			if (!enemy.isAlive() && visibleFight) {
 				if (enemy == dungeon.hero) {
@@ -191,14 +193,15 @@ public abstract class Char extends Actor {
 
 			if (visibleFight) {
 				String defense = enemy.defenseVerb();
-				enemy.sprite.showStatus( CharSprite.NEUTRAL, defense );
+                if(enemy.sprite != null)
+    				enemy.sprite.showStatus( CharSprite.NEUTRAL, defense );
 				if (this == dungeon.hero) {
 					GLog.i( TXT_YOU_MISSED, enemy.name, defense );
 				} else {
 					GLog.i( TXT_SMB_MISSED, enemy.name, defense, name );
 				}
 
-				Sample.INSTANCE.play( Assets.SND_MISS );
+				Sample.INSTANCE.play(Assets.SND_MISS);
 			}
 
 			return false;
@@ -270,11 +273,12 @@ public abstract class Char extends Actor {
 
 		HP -= dmg;
 		if (dmg > 0 || src instanceof Char) {
-			sprite.showStatus( HP > HT / 2 ?
-				CharSprite.WARNING :
-				CharSprite.NEGATIVE,
-				Integer.toString( dmg ) );
-		}
+            if(sprite != null)
+    			sprite.showStatus( HP > HT / 2 ?
+                    CharSprite.WARNING :
+                    CharSprite.NEGATIVE,
+                    Integer.toString( dmg ) );
+        }
 		if (HP <= 0) {
 			die( src );
 		}
@@ -288,7 +292,8 @@ public abstract class Char extends Actor {
 
 	public void die( Object src ) {
 		destroy();
-		sprite.die();
+        if(sprite != null)
+    		sprite.die();
 	}
 
 	public boolean isAlive() {

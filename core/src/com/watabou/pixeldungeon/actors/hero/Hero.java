@@ -773,9 +773,11 @@ public class Hero extends Char {
 		if (dungeon.level.adjacent( pos, enemy.pos ) && enemy.isAlive() && !pacified) {
 			
 			spend( attackDelay() );
-            if(sprite != null)
-    			sprite.attack( enemy.pos );
-			
+            if(sprite != null) {
+                sprite.attack(enemy.pos);
+            } else {
+                onAttackComplete();
+            }
 			return false;
 			
 		} else {
@@ -941,8 +943,11 @@ public class Hero extends Char {
 			
 			int oldPos = pos;
 			move( step );
-            if(sprite != null)
-    			sprite.move( oldPos, pos );
+            if(sprite != null) {
+                sprite.move(oldPos, pos);
+            } else {
+                onMotionComplete();
+            }
 			spend( 1 / speed() );
 			
 			return true;
@@ -1223,8 +1228,7 @@ public class Hero extends Char {
 	
 	@Override
 	public void onAttackComplete() {
-		
-		AttackIndicator.target( enemy );
+        AttackIndicator.target( enemy );
 		
 		attack( enemy );
 		curAction = null;
@@ -1338,8 +1342,14 @@ public class Hero extends Char {
 
 		
 		if (intentional) {
-			sprite.showStatus( CharSprite.DEFAULT, TXT_SEARCH );
-			sprite.operate( pos );
+            if(sprite != null)
+    			sprite.showStatus( CharSprite.DEFAULT, TXT_SEARCH );
+
+			if(sprite != null){
+                sprite.operate( pos );
+            } else {
+                onOperateComplete();
+            }
 			if (smthFound) {
 				spendAndNext( Random.Float() < level ? TIME_TO_SEARCH : TIME_TO_SEARCH * 2 );
 			} else {

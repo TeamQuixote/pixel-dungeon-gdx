@@ -4,6 +4,7 @@ import com.teamquixote.ai.GameState;
 
 public abstract class Action {
     public abstract void execute();
+    public abstract String describeAction();
 
     public double getActionCost(GameState state){
         return 1.0;

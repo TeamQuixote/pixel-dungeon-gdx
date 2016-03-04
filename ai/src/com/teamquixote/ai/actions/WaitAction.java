@@ -8,4 +8,9 @@ public class WaitAction extends Action {
     public void execute() {
         Dungeon.getInstance().hero.rest(false);
     }
+
+    @Override
+    public String describeAction() {
+        return "Waiting...";
+    }
 }
