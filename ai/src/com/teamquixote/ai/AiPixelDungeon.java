@@ -1,6 +1,7 @@
 package com.teamquixote.ai;
 
 import com.teamquixote.ai.actions.Action;
+import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
@@ -39,11 +40,14 @@ public class AiPixelDungeon extends PixelDungeon {
         clearStory();
         clearChasm();
 
-        if (canAct()) {
-            GameState state = new GameState();
-            Action a = ai.makeDecision(state);
-            a.execute();
-        }
+        if (heroIsAlive()) {
+            if (canAct()) {
+                GameState state = new GameState();
+                Action a = ai.makeDecision(state);
+                a.execute();
+            }
+        } else
+            Game.instance.finish();
     }
 
     private void clearChasm() {
@@ -69,5 +73,14 @@ public class AiPixelDungeon extends PixelDungeon {
         boolean isGameScene = scene.getClass().equals(GameScene.class);
 
         return Dungeon.hero.ready && scene.active && scene.alive && isGameScene;
+    }
+
+    /**
+     * returns whether the hero is still alive
+     * @return
+     */
+    private boolean heroIsAlive(){
+        //todo: something about whether you have the thing that lets you resurrect
+        return Dungeon.hero.isAlive();
     }
 }
