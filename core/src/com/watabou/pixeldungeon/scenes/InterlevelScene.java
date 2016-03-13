@@ -209,7 +209,8 @@ public class InterlevelScene extends PixelScene {
 		
 		case FADE_IN:
 			message.alpha( 1 - p );
-			if ((timeLeft -= Game.elapsed) <= 0) {
+//			if ((timeLeft -= Game.elapsed) <= 0)
+			{
 				if (!thread.isAlive() && error == null) {
 					phase = Phase.FADE_OUT;
 					timeLeft = TIME_TO_FADE;
@@ -225,7 +226,8 @@ public class InterlevelScene extends PixelScene {
 			if (mode == Mode.CONTINUE || (mode == Mode.DESCEND && Dungeon.depth == 1)) {
 				Music.INSTANCE.volume( p );
 			}
-			if ((timeLeft -= Game.elapsed) <= 0) {
+//			if ((timeLeft -= Game.elapsed) <= 0)
+			{
 				Game.switchScene( GameScene.class );
 			}
 			break;
