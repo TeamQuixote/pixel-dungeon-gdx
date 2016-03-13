@@ -44,9 +44,9 @@ public class Program {
 		
 		IntBuffer status = BufferUtils.newIntBuffer(1);
 		Gdx.gl.glGetProgramiv( handle, GL20.GL_LINK_STATUS, status );
-		if (status.get() == GL20.GL_FALSE) {
-			throw new Error( Gdx.gl.glGetProgramInfoLog( handle ) );
-		}
+//		if (status.get() == GL20.GL_FALSE) {
+//			throw new Error( Gdx.gl.glGetProgramInfoLog( handle ) );
+//		}
 	}
 	
 	public Attribute attribute( String name ) {

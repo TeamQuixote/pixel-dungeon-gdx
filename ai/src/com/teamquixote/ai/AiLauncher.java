@@ -42,21 +42,8 @@ public class AiLauncher {
 		config.addIcon( "ic_launcher_16.png", Files.FileType.Internal );
 
 
-		DesktopSupport platformSupport = new DesktopSupport(version, config.preferencesDirectory, new AiInputProcessor());
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Pixel Dungeon";
-		new LwjglApplication(new AiPixelDungeon(platformSupport, new Spelunker()), config);
-	}
-
-	private static class DesktopSupport extends PDPlatformSupport {
-		public DesktopSupport( String version, String basePath, NoosaInputProcessor inputProcessor ) {
-			super( version, basePath, inputProcessor );
-		}
-
-		@Override
-		public boolean isFullscreenEnabled() {
-		//	return Display.getPixelScaleFactor() == 1f;
-            return !SharedLibraryLoader.isMac;
-		}
+		new LwjglApplication(new AiPixelDungeon(new Spelunker()), config);
 	}
 }

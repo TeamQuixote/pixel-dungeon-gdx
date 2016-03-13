@@ -120,9 +120,9 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	@Override
 	public void render() {
 		
-		if (width == 0 || height == 0) {
-			return;
-		}
+//		if (width == 0 || height == 0) {
+//			return;
+//		}
 		
 		SystemTime.tick();
 		long rightNow = SystemTime.now;
@@ -155,12 +155,12 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	}
 
 	public void onSurfaceCreated() {
-		Gdx.gl.glEnable( GL20.GL_BLEND );
-		// For premultiplied alpha:
-		// Gdx.gl.glBlendFunc( GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA );
-		Gdx.gl.glBlendFunc( GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA );
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			// For premultiplied alpha:
+			// Gdx.gl.glBlendFunc( GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA );
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		Gdx.gl.glEnable( GL20.GL_SCISSOR_TEST );
+			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 		
 		TextureCache.reload();
 	}

@@ -4,7 +4,6 @@ import com.teamquixote.ai.actions.Action;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
-import com.watabou.pixeldungeon.input.GameAction;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.scenes.InterlevelScene;
 import com.watabou.pixeldungeon.scenes.StartScene;
@@ -16,8 +15,8 @@ import com.watabou.utils.PDPlatformSupport;
 public class AiPixelDungeon extends PixelDungeon {
     private final AiAgent ai;
 
-    public AiPixelDungeon(PDPlatformSupport<GameAction> platformSupport, AiAgent ai) {
-        super(InterlevelScene.class, platformSupport);
+    public AiPixelDungeon(AiAgent ai) {
+        super(InterlevelScene.class, new PDPlatformSupport("0.0", "", new AiInputProcessor()));
 
         this.ai = ai;
     }
