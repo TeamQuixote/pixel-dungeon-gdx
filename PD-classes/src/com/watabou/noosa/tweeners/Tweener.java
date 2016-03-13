@@ -33,7 +33,7 @@ abstract public class Tweener extends Gizmo {
 		super();
 		
 		this.target = target;
-		this.interval = interval;
+		this.interval = 0.000000000000000000000000000000000000000000001f;//interval;
 		
 		elapsed = 0;
 	}
