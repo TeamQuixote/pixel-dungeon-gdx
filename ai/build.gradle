@@ -19,6 +19,7 @@ task headless(dependsOn:classes, type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
+    args = [gameStateOutputDir] //set this in IntelliJ build configuration by adding something like this to script parameters: -PgameStateOutputDir=<directory to save in>
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"

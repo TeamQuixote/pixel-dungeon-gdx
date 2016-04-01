@@ -11,15 +11,29 @@ import com.watabou.pixeldungeon.scenes.StartScene;
 import com.watabou.pixeldungeon.windows.WndMessage;
 import com.watabou.pixeldungeon.windows.WndOptions;
 import com.watabou.pixeldungeon.windows.WndStory;
+import com.watabou.utils.Bundle;
 import com.watabou.utils.PDPlatformSupport;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
+
 public class AiPixelDungeon extends PixelDungeon {
+    private int turnsCount;
     private final AiAgent ai;
+    private final AiPixelDungeonConfig config;
 
     public AiPixelDungeon(AiAgent ai) {
+        this(ai, new AiPixelDungeonConfig(null));
+    }
+
+    public AiPixelDungeon(AiAgent ai, AiPixelDungeonConfig config) {
         super(InterlevelScene.class, new PDPlatformSupport("0.0", "", new AiInputProcessor()));
 
         this.ai = ai;
+        this.config = config;
     }
 
     @Override
@@ -32,6 +46,8 @@ public class AiPixelDungeon extends PixelDungeon {
         Dungeon.chapters.clear();
     }
 
+    Bundle previousGameState, currentGameState, previousAction;
+
     @Override
     protected void update() {
         super.update();
@@ -42,9 +58,21 @@ public class AiPixelDungeon extends PixelDungeon {
 
         if (heroIsAlive()) {
             if (canAct()) {
+                currentGameState = getGameStateBundle();
+                if (config.GameStateFileDirectory != null && previousGameState != null && previousAction != null) {
+                    String fileName = String.format("%s/%s.json", config.GameStateFileDirectory, new Date().getTime());
+                    try (OutputStream outputStream = new FileOutputStream(fileName)) {
+                        Bundle.write(buildFullBundle(previousGameState, previousAction, currentGameState), outputStream);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 GameState state = new GameState();
+                previousGameState = currentGameState;
                 Action a = ai.makeDecision(state);
+                previousAction = a.toBundle();
                 a.execute();
+                turnsCount++;
             }
         } else
             Game.instance.finish();
@@ -79,8 +107,26 @@ public class AiPixelDungeon extends PixelDungeon {
      * returns whether the hero is still alive
      * @return
      */
-    private boolean heroIsAlive(){
+    private boolean heroIsAlive() {
         //todo: something about whether you have the thing that lets you resurrect
         return Dungeon.hero.isAlive();
+    }
+
+    private Bundle getGameStateBundle() {
+        Bundle gameStateBundle = new Bundle();
+        gameStateBundle.put("turnsCount", turnsCount);
+        gameStateBundle.put("game", Dungeon.buildGameBundle());
+        gameStateBundle.put("level", Dungeon.level);
+
+        return gameStateBundle;
+    }
+
+    private Bundle buildFullBundle(Bundle previousGameState, Bundle action, Bundle resultingGameState) {
+        Bundle bundle = new Bundle();
+        bundle.put("s", previousGameState);
+        bundle.put("a", action);
+        bundle.put("s'", resultingGameState);
+
+        return bundle;
     }
 }

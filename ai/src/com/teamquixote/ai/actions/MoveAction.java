@@ -2,6 +2,7 @@ package com.teamquixote.ai.actions;
 
 import com.teamquixote.ai.GameState;
 import com.watabou.pixeldungeon.Dungeon;
+import com.watabou.utils.Bundle;
 
 public class MoveAction extends Action {
     private final int target;
@@ -21,5 +22,14 @@ public class MoveAction extends Action {
         if (Dungeon.hero.handle(target)) {
             Dungeon.hero.next();
         }
+    }
+
+    @Override
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.put("name", "move");
+        bundle.put("target", target);
+
+        return bundle;
     }
 }

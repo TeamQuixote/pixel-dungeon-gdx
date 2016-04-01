@@ -1,9 +1,12 @@
 package com.teamquixote.ai.actions;
 
 import com.teamquixote.ai.GameState;
+import com.watabou.utils.Bundle;
 
 public abstract class Action {
     public abstract void execute();
+
+    public abstract Bundle toBundle();
 
     public double getActionCost(GameState state){
         return 1.0;
