@@ -403,55 +403,60 @@ public class Dungeon {
 			return RG_DEPTH_FILE;
 		}
 	}
-	
+
+	public static Bundle buildGameBundle(){
+		Bundle bundle = new Bundle();
+
+		bundle.put( VERSION, Game.version );
+		bundle.put( CHALLENGES, challenges );
+		bundle.put( HERO, hero );
+		bundle.put( GOLD, gold );
+		bundle.put( DEPTH, depth );
+
+		bundle.put( POS, potionOfStrength );
+		bundle.put( SOU, scrollsOfUpgrade );
+		bundle.put( AS, arcaneStyli );
+		bundle.put( DV, dewVial );
+		bundle.put( WT, transmutation );
+
+		int count = 0;
+		int ids[] = new int[chapters.size()];
+		for (Integer id : chapters) {
+			ids[count++] = id;
+		}
+		bundle.put( CHAPTERS, ids );
+
+		Bundle quests = new Bundle();
+		Ghost		.Quest.storeInBundle( quests );
+		Wandmaker	.Quest.storeInBundle( quests );
+		Blacksmith	.Quest.storeInBundle( quests );
+		Imp			.Quest.storeInBundle( quests );
+		bundle.put( QUESTS, quests );
+
+		Room.storeRoomsInBundle( bundle );
+
+		Statistics.storeInBundle( bundle );
+		Journal.storeInBundle( bundle );
+
+		if (quickslot instanceof Class) {
+			bundle.put( QUICKSLOT, ((Class<?>)quickslot).getName() );
+		}
+
+		Scroll.save( bundle );
+		Potion.save( bundle );
+		Wand.save( bundle );
+		Ring.save( bundle );
+
+		Bundle badges = new Bundle();
+		Badges.saveLocal( badges );
+		bundle.put( BADGES, badges );
+
+		return bundle;
+	}
+
 	public static void saveGame( String fileName ) throws IOException {
 		try {
-			Bundle bundle = new Bundle();
-			
-			bundle.put( VERSION, Game.version );
-			bundle.put( CHALLENGES, challenges );
-			bundle.put( HERO, hero );
-			bundle.put( GOLD, gold );
-			bundle.put( DEPTH, depth );
-			
-			bundle.put( POS, potionOfStrength );
-			bundle.put( SOU, scrollsOfUpgrade );
-			bundle.put( AS, arcaneStyli );
-			bundle.put( DV, dewVial );
-			bundle.put( WT, transmutation );
-			
-			int count = 0;
-			int ids[] = new int[chapters.size()];
-			for (Integer id : chapters) {
-				ids[count++] = id;
-			}
-			bundle.put( CHAPTERS, ids );
-			
-			Bundle quests = new Bundle();
-			Ghost		.Quest.storeInBundle( quests );
-			Wandmaker	.Quest.storeInBundle( quests );
-			Blacksmith	.Quest.storeInBundle( quests );
-			Imp			.Quest.storeInBundle( quests );
-			bundle.put( QUESTS, quests );
-			
-			Room.storeRoomsInBundle( bundle );
-			
-			Statistics.storeInBundle( bundle );
-			Journal.storeInBundle( bundle );
-			
-			if (quickslot instanceof Class) {
-				bundle.put( QUICKSLOT, ((Class<?>)quickslot).getName() );
-			}
-			
-			Scroll.save( bundle );
-			Potion.save( bundle );
-			Wand.save( bundle );
-			Ring.save( bundle );
-			
-			Bundle badges = new Bundle();
-			Badges.saveLocal( badges );
-			bundle.put( BADGES, badges );
-			
+			Bundle bundle = buildGameBundle();
 			OutputStream output = Game.instance.openFileOutput( fileName );
 			Bundle.write( bundle, output );
 			output.close();
@@ -461,11 +466,17 @@ public class Dungeon {
 			GamesInProgress.setUnknown( hero.heroClass );
 		}
 	}
-	
-	public static void saveLevel() throws IOException {
+
+	public static Bundle buildLevelBundle(){
 		Bundle bundle = new Bundle();
 		bundle.put( LEVEL, level );
-		
+
+		return bundle;
+	}
+
+	public static void saveLevel() throws IOException {
+		Bundle bundle = buildLevelBundle();
+
 		OutputStream output = Game.instance.openFileOutput( Utils.format( depthFile( hero.heroClass ), depth ) );
 		Bundle.write( bundle, output );
 		output.close();
