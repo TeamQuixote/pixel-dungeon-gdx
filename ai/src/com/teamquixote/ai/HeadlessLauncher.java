@@ -1,14 +1,12 @@
 package com.teamquixote.ai;
 
-import static org.mockito.Mockito.mock;
-
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.teamquixote.ai.agents.Spelunker;
-import com.watabou.utils.PDPlatformSupport;
+
+import static org.mockito.Mockito.mock;
 
 public class HeadlessLauncher {
 
@@ -23,7 +21,7 @@ public class HeadlessLauncher {
 
         //need to mock the GL, as specified in this SO post: http://stackoverflow.com/q/25612660/437456
         Gdx.gl = mock(GL20.class);
-        new HeadlessApplication(new AiPixelDungeon(new Spelunker(), new AiPixelDungeonConfig(gameStateSaveLocation)), config);
+        new HeadlessApplication(new AiPixelDungeon(new Spelunker(), new AiPixelDungeonConfig(gameStateSaveLocation, null)), config);
 
         //use this line below to turn off the game logging
         //Gdx.app.setLogLevel(Application.LOG_NONE);

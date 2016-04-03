@@ -17,6 +17,7 @@
 
 package com.watabou.utils;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import java.io.BufferedReader;
@@ -288,7 +289,11 @@ public class Bundle {
 
 	private static final char XOR_KEY = 0x1F;
 
-	public static Bundle read( InputStream stream ) {
+	public static Bundle read(InputStream stream){
+		return read(stream, true);
+	}
+
+	public static Bundle read( InputStream stream, boolean xor ) {
 		
 		try {
 			BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
@@ -298,11 +303,12 @@ public class Bundle {
 			char[] buffer = new char[0x2000];
 			int count = reader.read( buffer );
 			while (count > 0) {
-				for (int i=0; i < count; i++) {
-					buffer[i] ^= XOR_KEY;
-				}
-				builder.append( buffer, 0, count );
-				count = reader.read( buffer );
+				if (xor)
+					for (int i = 0; i < count; i++) {
+						buffer[i] ^= XOR_KEY;
+					}
+				builder.append(buffer, 0, count);
+				count = reader.read(buffer);
 			}
 			
 			JSONObject json = (JSONObject)new JSONTokener( builder.toString() ).nextValue();
@@ -310,6 +316,7 @@ public class Bundle {
 			
 			return new Bundle( json );
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -324,12 +331,17 @@ public class Bundle {
 			return null;
 		}
 	}
-	
-	public static boolean write( Bundle bundle, OutputStream stream ) {
+
+	public static  boolean write(Bundle bundle, OutputStream stream){
+		return write(bundle, stream, true);
+	}
+
+	public static boolean write( Bundle bundle, OutputStream stream, boolean xor ) {
 		try {
 			BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( stream ) );
 
 			char[] chars = bundle.data.toString().toCharArray();
+			if(xor)
 			for (int i=0; i < chars.length; i++) {
 				chars[i] ^= XOR_KEY;
 			}

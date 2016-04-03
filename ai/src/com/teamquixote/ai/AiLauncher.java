@@ -14,6 +14,10 @@ import com.watabou.utils.PDPlatformSupport;
 
 public class AiLauncher {
 	public static void main (String[] arg) {
+		launch(new AiPixelDungeonConfig());
+	}
+
+	public static void launch(AiPixelDungeonConfig pdConfig){
 		String version = AiLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
 			version = "???";
@@ -44,6 +48,6 @@ public class AiLauncher {
 
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Pixel Dungeon";
-		new LwjglApplication(new AiPixelDungeon(new Spelunker()), config);
+		new LwjglApplication(new AiPixelDungeon(new Spelunker(), pdConfig), config);
 	}
 }

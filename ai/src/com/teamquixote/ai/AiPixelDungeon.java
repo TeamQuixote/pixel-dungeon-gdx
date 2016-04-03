@@ -2,6 +2,7 @@ package com.teamquixote.ai;
 
 import com.teamquixote.ai.actions.Action;
 import com.watabou.noosa.Game;
+import com.watabou.pixeldungeon.Badges;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
@@ -14,10 +15,7 @@ import com.watabou.pixeldungeon.windows.WndStory;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PDPlatformSupport;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Date;
 
 public class AiPixelDungeon extends PixelDungeon {
@@ -26,11 +24,11 @@ public class AiPixelDungeon extends PixelDungeon {
     private final AiPixelDungeonConfig config;
 
     public AiPixelDungeon(AiAgent ai) {
-        this(ai, new AiPixelDungeonConfig(null));
+        this(ai, new AiPixelDungeonConfig());
     }
 
     public AiPixelDungeon(AiAgent ai, AiPixelDungeonConfig config) {
-        super(InterlevelScene.class, new PDPlatformSupport("0.0", "", new AiInputProcessor()));
+        super(config.LoadFromGameStateFile == null ? InterlevelScene.class : GameScene.class, new PDPlatformSupport("0.0", "", new AiInputProcessor()));
 
         this.ai = ai;
         this.config = config;
@@ -40,10 +38,22 @@ public class AiPixelDungeon extends PixelDungeon {
     public void create() {
         super.create();
 
-        InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-        StartScene.curClass = HeroClass.WARRIOR;
-        Dungeon.init();
-        Dungeon.chapters.clear();
+        if (config.LoadFromGameStateFile != null) {
+            try (InputStream input = new FileInputStream(config.LoadFromGameStateFile)) {
+                Bundle aiBundle = Bundle.read(input, false);
+                Bundle gameStateBundle = aiBundle.getBundle("s'");
+                Badges.loadGlobal();
+                InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
+                Dungeon.loadGame(gameStateBundle.getBundle("game"), gameStateBundle);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
+            StartScene.curClass = HeroClass.WARRIOR;
+            Dungeon.init();
+            Dungeon.chapters.clear();
+        }
     }
 
     Bundle previousGameState, currentGameState, previousAction;
@@ -62,7 +72,7 @@ public class AiPixelDungeon extends PixelDungeon {
                 if (config.GameStateFileDirectory != null && previousGameState != null && previousAction != null) {
                     String fileName = String.format("%s/%s.json", config.GameStateFileDirectory, new Date().getTime());
                     try (OutputStream outputStream = new FileOutputStream(fileName)) {
-                        Bundle.write(buildFullBundle(previousGameState, previousAction, currentGameState), outputStream);
+                        Bundle.write(buildFullBundle(previousGameState, previousAction, currentGameState), outputStream, false);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

@@ -506,86 +506,107 @@ public class Dungeon {
 	public static void loadGame( String fileName ) throws IOException {
 		loadGame( fileName, false );
 	}
-	
-	public static void loadGame( String fileName, boolean fullLoad ) throws IOException {
-		
-		Bundle bundle = gameBundle( fileName );
-		
-		Dungeon.challenges = bundle.getInt( CHALLENGES );
-		
+
+	public static void loadGame(Bundle bundle, boolean fullLoad) {
+
+		Dungeon.challenges = bundle.getInt(CHALLENGES);
+
 		Dungeon.level = null;
 		Dungeon.depth = -1;
-		
+
 		if (fullLoad) {
-			PathFinder.setMapSize( Level.WIDTH, Level.HEIGHT );
+			PathFinder.setMapSize(Level.WIDTH, Level.HEIGHT);
 		}
-		
-		Scroll.restore( bundle );
-		Potion.restore( bundle );
-		Wand.restore( bundle );
-		Ring.restore( bundle );
-		
-		potionOfStrength = bundle.getInt( POS );
-		scrollsOfUpgrade = bundle.getInt( SOU );
-		arcaneStyli = bundle.getInt( AS );
-		dewVial = bundle.getBoolean( DV );
-		transmutation = bundle.getInt( WT );
-		
+
+		Scroll.restore(bundle);
+		Potion.restore(bundle);
+		Wand.restore(bundle);
+		Ring.restore(bundle);
+
+		potionOfStrength = bundle.getInt(POS);
+		scrollsOfUpgrade = bundle.getInt(SOU);
+		arcaneStyli = bundle.getInt(AS);
+		dewVial = bundle.getBoolean(DV);
+		transmutation = bundle.getInt(WT);
+
 		if (fullLoad) {
 			chapters = new HashSet<Integer>();
-			int ids[] = bundle.getIntArray( CHAPTERS );
+			int ids[] = bundle.getIntArray(CHAPTERS);
 			if (ids != null) {
 				for (int id : ids) {
-					chapters.add( id );
+					chapters.add(id);
 				}
 			}
-			
-			Bundle quests = bundle.getBundle( QUESTS );
+
+			Bundle quests = bundle.getBundle(QUESTS);
 			if (!quests.isNull()) {
-				Ghost.Quest.restoreFromBundle( quests );
-				Wandmaker.Quest.restoreFromBundle( quests );
-				Blacksmith.Quest.restoreFromBundle( quests );
-				Imp.Quest.restoreFromBundle( quests );
+				Ghost.Quest.restoreFromBundle(quests);
+				Wandmaker.Quest.restoreFromBundle(quests);
+				Blacksmith.Quest.restoreFromBundle(quests);
+				Imp.Quest.restoreFromBundle(quests);
 			} else {
 				Ghost.Quest.reset();
 				Wandmaker.Quest.reset();
 				Blacksmith.Quest.reset();
 				Imp.Quest.reset();
 			}
-			
-			Room.restoreRoomsFromBundle( bundle );
+
+			Room.restoreRoomsFromBundle(bundle);
 		}
-		
-		Bundle badges = bundle.getBundle( BADGES );
+
+		Bundle badges = bundle.getBundle(BADGES);
 		if (!badges.isNull()) {
-			Badges.loadLocal( badges );
+			Badges.loadLocal(badges);
 		} else {
 			Badges.reset();
 		}
-		
-		String qsClass = bundle.getString( QUICKSLOT );
+
+		String qsClass = bundle.getString(QUICKSLOT);
 		if (qsClass != null) {
 			try {
-				quickslot = Class.forName( qsClass );
+				quickslot = Class.forName(qsClass);
 			} catch (ClassNotFoundException e) {
 			}
 		} else {
 			quickslot = null;
 		}
-		
+
 		@SuppressWarnings("unused")
-		String version = bundle.getString( VERSION );
-		
+		String version = bundle.getString(VERSION);
+
 		hero = null;
-		hero = (Hero)bundle.get( HERO );
-		
-		gold = bundle.getInt( GOLD );
-		depth = bundle.getInt( DEPTH );
-		
-		Statistics.restoreFromBundle( bundle );
-		Journal.restoreFromBundle( bundle );
+		hero = (Hero) bundle.get(HERO);
+
+		gold = bundle.getInt(GOLD);
+		depth = bundle.getInt(DEPTH);
+
+		Statistics.restoreFromBundle(bundle);
+		Journal.restoreFromBundle(bundle);
 	}
-	
+
+	public static void loadGame(Bundle gameBundle, Bundle levelBundle) {
+		Actor.fixTime();
+		Dungeon.loadGame(gameBundle, true);
+		if (Dungeon.depth == -1) {
+			Dungeon.depth = Statistics.deepestFloor;
+			Dungeon.switchLevel(Dungeon.loadLevel(levelBundle), -1);
+		} else {
+			Level level = Dungeon.loadLevel(levelBundle);
+			Dungeon.switchLevel(level, Level.resizingNeeded ? level.adjustPos(Dungeon.hero.pos) : Dungeon.hero.pos);
+		}
+	}
+
+	public static void loadGame( String fileName, boolean fullLoad ) throws IOException {
+		loadGame(gameBundle(fileName), fullLoad);
+	}
+
+	public static Level loadLevel(Bundle levelBundle) {
+		Dungeon.level = null;
+		Actor.clear();
+
+		return (Level) levelBundle.get("level");
+	}
+
 	public static Level loadLevel( HeroClass cl ) throws IOException {
 		
 		Dungeon.level = null;
