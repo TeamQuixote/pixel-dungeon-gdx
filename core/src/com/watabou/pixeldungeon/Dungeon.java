@@ -585,7 +585,6 @@ public class Dungeon {
 	}
 
 	public static void loadGame(Bundle gameBundle, Bundle levelBundle) {
-		Actor.fixTime();
 		Dungeon.loadGame(gameBundle, true);
 		if (Dungeon.depth == -1) {
 			Dungeon.depth = Statistics.deepestFloor;

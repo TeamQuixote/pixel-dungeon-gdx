@@ -5,7 +5,9 @@ import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.Badges;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
+import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
+import com.watabou.pixeldungeon.items.Generator;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.scenes.InterlevelScene;
 import com.watabou.pixeldungeon.scenes.StartScene;
@@ -43,8 +45,10 @@ public class AiPixelDungeon extends PixelDungeon {
                 Bundle aiBundle = Bundle.read(input, false);
                 Bundle gameStateBundle = aiBundle.getBundle("s'");
                 Badges.loadGlobal();
-                InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
+                Generator.reset();
+                Actor.fixTime();
                 Dungeon.loadGame(gameStateBundle.getBundle("game"), gameStateBundle);
+                Game.switchScene(GameScene.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }
