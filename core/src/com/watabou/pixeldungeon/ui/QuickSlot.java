@@ -201,7 +201,7 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 	}
 	
 	public static void refresh() {
-		if (instance != null) {
+		if (instance != null && Dungeon.hero != null) {
 			instance.item( select() );
 		}
 	}

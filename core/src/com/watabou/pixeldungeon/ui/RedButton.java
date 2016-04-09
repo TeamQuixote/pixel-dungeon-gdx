@@ -39,7 +39,9 @@ public class RedButton extends Button<GameAction> {
 		text.text( label );
 		text.measure();
 	}
-	
+	public void click(){
+		this.onClick();
+	}
 	@Override
 	protected void createChildren() {
 		super.createChildren();

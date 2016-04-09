@@ -787,7 +787,7 @@ public class Hero extends Char {
 	
 	public void rest( boolean tillHealthy ) {
 		spendAndNext( TIME_TO_REST );
-		if (!tillHealthy) {
+		if (!tillHealthy && sprite != null) {
 			sprite.showStatus( CharSprite.DEFAULT, TXT_WAIT );
 		}
 		restoreHealth = tillHealthy;

@@ -266,7 +266,7 @@ public class GameScene extends PixelScene {
 		busy.x = 1;
 		busy.y = sb.bottom() + 1;
 		add( busy );
-		
+
 		switch (InterlevelScene.mode) {
 		case RESURRECT:
 			WandOfBlink.appear( Dungeon.hero, Dungeon.level.entrance );
@@ -536,7 +536,8 @@ public class GameScene extends PixelScene {
 			scene.fog.updateVisibility( Dungeon.visible, Dungeon.level.visited, Dungeon.level.mapped );
 			
 			for (Mob mob : Dungeon.level.mobs) {
-				mob.sprite.visible = Dungeon.visible[mob.pos];
+				if(mob.sprite != null)
+					mob.sprite.visible = Dungeon.visible[mob.pos];
 			}
 		}
 	}
