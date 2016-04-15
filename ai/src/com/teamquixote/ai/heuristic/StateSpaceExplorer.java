@@ -1,6 +1,6 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.heuristic;
 
-import com.teamquixote.ai.actions.Action;
+import com.teamquixote.ai.heuristic.actions.Action;
 
 import java.util.*;
 

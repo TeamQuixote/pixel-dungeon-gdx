@@ -1,6 +1,6 @@
-package com.teamquixote.ai.actions;
+package com.teamquixote.ai.heuristic.actions;
 
-import com.teamquixote.ai.GameState;
+import com.teamquixote.ai.heuristic.GameState;
 import com.watabou.utils.Bundle;
 
 public abstract class Action {

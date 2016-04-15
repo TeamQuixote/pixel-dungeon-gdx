@@ -1,4 +1,4 @@
-package com.teamquixote.ai.actions;
+package com.teamquixote.ai.heuristic.actions;
 
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.utils.Bundle;

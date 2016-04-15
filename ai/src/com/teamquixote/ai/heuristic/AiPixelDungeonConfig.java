@@ -1,4 +1,4 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.heuristic;
 
 public class AiPixelDungeonConfig {
     public final String GameStateFileDirectory;

@@ -1,8 +1,8 @@
-package com.teamquixote.ai.agents;
+package com.teamquixote.ai.heuristic.agents;
 
-import com.teamquixote.ai.*;
-import com.teamquixote.ai.actions.Action;
-import com.teamquixote.ai.actions.WaitAction;
+import com.teamquixote.ai.heuristic.actions.Action;
+import com.teamquixote.ai.heuristic.actions.WaitAction;
+import com.teamquixote.ai.heuristic.*;
 import com.watabou.pixeldungeon.levels.Terrain;
 
 import java.util.*;

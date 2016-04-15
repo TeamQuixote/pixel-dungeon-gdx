@@ -1,7 +1,6 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.heuristic;
 
-import com.teamquixote.ai.actions.Action;
-import com.teamquixote.ai.actions.WaitAction;
+import com.teamquixote.ai.heuristic.actions.Action;
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.Badges;
 import com.watabou.pixeldungeon.Dungeon;

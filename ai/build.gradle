@@ -3,7 +3,7 @@ apply plugin: "java"
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "com.teamquixote.ai.AiLauncher"
+project.ext.mainClassName = "com.teamquixote.ai.heuristic.AiLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
@@ -15,7 +15,7 @@ task run(dependsOn: classes, type: JavaExec) {
 }
 
 task loadState(dependsOn:classes, type:JavaExec){
-    main = "com.teamquixote.ai.PixelDungeonGameStateLoader"
+    main = "com.teamquixote.ai.heuristic.PixelDungeonGameStateLoader"
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
@@ -24,7 +24,7 @@ task loadState(dependsOn:classes, type:JavaExec){
 }
 
 task headless(dependsOn:classes, type: JavaExec) {
-    main = "com.teamquixote.ai.HeadlessLauncher"
+    main = "com.teamquixote.ai.heuristic.HeadlessLauncher"
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir

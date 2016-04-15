@@ -1,16 +1,12 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.heuristic;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl.LwjglPreferences;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
-import com.teamquixote.ai.agents.AngryFrontiersman;
-import com.teamquixote.ai.agents.Frontiersman;
-import com.teamquixote.ai.agents.Spelunker;
-import com.watabou.input.NoosaInputProcessor;
+import com.teamquixote.ai.heuristic.agents.Spelunker;
 import com.watabou.pixeldungeon.Preferences;
-import com.watabou.utils.PDPlatformSupport;
 
 public class AiLauncher {
 	public static void main (String[] arg) {

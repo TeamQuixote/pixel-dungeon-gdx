@@ -1,4 +1,4 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.heuristic;
 
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.levels.Level;

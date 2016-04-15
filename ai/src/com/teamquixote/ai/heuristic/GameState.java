@@ -1,7 +1,7 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.heuristic;
 
-import com.teamquixote.ai.actions.Action;
-import com.teamquixote.ai.actions.MoveAction;
+import com.teamquixote.ai.heuristic.actions.Action;
+import com.teamquixote.ai.heuristic.actions.MoveAction;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.Terrain;

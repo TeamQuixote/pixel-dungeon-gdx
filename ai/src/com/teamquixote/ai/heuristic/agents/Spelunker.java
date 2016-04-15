@@ -1,9 +1,8 @@
-package com.teamquixote.ai.agents;
+package com.teamquixote.ai.heuristic.agents;
 
-import com.teamquixote.ai.DungeonMap;
-import com.teamquixote.ai.GameState;
-import com.teamquixote.ai.StateSpaceExplorer;
-import com.watabou.pixeldungeon.levels.Terrain;
+import com.teamquixote.ai.heuristic.DungeonMap;
+import com.teamquixote.ai.heuristic.GameState;
+import com.teamquixote.ai.heuristic.StateSpaceExplorer;
 
 import java.util.List;
 
