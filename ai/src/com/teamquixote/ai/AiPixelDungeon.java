@@ -91,14 +91,15 @@ public class AiPixelDungeon extends PixelDungeon {
                 GameState state = new GameState();
                 previousGameState = currentGameState;
                 Action a = ai.makeDecision(state);
-                if(a.getClass() == WaitAction.class)
-                    loadGame(previousStates.get(random.nextInt(previousStates.size())));
+//                if(a.getClass() == WaitAction.class)
+//                    loadGame(previousStates.get(random.nextInt(previousStates.size())));
                 previousAction = a.toBundle();
                 a.execute();
                 turnsCount++;
             }
-        } else if (!previousStates.isEmpty())
-            loadGame(previousStates.get(random.nextInt(previousStates.size())));
+        }
+//        else if (!previousStates.isEmpty())
+//            loadGame(previousStates.get(random.nextInt(previousStates.size())));
         else
             Game.instance.finish();
     }
