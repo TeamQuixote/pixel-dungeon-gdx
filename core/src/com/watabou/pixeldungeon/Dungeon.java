@@ -584,26 +584,8 @@ public class Dungeon {
 		Journal.restoreFromBundle(bundle);
 	}
 
-	public static void loadGame(Bundle gameBundle, Bundle levelBundle) {
-		Dungeon.loadGame(gameBundle, true);
-		if (Dungeon.depth == -1) {
-			Dungeon.depth = Statistics.deepestFloor;
-			Dungeon.switchLevel(Dungeon.loadLevel(levelBundle), -1);
-		} else {
-			Level level = Dungeon.loadLevel(levelBundle);
-			Dungeon.switchLevel(level, Level.resizingNeeded ? level.adjustPos(Dungeon.hero.pos) : Dungeon.hero.pos);
-		}
-	}
-
 	public static void loadGame( String fileName, boolean fullLoad ) throws IOException {
 		loadGame(gameBundle(fileName), fullLoad);
-	}
-
-	public static Level loadLevel(Bundle levelBundle) {
-		Dungeon.level = null;
-		Actor.clear();
-
-		return (Level) levelBundle.get("level");
 	}
 
 	public static Level loadLevel( HeroClass cl ) throws IOException {
