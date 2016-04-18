@@ -14,15 +14,6 @@ task run(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
 }
 
-task loadState(dependsOn:classes, type:JavaExec){
-    main = "com.teamquixote.ai.heuristic.PixelDungeonGameStateLoader"
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = project.assetsDir
-    if(project.hasProperty("gameStateInputFile"))
-        args = [project.property("gameStateInputFile")] //set this in IntelliJ build configuration by adding something like this to script parameters: -PgameStateOutputDir=<directory to save in>
-}
-
 task headless(dependsOn:classes, type: JavaExec) {
     main = "com.teamquixote.ai.heuristic.HeadlessLauncher"
     classpath = sourceSets.main.runtimeClasspath

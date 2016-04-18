@@ -21,7 +21,7 @@ public class HeadlessLauncher {
 
         //need to mock the GL, as specified in this SO post: http://stackoverflow.com/q/25612660/437456
         Gdx.gl = mock(GL20.class);
-        new HeadlessApplication(new AiPixelDungeon(new Spelunker(), new AiPixelDungeonConfig(gameStateSaveLocation, null)), config);
+        new HeadlessApplication(new AiPixelDungeon(new Spelunker()), config);
 
         //use this line below to turn off the game logging
         //Gdx.app.setLogLevel(Application.LOG_NONE);

@@ -9,11 +9,11 @@ import com.teamquixote.ai.heuristic.agents.Spelunker;
 import com.watabou.pixeldungeon.Preferences;
 
 public class AiLauncher {
-	public static void main (String[] arg) {
-		launch(new AiPixelDungeonConfig());
+	public static void main(String[] arg) {
+		launch();
 	}
 
-	public static void launch(AiPixelDungeonConfig pdConfig){
+	public static void launch() {
 		String version = AiLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
 			version = "???";
@@ -37,13 +37,13 @@ public class AiLauncher {
 			config.height = prefs.getInteger(Preferences.KEY_WINDOW_HEIGHT, Preferences.DEFAULT_WINDOW_HEIGHT);
 		}
 
-		config.addIcon( "ic_launcher_128.png", Files.FileType.Internal );
-		config.addIcon( "ic_launcher_32.png", Files.FileType.Internal );
-		config.addIcon( "ic_launcher_16.png", Files.FileType.Internal );
+		config.addIcon("ic_launcher_128.png", Files.FileType.Internal);
+		config.addIcon("ic_launcher_32.png", Files.FileType.Internal);
+		config.addIcon("ic_launcher_16.png", Files.FileType.Internal);
 
 
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Pixel Dungeon";
-		new LwjglApplication(new AiPixelDungeon(new Spelunker(), pdConfig), config);
+		new LwjglApplication(new AiPixelDungeon(new Spelunker()), config);
 	}
 }
