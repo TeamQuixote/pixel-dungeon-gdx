@@ -164,11 +164,14 @@ public abstract class Actor implements Bundlable {
 
 			if (current != null) {
 				
-				if (current instanceof Char && ((Char)current).sprite.isMoving) {
-					// If it's character's turn to act, but its sprite 
+				if (current instanceof Char) {
+					Char character = (Char)current;
+					// If it's character's turn to act, but its sprite
 					// is moving, wait till the movement is over
-					current = null;
-					break;
+					if(character.sprite != null && character.sprite.isMoving) {
+						current = null;
+						break;
+					}
 				}
 				
 				doNext = current.act();
