@@ -20,9 +20,15 @@ package com.watabou.utils;
 public class SystemTime {
 
 	public static long now;
+	/**
+	 * if true, run the game in fast mode which will skip all animations
+	 *
+	 * TODO: wire this up with a command-line flag or something
+	 */
+	public static boolean fast = true;
 	
 	public static void tick() {
-		now = System.currentTimeMillis();
+		now = System.currentTimeMillis() * (fast ? 10 : 1);
 	}
 }
 
