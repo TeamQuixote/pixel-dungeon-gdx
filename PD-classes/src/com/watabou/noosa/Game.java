@@ -120,9 +120,9 @@ public abstract class Game<GameActionType> implements ApplicationListener {
 	@Override
 	public void render() {
 		
-		if (width == 0 || height == 0) {
-			return;
-		}
+//		if (width == 0 || height == 0) {
+//			return;
+//		}
 		
 		SystemTime.tick();
 		long rightNow = SystemTime.now;
