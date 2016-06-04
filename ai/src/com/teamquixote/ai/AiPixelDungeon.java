@@ -1,6 +1,7 @@
 package com.teamquixote.ai;
 
 import com.teamquixote.ai.actions.Action;
+import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.actors.hero.HeroClass;
@@ -40,10 +41,14 @@ public class AiPixelDungeon extends PixelDungeon {
         clearStory();
         clearChasm();
 
-        if (canAct()) {
-            GameState state = new GameState();
-            Action a = ai.makeDecision(state);
-            a.execute();
+        if (Dungeon.hero.isAlive()) {
+            if (canAct()) {
+                GameState state = new GameState();
+                Action a = ai.makeDecision(state);
+                a.execute();
+            }
+        } else {
+            Game.instance.finish();
         }
     }
 
