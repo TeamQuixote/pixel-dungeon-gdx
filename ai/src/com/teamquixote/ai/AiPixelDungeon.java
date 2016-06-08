@@ -16,6 +16,9 @@ import com.watabou.utils.PDPlatformSupport;
 
 public class AiPixelDungeon extends PixelDungeon {
     private final AiAgent ai;
+    private static final boolean showPerformanceStats = true;
+    Long startTime;
+    int totalActionsPlayed = 0;
 
     public AiPixelDungeon(PDPlatformSupport<GameAction> platformSupport, AiAgent ai) {
         super(InterlevelScene.class, platformSupport);
@@ -43,9 +46,18 @@ public class AiPixelDungeon extends PixelDungeon {
 
         if (Dungeon.hero.isAlive()) {
             if (canAct()) {
+                if (startTime == null)
+                    startTime = System.currentTimeMillis();
                 GameState state = new GameState();
                 Action a = ai.makeDecision(state);
                 a.execute();
+                totalActionsPlayed++;
+                long elapsed = System.currentTimeMillis() - startTime;
+                if (showPerformanceStats) {
+                    System.out.println("Total actions: " + totalActionsPlayed);
+                    System.out.println("Actions per second: " + (1000.0 * totalActionsPlayed) / elapsed);
+                    System.out.println("Elapsed time: " + (elapsed / 1000.0));
+                }
             }
         } else {
             Game.instance.finish();
