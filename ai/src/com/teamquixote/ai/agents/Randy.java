@@ -1,8 +1,7 @@
 package com.teamquixote.ai.agents;
 
-import com.teamquixote.ai.AiAgent;
-import com.teamquixote.ai.GameState;
 import com.teamquixote.ai.actions.Action;
+import com.teamquixote.ai.io.GameStateData;
 
 import java.util.List;
 import java.util.Random;
@@ -15,8 +14,8 @@ public class Randy extends AiAgent {
     private Random random = new Random();
 
     @Override
-    protected Action makeDecision(GameState state) {
-        List<Action> actions = state.getActions();
+    public Action makeDecision(GameStateData state) {
+        List<Action> actions = Action.getValidActions(state);
         return actions.get(random.nextInt(actions.size()));
     }
 }

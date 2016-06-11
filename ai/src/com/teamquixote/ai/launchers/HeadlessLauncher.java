@@ -1,4 +1,4 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.launchers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.teamquixote.ai.agents.Randy;
-import com.teamquixote.ai.agents.Spelunker;
+import com.teamquixote.ai.dungeons.AiPixelDungeon;
 import com.watabou.utils.PDPlatformSupport;
 
 import static org.mockito.Mockito.mock;

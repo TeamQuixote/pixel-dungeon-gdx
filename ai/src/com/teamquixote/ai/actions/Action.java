@@ -1,16 +1,36 @@
 package com.teamquixote.ai.actions;
 
-import com.teamquixote.ai.GameState;
+import com.teamquixote.ai.io.GameStateData;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Action {
-    public abstract void execute();
+    public abstract String getType();
 
-    public double getActionCost(GameState state){
-        return 1.0;
+    public abstract void execute(GameStateData gameStateData);
+
+    public JSONObject toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", getType());
+
+        return jsonObject;
     }
 
-    public int getUpdatedHeroPosition(GameState state) {
-        //implementing classes can override this if their actions cause a change in hero location
-        return state.heroPosition;
+    public static List<Action> getValidActions(GameStateData gameStateData) {
+        List<Action> validActions = new ArrayList<>();
+
+        int heroPos = gameStateData.getHeroPosition();
+
+        //if on an exit, there aren't any moves you can do until the next level loads
+        if (gameStateData.isPositionExit(heroPos))
+            return validActions;
+
+        for (int adj : GameStateData.Utilities.getAdjacent(heroPos))
+            if (gameStateData.isPositionPassable(adj))
+                validActions.add(new Move(GameStateData.Utilities.getDx(heroPos, adj), GameStateData.Utilities.getDy(heroPos, adj)));
+
+        return validActions;
     }
 }

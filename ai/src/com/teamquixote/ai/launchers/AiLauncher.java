@@ -1,13 +1,12 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.launchers;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl.LwjglPreferences;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
-import com.teamquixote.ai.agents.AngryFrontiersman;
-import com.teamquixote.ai.agents.Frontiersman;
-import com.teamquixote.ai.agents.Spelunker;
+import com.teamquixote.ai.agents.Randy;
+import com.teamquixote.ai.dungeons.AiPixelDungeon;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.pixeldungeon.Preferences;
 import com.watabou.utils.PDPlatformSupport;
@@ -45,7 +44,7 @@ public class AiLauncher {
 		DesktopSupport platformSupport = new DesktopSupport(version, config.preferencesDirectory, new AiInputProcessor());
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Pixel Dungeon";
-		new LwjglApplication(new AiPixelDungeon(platformSupport, new Spelunker()), config);
+		new LwjglApplication(new AiPixelDungeon(platformSupport, new Randy()), config);
 	}
 
 	private static class DesktopSupport extends PDPlatformSupport {

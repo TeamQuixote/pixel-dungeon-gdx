@@ -1,4 +1,4 @@
-package com.teamquixote.ai;
+package com.teamquixote.ai.launchers;
 
 import com.watabou.input.NoosaInputProcessor;
 

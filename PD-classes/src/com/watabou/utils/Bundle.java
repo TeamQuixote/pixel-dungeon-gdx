@@ -286,8 +286,6 @@ public class Bundle {
 		}
 	}
 
-	private static final char XOR_KEY = 0x1F;
-
 	public static Bundle read( InputStream stream ) {
 		
 		try {
@@ -298,9 +296,6 @@ public class Bundle {
 			char[] buffer = new char[0x2000];
 			int count = reader.read( buffer );
 			while (count > 0) {
-				for (int i=0; i < count; i++) {
-					buffer[i] ^= XOR_KEY;
-				}
 				builder.append( buffer, 0, count );
 				count = reader.read( buffer );
 			}
@@ -330,9 +325,6 @@ public class Bundle {
 			BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( stream ) );
 
 			char[] chars = bundle.data.toString().toCharArray();
-			for (int i=0; i < chars.length; i++) {
-				chars[i] ^= XOR_KEY;
-			}
 			writer.write( chars );
 			writer.close();
 			
