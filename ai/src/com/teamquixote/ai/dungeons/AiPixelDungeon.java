@@ -74,6 +74,7 @@ public class AiPixelDungeon extends PixelDungeon {
                     System.out.println("Total actions: " + totalActionsPlayed);
                     System.out.println("Actions per second: " + (1000.0 * totalActionsPlayed) / elapsed);
                     System.out.println("Elapsed time: " + (elapsed / 1000.0));
+                    System.out.println("% explored: " + currentState.calculatePercentExplored());
                 }
             }
         } else {
