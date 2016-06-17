@@ -21,14 +21,15 @@ public abstract class Action {
     public static List<Action> getValidActions(GameStateData gameStateData) {
         List<Action> validActions = new ArrayList<>();
 
+        int heroLevel = gameStateData.getCurrentLevel();
         int heroPos = gameStateData.getHeroPosition();
 
         //if on an exit, there aren't any moves you can do until the next level loads
-        if (gameStateData.isPositionExit(heroPos))
+        if (gameStateData.isPositionExit(heroLevel, heroPos))
             return validActions;
 
         for (int adj : GameStateData.Utilities.getAdjacent(heroPos))
-            if (gameStateData.isPositionPassable(adj))
+            if (gameStateData.isPositionPassable(heroLevel, adj))
                 validActions.add(new Move(GameStateData.Utilities.getDx(heroPos, adj), GameStateData.Utilities.getDy(heroPos, adj)));
 
         return validActions;

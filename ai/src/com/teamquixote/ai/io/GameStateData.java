@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class GameStateData {
-    private JSONObject data;
+    protected JSONObject data;
 
     public GameStateData() {
         data = new JSONObject();
@@ -49,22 +49,96 @@ public class GameStateData {
         return getHeroData().getInt("pos");
     }
 
-    public boolean isPositionExit(int pos) {
-        int posValue = getPositionValue(pos);
+    public int getCurrentLevel() {
+        return getHeroMetaData().getInt("depth");
+    }
+
+    public boolean isPositionExit(int level, int pos) {
+        int posValue = getMapValue(level, pos);
         return posValue == Terrain.EXIT;
     }
 
-    public boolean isPositionPassable(int pos) {
-        return (getPositionFlag(pos) & Terrain.PASSABLE) != 0;
+
+    public boolean isPositionExplored(int level, int pos){
+        return isPositionVisited(level, pos) || isPositionMapped(level, pos);
+    }
+
+    public boolean isPositionMapped(int level, int pos){
+        return getLevelData(level).getJSONArray("mapped").getBoolean(pos);
+    }
+
+    public boolean isPositionVisited(int level, int pos){
+        return getLevelData(level).getJSONArray("visited").getBoolean(pos);
+    }
+
+    public boolean isPositionPassable(int level, int pos) {
+        return (getPositionFlag(level, pos) & Terrain.PASSABLE) != 0;
+    }
+
+    public double calculatePercentExplored() {
+        double percentExplored = 0;
+        for (int lvl = 1; lvl <= TOTAL_LEVELS; lvl++)
+            percentExplored += LEVEL_RATIO * calculatePercentExplored(lvl);
+
+        return percentExplored;
+    }
+    public double calculatePercentExplored(int level) {
+        if (!hasLevelData(level))
+            return 0;
+
+        int totalExplored = 0;
+        int totalPassable = 0;
+
+        int length = Utilities.DUNGEON_WIDTH * Utilities.DUNGEON_WIDTH;
+        for (int i = 0; i < length; i++) {
+            if (isPositionExplored(level, i))
+                totalExplored++;
+            if (isPositionPassable(level, i))
+                totalPassable++;
+        }
+
+        return 1.0 * totalExplored / totalPassable;
+    }
+
+    public static final int TOTAL_LEVELS = 26;
+    protected static final double LEVEL_RATIO = 1.0/TOTAL_LEVELS;
+
+    protected String buildLevelKey(int level) {
+        return getHeroClassLabel() + level + ".dat";
+    }
+    protected boolean hasLevelData(int level) {
+        return data.has(buildLevelKey(level));
+    }
+    protected JSONObject getLevelData(int level) {
+        return data.getJSONObject(buildLevelKey(level)).getJSONObject("level");
     }
 
     /**
      * TODO: parameterize this based on hero's class (if we ever get bored playing as the warrior"
      */
-    private static final String heroClassLabel = "warrior";
+    protected String getHeroClassLabel(){
+        return "warrior";
+    }
 
-    private JSONObject getHeroData() {
-        return data.getJSONObject(heroClassLabel + ".dat").getJSONObject("hero");
+    /**
+     * returns json pertaining to warrior state (location e.g. data["warrior.dat"])
+     * @return
+     */
+    protected JSONObject getHeroMetaData(){
+        return data.getJSONObject(getHeroClassLabel() + ".dat");
+    }
+
+    /**
+     * return json pertaining to the data specific to the hero (location e.g. data["warrior.dat"]["hero"])
+     * @return
+     */
+    protected JSONObject getHeroData() {
+        return getHeroMetaData().getJSONObject("hero");
+    }
+
+    protected JSONArray getMapValues(int level){
+        return getLevelData(level)
+                .getJSONArray("map");
     }
 
     /**
@@ -73,16 +147,12 @@ public class GameStateData {
      * @param pos
      * @return
      */
-    private int getPositionValue(int pos) {
-        int currentLevel = getHeroData().getInt("lvl");
-        return data.getJSONObject(heroClassLabel + currentLevel + ".dat")
-                .getJSONObject("level")
-                .getJSONArray("map")
-                .getInt(pos);
+    protected int getMapValue(int level, int pos) {
+        return getMapValues(level).getInt(pos);
     }
 
-    private int getPositionFlag(int pos) {
-        return Terrain.flags[getPositionValue(pos)];
+    protected int getPositionFlag(int level, int pos) {
+        return Terrain.flags[getMapValue(level, pos)];
     }
 
     public GameStateData copy(){
