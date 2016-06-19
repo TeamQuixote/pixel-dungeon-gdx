@@ -39,8 +39,8 @@ task persistent(dependsOn:classes, type: JavaExec) {
     workingDir = project.assetsDir
     ignoreExitValue = true
 
-    if(project.hasProperty("gameStateOutputDir"))
-        args gameStateOutputDir
+    if(project.hasProperty("saveDirectory") && project.hasProperty("gameStateFile"))
+        args project.getProperty("saveDirectory"), project.getProperty("gameStateFile")
 }
 
 task dist(type: Jar) {

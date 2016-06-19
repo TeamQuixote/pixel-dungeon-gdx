@@ -116,7 +116,7 @@ public class GameStateData {
     /**
      * TODO: parameterize this based on hero's class (if we ever get bored playing as the warrior"
      */
-    protected String getHeroClassLabel(){
+    public String getHeroClassLabel(){
         return "warrior";
     }
 
@@ -177,7 +177,7 @@ public class GameStateData {
 
     public InputStream loadSection(String sectionName) throws IOException {
         try {
-            return new ByteArrayInputStream(data.getString(sectionName).getBytes());
+            return new ByteArrayInputStream(data.getJSONObject(sectionName).toString().getBytes());
         } catch (JSONException jsonE) {
             throw new IOException("File " + sectionName + " doesn't exist");
         }

@@ -23,7 +23,7 @@ import java.io.OutputStream;
 public class AiPixelDungeon extends PixelDungeon {
     protected final AiAgent ai;
 
-    private GameStateData currentState = new GameStateData();
+    protected GameStateData currentState = new GameStateData();
     private static final boolean showPerformanceStats = true;
     Long startTime;
     int totalActionsPlayed = 0;
@@ -38,10 +38,7 @@ public class AiPixelDungeon extends PixelDungeon {
     public void create() {
         super.create();
 
-        InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-        StartScene.curClass = HeroClass.WARRIOR;
-        Dungeon.init();
-        Dungeon.chapters.clear();
+        dungeonInit();
     }
 
     @Override
@@ -52,35 +49,44 @@ public class AiPixelDungeon extends PixelDungeon {
         clearStory();
         clearChasm();
 
-        if (Dungeon.hero.isAlive()) {
-            if (canAct()) {
-                if (startTime == null)
-                    startTime = System.currentTimeMillis();
+        if (Dungeon.hero != null) {
+            if (Dungeon.hero.isAlive()) {
+                if (canAct()) {
+                    if (startTime == null)
+                        startTime = System.currentTimeMillis();
 
-                try {
-                    Dungeon.saveAll();
-                    stateChanged(currentState.copy());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    try {
+                        Dungeon.saveAll();
+                        stateChanged(currentState.copy());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Action a = ai.makeDecision(currentState);
+                    currentState = currentState.createChild(a);
+                    a.execute(currentState);
+
+                    totalActionsPlayed++;
+                    long elapsed = System.currentTimeMillis() - startTime;
+                    if (showPerformanceStats) {
+                        System.out.println("Total actions: " + totalActionsPlayed);
+                        System.out.println("Actions per second: " + (1000.0 * totalActionsPlayed) / elapsed);
+                        System.out.println("Elapsed time: " + (elapsed / 1000.0));
+                        System.out.println("% explored: " + currentState.calculatePercentExplored());
+                    }
                 }
-
-                Action a = ai.makeDecision(currentState);
-                currentState = currentState.createChild(a);
-                a.execute(currentState);
-
-                totalActionsPlayed++;
-                long elapsed = System.currentTimeMillis() - startTime;
-                if (showPerformanceStats) {
-                    System.out.println("Total actions: " + totalActionsPlayed);
-                    System.out.println("Actions per second: " + (1000.0 * totalActionsPlayed) / elapsed);
-                    System.out.println("Elapsed time: " + (elapsed / 1000.0));
-                    System.out.println("% explored: " + currentState.calculatePercentExplored());
-                }
+            } else {
+                heroDied();
+                Game.instance.finish();
             }
-        } else {
-            heroDied();
-            Game.instance.finish();
         }
+    }
+
+    protected void dungeonInit(){
+        InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
+        StartScene.curClass = HeroClass.WARRIOR;
+        Dungeon.init();
+        Dungeon.chapters.clear();
     }
 
     protected void stateChanged(GameStateData state){}
