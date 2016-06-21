@@ -1,19 +1,18 @@
-package com.teamquixote.ai.heuristic;
+package com.teamquixote.ai.launchers;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl.LwjglPreferences;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
-import com.teamquixote.ai.heuristic.agents.Spelunker;
+import com.teamquixote.ai.agents.Randy;
+import com.teamquixote.ai.dungeons.AiPixelDungeon;
+import com.watabou.input.NoosaInputProcessor;
 import com.watabou.pixeldungeon.Preferences;
+import com.watabou.utils.PDPlatformSupport;
 
 public class AiLauncher {
-	public static void main(String[] arg) {
-		launch();
-	}
-
-	public static void launch() {
+	public static void main (String[] arg) {
 		String version = AiLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
 			version = "???";
@@ -37,13 +36,26 @@ public class AiLauncher {
 			config.height = prefs.getInteger(Preferences.KEY_WINDOW_HEIGHT, Preferences.DEFAULT_WINDOW_HEIGHT);
 		}
 
-		config.addIcon("ic_launcher_128.png", Files.FileType.Internal);
-		config.addIcon("ic_launcher_32.png", Files.FileType.Internal);
-		config.addIcon("ic_launcher_16.png", Files.FileType.Internal);
+		config.addIcon( "ic_launcher_128.png", Files.FileType.Internal );
+		config.addIcon( "ic_launcher_32.png", Files.FileType.Internal );
+		config.addIcon( "ic_launcher_16.png", Files.FileType.Internal );
 
 
+		DesktopSupport platformSupport = new DesktopSupport(version, config.preferencesDirectory, new AiInputProcessor());
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Pixel Dungeon";
-		new LwjglApplication(new AiPixelDungeon(new Spelunker()), config);
+		new LwjglApplication(new AiPixelDungeon(platformSupport, new Randy()), config);
+	}
+
+	private static class DesktopSupport extends PDPlatformSupport {
+		public DesktopSupport( String version, String basePath, NoosaInputProcessor inputProcessor ) {
+			super( version, basePath, inputProcessor );
+		}
+
+		@Override
+		public boolean isFullscreenEnabled() {
+		//	return Display.getPixelScaleFactor() == 1f;
+            return !SharedLibraryLoader.isMac;
+		}
 	}
 }

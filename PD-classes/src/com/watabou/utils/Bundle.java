@@ -17,7 +17,6 @@
 
 package com.watabou.utils;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
 import java.io.BufferedReader;
@@ -287,7 +286,8 @@ public class Bundle {
 		}
 	}
 
-	public static Bundle read(InputStream stream){
+	public static Bundle read( InputStream stream ) {
+		
 		try {
 			BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
 
@@ -296,8 +296,8 @@ public class Bundle {
 			char[] buffer = new char[0x2000];
 			int count = reader.read( buffer );
 			while (count > 0) {
-				builder.append(buffer, 0, count);
-				count = reader.read(buffer);
+				builder.append( buffer, 0, count );
+				count = reader.read( buffer );
 			}
 			
 			JSONObject json = (JSONObject)new JSONTokener( builder.toString() ).nextValue();
@@ -305,7 +305,6 @@ public class Bundle {
 			
 			return new Bundle( json );
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -320,8 +319,8 @@ public class Bundle {
 			return null;
 		}
 	}
-
-	public static  boolean write(Bundle bundle, OutputStream stream){
+	
+	public static boolean write( Bundle bundle, OutputStream stream ) {
 		try {
 			BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( stream ) );
 

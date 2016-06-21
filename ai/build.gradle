@@ -3,7 +3,13 @@ apply plugin: "java"
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "com.teamquixote.ai.heuristic.AiLauncher"
+//I don't think that all compilations should need a dependency on junit, but I"m too lazy to figure out how to make this
+// run otherwise.  Hell, I'm too lazy to fix that typo in the line above.
+dependencies {
+    compile group: 'junit', name: 'junit', version: '4.+'
+}
+
+project.ext.mainClassName = "com.teamquixote.ai.launchers.AiLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
@@ -15,17 +21,26 @@ task run(dependsOn: classes, type: JavaExec) {
 }
 
 task headless(dependsOn:classes, type: JavaExec) {
-    main = "com.teamquixote.ai.heuristic.HeadlessLauncher"
+    main = "com.teamquixote.ai.launchers.HeadlessLauncher"
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
-    if(project.hasProperty("gameStateOutputDir"))
-        args = [project.property("gameStateOutputDir")] //set this in IntelliJ build configuration by adding something like this to script parameters: -PgameStateOutputDir=<directory to save in>
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         compile "org.mockito:mockito-core:1.+"
     }
+}
+
+task persistent(dependsOn:classes, type: JavaExec) {
+    main = "com.teamquixote.ai.launchers.PersistentLauncher"
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+
+    if(project.hasProperty("saveDirectory") && project.hasProperty("gameStateFile"))
+        args project.getProperty("saveDirectory"), project.getProperty("gameStateFile")
 }
 
 task dist(type: Jar) {
