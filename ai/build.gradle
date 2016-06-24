@@ -43,20 +43,18 @@ task persistent(dependsOn:classes, type: JavaExec) {
         args project.getProperty("saveDirectory"), project.getProperty("gameStateFile")
 }
 
-task dist(type: Jar) {
+task dist(dependsOn:classes, type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
     from files(project.assetsDir);
 
     manifest {
-        attributes 'Main-Class': project.mainClassName
+        attributes 'Main-Class': project.hasProperty("mainClass") ? project.getProperty("mainClass") : project.ext.mainClassName
         attributes 'Specification-Version': version
         attributes 'Implementation-Version': versionCode
     }
 }
-
-dist.dependsOn classes
 
 eclipse {
     project {
