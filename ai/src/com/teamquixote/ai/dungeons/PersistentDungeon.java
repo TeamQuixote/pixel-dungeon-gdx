@@ -20,8 +20,6 @@ public class PersistentDungeon extends AiPixelDungeon {
     private GameStateData dataToLoad;
     private final String saveDirectory;
 
-    private List<GameStateData> savedStates = new ArrayList<>();
-
     private HeroClass getHeroClass(GameStateData gameStateData) {
         String heroClassLabel = gameStateData.getHeroClassLabel();
         switch (heroClassLabel) {
@@ -54,17 +52,10 @@ public class PersistentDungeon extends AiPixelDungeon {
 
     @Override
     protected void stateChanged(GameStateData state) {
-        savedStates.add(state);
-    }
-
-    @Override
-    protected void heroDied() {
-        for (GameStateData d : savedStates) {
-            try {
-                d.saveToDisk(saveDirectory + d.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            state.saveToDisk(saveDirectory + state.getId());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
