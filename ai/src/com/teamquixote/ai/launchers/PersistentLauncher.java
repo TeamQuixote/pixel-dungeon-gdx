@@ -11,7 +11,16 @@ import java.io.IOException;
 public class PersistentLauncher {
     public static void main(String[] args) throws IOException {
         String saveDirectory = args[0];
-        GameStateData gameStateFile = args.length > 1 ? GameStateData.loadFromDisk(args[1]) : null;
+        GameStateData gameStateFile;
+        if(args.length > 1){
+            String fileName = args[1];
+            System.out.println("Loading file: " + fileName);
+            gameStateFile = GameStateData.loadFromDisk(fileName);
+        }
+        else{
+            System.out.println("starting from new game");
+            gameStateFile = null;
+        }
 
         new LwjglApplication(new PersistentDungeon(new Randy(), saveDirectory, gameStateFile), new LwjglApplicationConfiguration());
     }
