@@ -2,15 +2,21 @@ package com.teamquixote.ai.io;
 
 import com.teamquixote.ai.actions.Action;
 import com.watabou.pixeldungeon.levels.Terrain;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.json.zip.JSONzip;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class GameStateData {
     protected JSONObject data;
@@ -20,12 +26,24 @@ public class GameStateData {
         setId(UUID.randomUUID());
     }
 
+    protected UUID readUUID(JSONObject jsonObject, String key) {
+        if (!jsonObject.has(key))
+            return null;
+
+        Object object = jsonObject.get(key);
+        return object instanceof UUID ? (UUID) object : UUID.fromString(object.toString());
+    }
+
     public UUID getParentId() {
-        return (UUID) data.get("parentId");
+        return readUUID(data, "parentId");
     }
 
     public void setParentId(UUID parentId) {
         data.put("parentId", parentId);
+    }
+
+    public JSONObject getParentAction() {
+        return data.has("parentAction") ? data.getJSONObject("parentAction") : null;
     }
 
     public void setParentAction(Action action) {
@@ -33,12 +51,7 @@ public class GameStateData {
     }
 
     public UUID getId() {
-        Object object = data.get("id");
-        if (object instanceof UUID) {
-            return (UUID) object;
-        }
-
-        return UUID.fromString(object.toString());
+        return readUUID(data, "id");
     }
 
     public void setId(UUID id) {
@@ -59,15 +72,15 @@ public class GameStateData {
     }
 
 
-    public boolean isPositionExplored(int level, int pos){
+    public boolean isPositionExplored(int level, int pos) {
         return isPositionVisited(level, pos) || isPositionMapped(level, pos);
     }
 
-    public boolean isPositionMapped(int level, int pos){
+    public boolean isPositionMapped(int level, int pos) {
         return getLevelData(level).getJSONArray("mapped").getBoolean(pos);
     }
 
-    public boolean isPositionVisited(int level, int pos){
+    public boolean isPositionVisited(int level, int pos) {
         return getLevelData(level).getJSONArray("visited").getBoolean(pos);
     }
 
@@ -82,6 +95,7 @@ public class GameStateData {
 
         return percentExplored;
     }
+
     public double calculatePercentExplored(int level) {
         if (!hasLevelData(level))
             return 0;
@@ -101,14 +115,16 @@ public class GameStateData {
     }
 
     public static final int TOTAL_LEVELS = 26;
-    protected static final double LEVEL_RATIO = 1.0/TOTAL_LEVELS;
+    protected static final double LEVEL_RATIO = 1.0 / TOTAL_LEVELS;
 
     protected String buildLevelKey(int level) {
         return getHeroClassLabel() + level + ".dat";
     }
+
     protected boolean hasLevelData(int level) {
         return data.has(buildLevelKey(level));
     }
+
     protected JSONObject getLevelData(int level) {
         return data.getJSONObject(buildLevelKey(level)).getJSONObject("level");
     }
@@ -116,27 +132,29 @@ public class GameStateData {
     /**
      * TODO: parameterize this based on hero's class (if we ever get bored playing as the warrior"
      */
-    public String getHeroClassLabel(){
+    public String getHeroClassLabel() {
         return "warrior";
     }
 
     /**
      * returns json pertaining to warrior state (location e.g. data["warrior.dat"])
+     *
      * @return
      */
-    protected JSONObject getHeroMetaData(){
+    protected JSONObject getHeroMetaData() {
         return data.getJSONObject(getHeroClassLabel() + ".dat");
     }
 
     /**
      * return json pertaining to the data specific to the hero (location e.g. data["warrior.dat"]["hero"])
+     *
      * @return
      */
     protected JSONObject getHeroData() {
         return getHeroMetaData().getJSONObject("hero");
     }
 
-    protected JSONArray getMapValues(int level){
+    protected JSONArray getMapValues(int level) {
         return getLevelData(level)
                 .getJSONArray("map");
     }
@@ -155,7 +173,7 @@ public class GameStateData {
         return Terrain.flags[getMapValue(level, pos)];
     }
 
-    public GameStateData copy(){
+    public GameStateData copy() {
         GameStateData copy = new GameStateData();
         copy.data = new JSONObject(data.toString());
 
@@ -184,17 +202,25 @@ public class GameStateData {
     }
 
     public void saveToDisk(String fileName) throws IOException {
-        try (FileWriter fw = new FileWriter(fileName)) {
-            fw.write(data.toString());
+        try (Writer writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new GZIPOutputStream(
+                                new FileOutputStream(new File(fileName))), "UTF-8"))) {
+            data.write(writer);
         }
     }
 
     public static GameStateData loadFromDisk(String fileName) throws IOException {
-        GameStateData gsd = new GameStateData();
-        Path filePath = Paths.get(fileName);
-        byte[] bytes = Files.readAllBytes(filePath);
-        String fileString = new String(bytes);
-        gsd.data = new JSONObject(fileString);
+        GameStateData gsd;
+        try (Reader reader = new BufferedReader(
+                new InputStreamReader(
+                        new GZIPInputStream(
+                                new FileInputStream(new File(fileName))), "UTF-8"))) {
+
+            gsd = new GameStateData();
+            gsd.data = new JSONObject(new JSONTokener(reader));
+
+        }
         return gsd;
     }
 
@@ -244,7 +270,7 @@ public class GameStateData {
         }
 
         public static int getDx(int start, int end) {
-            return (end % DUNGEON_WIDTH)- (start % DUNGEON_WIDTH);
+            return (end % DUNGEON_WIDTH) - (start % DUNGEON_WIDTH);
         }
 
         public static int getDy(int start, int end) {

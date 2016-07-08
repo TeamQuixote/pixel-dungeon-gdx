@@ -1,5 +1,6 @@
 package com.teamquixote.ai.launchers;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
@@ -21,7 +22,7 @@ public class HeadlessLauncher {
         new HeadlessApplication(new AiPixelDungeon(new HeadlessSupport(), new Randy()), config);
 
         //use this line below to turn off the game logging
-        //Gdx.app.setLogLevel(Application.LOG_NONE);
+        Gdx.app.setLogLevel(Application.LOG_NONE);
     }
 
     private static class HeadlessSupport extends PDPlatformSupport {

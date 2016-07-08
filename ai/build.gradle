@@ -13,11 +13,25 @@ project.ext.mainClassName = "com.teamquixote.ai.launchers.AiLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
-    main = project.mainClassName
+    if (project.hasProperty("mainClass"))
+        main = project.getProperty("mainClass")
+    else
+        main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
     ignoreExitValue = true
+}
+
+task fileDataHandler(dependsOn: classes, type: JavaExec){
+    main = "com.teamquixote.ai.launchers.GameStateTreeListener"
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+
+    if(project.hasProperty("saveDirectory"))
+        args project.getProperty("saveDirectory")
 }
 
 task headless(dependsOn:classes, type: JavaExec) {
@@ -39,8 +53,12 @@ task persistent(dependsOn:classes, type: JavaExec) {
     workingDir = project.assetsDir
     ignoreExitValue = true
 
-    if(project.hasProperty("saveDirectory") && project.hasProperty("gameStateFile"))
-        args project.getProperty("saveDirectory"), project.getProperty("gameStateFile")
+    if(project.hasProperty("saveDirectory")) {
+        if (!project.hasProperty("gameStateFile"))
+            args project.getProperty("saveDirectory")
+        else
+            args project.getProperty("saveDirectory"), project.getProperty("gameStateFile")
+    }
 }
 
 task dist(dependsOn:classes, type: Jar) {

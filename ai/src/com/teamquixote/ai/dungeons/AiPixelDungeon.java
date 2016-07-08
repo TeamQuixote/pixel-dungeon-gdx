@@ -24,7 +24,7 @@ public class AiPixelDungeon extends PixelDungeon {
     protected final AiAgent ai;
 
     protected GameStateData currentState = new GameStateData();
-    private static final boolean showPerformanceStats = true;
+    private static final boolean showPerformanceStats = false;
     Long startTime;
     int totalActionsPlayed = 0;
 
