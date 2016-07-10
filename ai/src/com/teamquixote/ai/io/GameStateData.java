@@ -210,6 +210,10 @@ public class GameStateData {
         }
     }
 
+    public static GameStateData loadFromDisk(Path filePath) throws IOException{
+        return loadFromDisk(filePath.toAbsolutePath().toString());
+    }
+
     public static GameStateData loadFromDisk(String fileName) throws IOException {
         GameStateData gsd;
         try (Reader reader = new BufferedReader(

@@ -2,14 +2,17 @@ package com.teamquixote.ai.gametree;
 
 import com.teamquixote.ai.io.GameStateData;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class GameStateTree {
+public class GameStateTree implements Serializable {
     private Map<UUID, Node> statesById;
     private Map<UUID, List<UUID>> childIdsByParentId;
     private Set<UUID> leafStateIds;
 
-    private class Node {
+    public transient Statistics statistics = new Statistics();
+
+    private class Node implements Serializable{
         final UUID id;
         final UUID parentId;
         final double value;
@@ -87,8 +90,15 @@ public class GameStateTree {
         }
 
         int top = scores.size() / 20; //top 20% of scores are "wins"
-        for (int i = 0; i < top; i++) scores.remove();
+        statistics = new Statistics();
+        for (int i = 0; i < top; i++) {
+            Double score = scores.remove();
+            if(i == 0)
+                statistics.bestScore = score;
+        }
         final double winThreshold = scores.remove();
+        statistics.winThreshold = winThreshold;
+        statistics.size = statesById.size();
 
         double topUCT = Double.NEGATIVE_INFINITY;
         UUID topId = null;
@@ -105,5 +115,11 @@ public class GameStateTree {
         }
 
         return statesById.get(topId).id;
+    }
+
+    public class Statistics {
+        public int size;
+        public double winThreshold;
+        public double bestScore;
     }
 }
