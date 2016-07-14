@@ -91,6 +91,8 @@ public class GameStateTree implements Serializable {
 
         int top = scores.size() / 20; //top 20% of scores are "wins"
         statistics = new Statistics();
+        if(top == 0)
+            return null;
         for (int i = 0; i < top; i++) {
             Double score = scores.remove();
             if(i == 0)

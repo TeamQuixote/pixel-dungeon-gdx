@@ -28,7 +28,7 @@ public class GameStateDataFileWatchService {
         this.treeArchivePath = this.archiveDirectory.resolve("_tree.ser");
         this.treeArchiveBackupPath = this.archiveDirectory.resolve("_tree.ser.bak");
         this.tree = readArchiveTree();
-        if(this.tree == null){
+        if (this.tree == null) {
             System.out.println("no archive tree found, reading entire archive...");
             this.tree = new GameStateTree();
             processArchives();
@@ -42,8 +42,8 @@ public class GameStateDataFileWatchService {
         System.out.println("archive directory: " + archiveDirectory);
         writeArchiveTree();
 
-        new Thread(() ->{
-            while (true){
+        new Thread(() -> {
+            while (true) {
                 try {
                     Thread.sleep(30000);
                 } catch (InterruptedException e) {
@@ -72,7 +72,7 @@ public class GameStateDataFileWatchService {
         String avgSimulations = "Avg. Sim. Duration: " + simulatorPool.statistics.getAvgSimulationDuration();
 
         String bestScore = "", winThreshold = "", totalStates = "";
-        if(tree.statistics != null) {
+        if (tree.statistics != null) {
             bestScore = "Best score: " + tree.statistics.bestScore;
             winThreshold = "Win threshold: " + tree.statistics.winThreshold;
             totalStates = "Total states: " + tree.statistics.size;
@@ -90,15 +90,15 @@ public class GameStateDataFileWatchService {
         processFiles(archiveDirectory);
     }
 
-    private void writeArchiveTree(){
-        if(Files.exists(treeArchivePath))
+    private void writeArchiveTree() {
+        if (Files.exists(treeArchivePath))
             try {
                 Files.move(treeArchivePath, treeArchiveBackupPath, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-        try(ObjectOutputStream str = new ObjectOutputStream(new FileOutputStream(treeArchivePath.toAbsolutePath().toString()))){
+        try (ObjectOutputStream str = new ObjectOutputStream(new FileOutputStream(treeArchivePath.toAbsolutePath().toString()))) {
             str.writeObject(tree);
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,7 +146,7 @@ public class GameStateDataFileWatchService {
         if (!filePath.startsWith(archiveDirectory)) {
             Path archiveFilePath = archiveDirectory.resolve(filePath.getFileName());
             try {
-                if(Files.exists(archiveFilePath))
+                if (Files.exists(archiveFilePath))
                     Files.delete(filePath);
                 else
                     Files.move(filePath, archiveFilePath);
@@ -157,10 +157,11 @@ public class GameStateDataFileWatchService {
         }
     }
 
-    private Path chooseNextSimulation(){
+    private Path chooseNextSimulation() {
         UUID nextSim = tree.chooseNextSimuation();
-        Path file = archiveDirectory.resolve(nextSim.toString());
+        if (nextSim == null)
+            return null;
 
-        return file;
+        return archiveDirectory.resolve(nextSim.toString());
     }
 }
