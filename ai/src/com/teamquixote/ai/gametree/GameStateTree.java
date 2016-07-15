@@ -45,11 +45,10 @@ public class GameStateTree implements Serializable {
         if (plays == 0)
             return 0;
 
-        double coefficient = wins / (1.0 * plays);
-        double sqrt2 = Math.sqrt(2.0);
-        double sqrtFoo = Math.sqrt(Math.log(totalPlays));
+        double winRate = wins / (1.0 * plays);
+        double explorationWeight = Math.sqrt(2.0 * Math.log(totalPlays) / plays);
 
-        return coefficient * sqrt2 * sqrtFoo;
+        return winRate + explorationWeight;
     }
 
     public void add(GameStateData gsd) {
