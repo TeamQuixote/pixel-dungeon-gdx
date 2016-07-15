@@ -16,7 +16,7 @@ public class SimulatorLauncher {
         SimulatorPool simulators = new SimulatorPool(jarPath, saveDirectory);
 
         System.out.println("Starting simulation");
-        simulators.start(loadPath, 100);
+        simulators.start(loadPath, 30, 100);
         System.out.println("Finished simulation");
     }
 }

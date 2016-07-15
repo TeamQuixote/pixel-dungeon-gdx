@@ -20,11 +20,11 @@ public class SimulatorPool {
         this.threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
-    public void start(Path loadFile, int numberSimulations) {
+    public void start(Path loadFile, int depthLimit, int numberSimulations) {
         Collection<Callable<Object>> tasks = new ArrayList<>(numberSimulations);
         for (int i = 0; i < numberSimulations; i++)
             tasks.add(Executors.callable(() -> {
-                new GameSimulator(jarPath, saveDirectory, loadFile).start();
+                new GameSimulator(jarPath, saveDirectory, depthLimit, loadFile).start();
             }));
         try {
             Instant start = Instant.now();

@@ -18,9 +18,14 @@ import static org.mockito.Mockito.mock;
 public class PersistentLauncher {
     public static void main(String[] args) throws IOException {
         String saveDirectory = args[0];
+        Integer depthLimit = null;
         GameStateData gameStateFile;
-        if (args.length > 1) {
-            String fileName = args[1];
+
+        if(args.length > 1)
+            depthLimit = Integer.parseInt(args[1]);
+
+        if (args.length > 2) {
+            String fileName = args[2];
             System.out.println("Loading file: " + fileName);
             gameStateFile = GameStateData.loadFromDisk(fileName);
         } else {
@@ -31,7 +36,7 @@ public class PersistentLauncher {
         //need to mock the GL, as specified in this SO post: http://stackoverflow.com/q/25612660/437456
         Gdx.gl = mock(GL20.class);
 
-        new HeadlessApplication(new PersistentDungeon(new Randy(), saveDirectory, gameStateFile), new HeadlessApplicationConfiguration());
+        new HeadlessApplication(new PersistentDungeon(new Randy(), saveDirectory, depthLimit, gameStateFile), new HeadlessApplicationConfiguration());
 
         //use this line below to turn off the game logging
         Gdx.app.setLogLevel(Application.LOG_NONE);

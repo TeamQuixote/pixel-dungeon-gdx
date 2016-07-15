@@ -10,8 +10,6 @@ import com.watabou.pixeldungeon.scenes.InterlevelScene;
 import com.watabou.pixeldungeon.scenes.StartScene;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * saves all game states generated from the initial state
@@ -19,6 +17,8 @@ import java.util.List;
 public class PersistentDungeon extends AiPixelDungeon {
     private GameStateData dataToLoad;
     private final String saveDirectory;
+    private final int depthLimit;
+    private int currentDepth = 0;
 
     private HeroClass getHeroClass(GameStateData gameStateData) {
         String heroClassLabel = gameStateData.getHeroClassLabel();
@@ -30,10 +30,11 @@ public class PersistentDungeon extends AiPixelDungeon {
         }
     }
 
-    public PersistentDungeon(AiAgent ai, String saveDirectory, GameStateData initialState) {
+    public PersistentDungeon(AiAgent ai, String saveDirectory, Integer depthLimit, GameStateData initialState) {
         super(new EmptyPlatformSupport(), ai);
 
-        dataToLoad = initialState;
+        this.depthLimit = depthLimit == null ? Integer.MAX_VALUE : depthLimit;
+        this.dataToLoad = initialState;
         this.saveDirectory = saveDirectory + (saveDirectory.endsWith("\\") ? "" : "\\");
     }
 
@@ -48,6 +49,14 @@ public class PersistentDungeon extends AiPixelDungeon {
             InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
             Game.switchScene(InterlevelScene.class);
         }
+    }
+
+    @Override
+    protected void update() {
+        if(currentDepth++ <= depthLimit)
+            super.update();
+        else
+         Game.instance.finish();
     }
 
     @Override
