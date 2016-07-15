@@ -44,20 +44,11 @@ public class GameStateDataFileWatchService {
 
         new Thread(() -> {
             while (true) {
-                try {
-                    Thread.sleep(30000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                logStats();
-            }
-        }).start();
-
-        new Thread(() -> {
-            while (true) {
                 writeArchiveTree();
                 processFiles();
-                simulatorPool.start(chooseNextSimulation(), 25);
+                Path nextSimulation = chooseNextSimulation();
+                logStats();
+                simulatorPool.start(nextSimulation, 30, 250);
             }
         }).start();
     }
